@@ -4,6 +4,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     confWin=new ConfigWindow();
     confWin->initByConfigFile();
 
+    aboutWin=new AboutFrame();
+
     QString imgDirPath=QCoreApplication::applicationDirPath()+QDir::separator()+"img"+QDir::separator();
 
     /** *************************** **/
@@ -24,8 +26,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     editConfAction->setIcon(QIcon(imgDirPath+"edit.png"));
 
     QAction *searchAction = fileMenu->addAction(tr("Rechercher"));
-    searchAction->setIcon(QIcon(imgDirPath+"exit.png"));
-    searchAction->setShortcut(QKeySequence(Qt::CTRL +Qt::SHIFT  + Qt::Key_S));
+    searchAction->setIcon(QIcon(imgDirPath+"search.png"));
+    searchAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
 
     QAction *quitAction = fileMenu->addAction(tr("Quitter"));
     quitAction->setIcon(QIcon(imgDirPath+"exit.png"));
@@ -43,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     toolBar->addAction(newCustomerAction);
     toolBar->addAction(newDocAction);
     toolBar->addAction(editConfAction);
+    toolBar->addAction(searchAction);
 
     /** *************************** **/
     /**            Slots            **/
@@ -52,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(newDocAction, SIGNAL(triggered()), this, SLOT(createNewDocument()));
     connect(editConfAction, SIGNAL(triggered()), this, SLOT(editConfFile()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(showAboutWindow()));
-
+    connect(searchAction, SIGNAL(triggered()), this, SLOT(search()));
 }
 
 void MainWindow::createNewCustomer(){
@@ -68,7 +71,11 @@ void MainWindow::editConfFile(){
 }
 
 void MainWindow::showAboutWindow(){
-    qDebug()<<"about frame";
+    aboutWin->show();
+}
+
+void MainWindow::search(){
+    qDebug()<<"search";
 }
 
 MainWindow::~MainWindow()

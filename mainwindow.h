@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "configwindow.h"
+#include "aboutframe.h"
 
 class MainWindow : public QMainWindow
 {
@@ -14,6 +15,7 @@ class MainWindow : public QMainWindow
 
     private:
         ConfigWindow *confWin;
+        AboutFrame *aboutWin;
 
 
     private slots:
@@ -21,6 +23,7 @@ class MainWindow : public QMainWindow
         void createNewDocument();
         void editConfFile();
         void showAboutWindow();
+        void search();
 };
 
 #endif // MAINWINDOW_H

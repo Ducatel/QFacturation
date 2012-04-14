@@ -14,9 +14,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    configwindow.cpp
+    configwindow.cpp \
+    aboutframe.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
     configwindow.h \
-    configwindow.h
+    configwindow.h \
+    aboutframe.h

@@ -76,7 +76,7 @@ ConfigWindow::ConfigWindow() : QDialog(0){
 
     setLayout(layoutPrin);
     setModal(true);
-    setWindowTitle(tr("Information de base","titre de la popup concernant les informations de l'entreprise et de connexion a la BDD"));
+    setWindowTitle(tr("Information de base","titre de la popup concernant les informations de l'entreprise"));
 
     /** ************************************** **/
     /**                  Slots                 **/

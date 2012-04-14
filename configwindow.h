@@ -4,6 +4,9 @@
 #include <QtXml>
 #include <QtSql>
 
+/**
+ * Class qui gere la fenetre de configuration de base
+ */
 class ConfigWindow : public QDialog{
     Q_OBJECT
     public:
