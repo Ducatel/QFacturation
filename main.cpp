@@ -5,6 +5,8 @@
 #include "customer.h"
 #include "product.h"
 #include "document.h"
+#include "productdocument.h"
+
 
 
 /**
@@ -30,7 +32,6 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
-
 
 
     ConfigWindow confWin;
