@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
     private slots:
         void createNewCustomer();
         void createNewDocument();
+        void createNewProduct();
         void editConfFile();
         void showAboutWindow();
         void search();

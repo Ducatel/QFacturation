@@ -9,7 +9,6 @@ ConfigWindow::ConfigWindow() : QDialog(0){
     configFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/stdConfig.xml");
 
     QVBoxLayout *layoutPrin=new QVBoxLayout();
-
     /** ************************************** **/
     /**         Formulaire  societe            **/
     /** ************************************** **/
@@ -22,6 +21,7 @@ ConfigWindow::ConfigWindow() : QDialog(0){
 
 
     companyName=new QLineEdit();
+    companyName->setMinimumWidth(250);
     layoutFormCompagny->addRow(tr("Nom  de la société: "),companyName);
 
     description=new QLineEdit();

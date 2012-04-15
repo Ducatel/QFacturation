@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     configwindow.cpp \
-    aboutframe.cpp
+    aboutframe.cpp \
+    customer.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
     configwindow.h \
     configwindow.h \
-    aboutframe.h
+    aboutframe.h \
+    customer.h
