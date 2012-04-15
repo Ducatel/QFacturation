@@ -24,7 +24,7 @@ NewCustomerWindow::NewCustomerWindow(QMainWindow *parent,int id) :QWidget(parent
 }
 
 /**
- * Methode qui construit l'interfac
+ * Methode qui construit l'interface
  */
 void NewCustomerWindow::createInterface(){
     QVBoxLayout *layoutPrinc=new QVBoxLayout;

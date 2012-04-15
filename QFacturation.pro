@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     product.cpp \
     productdocument.cpp \
     document.cpp \
-    newcustomerwindow.cpp
+    newcustomerwindow.cpp \
+    newproductwindow.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
@@ -31,4 +32,5 @@ HEADERS  += mainwindow.h \
     product.h \
     productdocument.h \
     document.h \
-    newcustomerwindow.h
+    newcustomerwindow.h \
+    newproductwindow.h

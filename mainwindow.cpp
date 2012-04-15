@@ -87,7 +87,7 @@ void MainWindow::createNewCustomer(){
 }
 
 void MainWindow::createNewProduct(){
-    qDebug()<<"new Product";
+    setCentralWidget(new NewProductWindow(this));
 }
 
 void MainWindow::createNewDocument(){
