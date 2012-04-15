@@ -4,6 +4,7 @@
 
 /**
  * Class qui gere la fenetre "a propos"
+ * @author David Ducatel
  */
 class AboutFrame: public QDialog
 {

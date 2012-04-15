@@ -5,6 +5,10 @@
 #include<QString>
 #include<QDir>
 
+/**
+ * Class qui permet de gerer un client
+ * @author David Ducatel
+ */
 class Customer
 {
     public:
@@ -25,6 +29,8 @@ class Customer
 
     private:
         int id;
+        bool updateEntry();
+        bool createEntry();
 
 };
 

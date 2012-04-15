@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     configwindow.cpp \
     aboutframe.cpp \
-    customer.cpp
+    customer.cpp \
+    product.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
     configwindow.h \
     configwindow.h \
     aboutframe.h \
-    customer.h
+    customer.h \
+    product.h

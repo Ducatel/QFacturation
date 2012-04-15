@@ -6,6 +6,7 @@
 
 /**
  * Class qui gere la fenetre de configuration de base
+ * @author David Ducatel
  */
 class ConfigWindow : public QDialog{
     Q_OBJECT

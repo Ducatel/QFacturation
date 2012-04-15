@@ -5,6 +5,10 @@
 #include "configwindow.h"
 #include "aboutframe.h"
 
+/**
+ * Class qui gere l'interface principale
+ * @author David Ducatel
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
