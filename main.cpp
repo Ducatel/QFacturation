@@ -4,6 +4,8 @@
 //TODO supprimer include de test
 #include "customer.h"
 #include "product.h"
+#include "document.h"
+
 
 /**
  * Fonction qui verifie si la configuration de base est présente
@@ -29,14 +31,16 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    /*
+
+
     ConfigWindow confWin;
     if(!configExist()){
         confWin.show();
     }
 
     MainWindow w;
-    w.showMaximized();*/
+    w.show();
+   // w.showMaximized();
 
     return a.exec();
 }

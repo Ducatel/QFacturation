@@ -82,7 +82,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 }
 
 void MainWindow::createNewCustomer(){
-    qDebug()<<"new customer";
+    setCentralWidget(new NewCustomerWindow(this));
+
 }
 
 void MainWindow::createNewProduct(){

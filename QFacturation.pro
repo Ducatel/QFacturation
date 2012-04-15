@@ -17,7 +17,10 @@ SOURCES += main.cpp\
     configwindow.cpp \
     aboutframe.cpp \
     customer.cpp \
-    product.cpp
+    product.cpp \
+    productdocument.cpp \
+    document.cpp \
+    newcustomerwindow.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
@@ -25,4 +28,7 @@ HEADERS  += mainwindow.h \
     configwindow.h \
     aboutframe.h \
     customer.h \
-    product.h
+    product.h \
+    productdocument.h \
+    document.h \
+    newcustomerwindow.h
