@@ -44,6 +44,7 @@ Customer::Customer(int identifiant){
     postalCode=rec.value("postalCode").toInt();
     this->id=identifiant;
 
+    query.finish();
     base.commit();
     base.close();
     QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
@@ -96,7 +97,9 @@ bool Customer::updateEntry(){
     query.bindValue(":phone",phone);
     query.bindValue(":id",id);
 
-    return query.exec();
+    bool retour= query.exec();
+    query.finish();
+    return retour;
 
 }
 
@@ -122,6 +125,7 @@ bool Customer::createEntry(){
     if(retour)
      id=query.lastInsertId().toInt();
 
+    query.finish();
     return retour;
 
 }

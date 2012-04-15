@@ -33,6 +33,8 @@ class Document
         int idCustomer;
         DocTypeEnum docType;
         PaymentEnum payment;
+        bool addProduct();
+        bool removeProduct();
 
 
     private:

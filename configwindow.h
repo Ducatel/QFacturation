@@ -11,9 +11,11 @@
 class ConfigWindow : public QDialog{
     Q_OBJECT
     public:
-        ConfigWindow();
+        ConfigWindow(QMainWindow *parent);
         void initByConfigFile();
     private:
+        QMainWindow *parent;
+
         QLineEdit *companyName;
         QLineEdit *description;
         QLineEdit *adress;

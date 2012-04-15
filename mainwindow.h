@@ -6,6 +6,7 @@
 #include "aboutframe.h"
 #include "newcustomerwindow.h"
 #include "newproductwindow.h"
+#include "searchwindow.h"
 
 /**
  * Class qui gere l'interface principale

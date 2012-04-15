@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     productdocument.cpp \
     document.cpp \
     newcustomerwindow.cpp \
-    newproductwindow.cpp
+    newproductwindow.cpp \
+    searchwindow.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
@@ -33,4 +34,5 @@ HEADERS  += mainwindow.h \
     productdocument.h \
     document.h \
     newcustomerwindow.h \
-    newproductwindow.h
+    newproductwindow.h \
+    searchwindow.h

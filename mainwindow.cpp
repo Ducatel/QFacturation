@@ -2,7 +2,7 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 {
-    confWin=new ConfigWindow();
+    confWin=new ConfigWindow(this);
     confWin->initByConfigFile();
 
     aboutWin=new AboutFrame();
@@ -103,7 +103,7 @@ void MainWindow::showAboutWindow(){
 }
 
 void MainWindow::search(){
-    qDebug()<<"search";
+    setCentralWidget(new SearchWindow());
 }
 
 MainWindow::~MainWindow()

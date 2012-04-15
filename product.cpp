@@ -33,6 +33,7 @@ Product::Product(int identifiant){
     description=rec.value("description").toString();
     this->id=identifiant;
 
+    query.finish();
     base.commit();
     base.close();
     QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
@@ -82,7 +83,10 @@ bool Product::updateEntry(){
     query.bindValue(":description",description);
     query.bindValue(":id",id);
 
-    return query.exec();
+    bool retour=query.exec();
+    query.finish();
+    return retour;
+
 }
 
 /**
@@ -103,6 +107,8 @@ bool Product::createEntry(){
 
     if(retour)
         id=query.lastInsertId().toInt();
+
+    query.finish();
 
     return retour;
 

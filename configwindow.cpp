@@ -3,10 +3,12 @@
 /**
  * Constructeur de la fenetre d'edition de la configuration de base
  */
-ConfigWindow::ConfigWindow() : QDialog(0){
+ConfigWindow::ConfigWindow(QMainWindow *parent=0) : QDialog(parent){
 
+    this->parent=parent;
     bddFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db");
     configFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/stdConfig.xml");
+    setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+QDir::separator()+"img"+QDir::separator()+"icon.png"));
 
     QVBoxLayout *layoutPrin=new QVBoxLayout();
     /** ************************************** **/
@@ -76,7 +78,7 @@ ConfigWindow::ConfigWindow() : QDialog(0){
 
     setLayout(layoutPrin);
     setModal(true);
-    setWindowTitle(tr("Information de base","titre de la popup concernant les informations de l'entreprise"));
+    setWindowTitle(tr("Information sur l'entreprise","titre de la popup concernant les informations de l'entreprise"));
 
     /** ************************************** **/
     /**                  Slots                 **/
@@ -95,6 +97,11 @@ void ConfigWindow::validateInfo(){
         exit(2);
     }
     writeXMLConfigFile();
+
+    if(parent!=NULL){
+        QStatusBar *statBar = parent->statusBar();
+        statBar->showMessage(tr("Informations sur l'entreprise sauvegardé"), 4000);
+    }
     this->accept();
 }
 
