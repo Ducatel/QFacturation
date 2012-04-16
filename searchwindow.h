@@ -18,6 +18,9 @@
 
 #include <QtGui>
 #include <QtSql>
+#include "newcustomerwindow.h"
+#include "newdocumentwindow.h"
+#include "newproductwindow.h"
 
 /**
  * Class qui gere l'interface de recherche
@@ -33,12 +36,14 @@ class SearchWindow : public QWidget
         QMainWindow *parent;
 
         QPushButton *searchButtonCustomer;
+        QPushButton *editButtonCustomer;
         QLineEdit *lineSearchClient;
         QComboBox *typeSearchClient;
         QStandardItemModel *customerModel;
         QTableView *customerView;
 
-        QPushButton *buttonSearchProduct;
+        QPushButton *searchButtonProduct;
+        QPushButton *editButtonProduct;
         QLineEdit *lineSearchProduct;
         QComboBox *typeSearchProduct;
         QStandardItemModel *productModel;
@@ -55,6 +60,8 @@ class SearchWindow : public QWidget
     private slots:
         void showCustomerResult();
         void showProductResult();
+        void editCustomer();
+        void editProduct();
 
 };
 

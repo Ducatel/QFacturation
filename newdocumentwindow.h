@@ -16,7 +16,7 @@
 #ifndef NEWDOCUMENTWINDOW_H
 #define NEWDOCUMENTWINDOW_H
 
-#include <QWidget>
+#include <QtGui>
 
 /**
  * Class qui va géré l'interface de création/edition d'un document
@@ -26,7 +26,9 @@ class NewDocumentWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit NewDocumentWindow(QWidget *parent = 0);
+    explicit NewDocumentWindow(QMainWindow *parent);
+    explicit NewDocumentWindow(QMainWindow *parent,int identifiant);
+
 
 signals:
 

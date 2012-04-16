@@ -15,6 +15,10 @@
 
 #include "newdocumentwindow.h"
 
-NewDocumentWindow::NewDocumentWindow(QWidget *parent) :QWidget(parent){
+NewDocumentWindow::NewDocumentWindow(QMainWindow *parent) :QWidget(parent){
+
+}
+
+NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
 
 }

@@ -133,60 +133,63 @@ bool ConfigWindow::createDatabase(){
         return false;
     }
 
-    QSqlQuery result ;
-    result = base.exec("CREATE  TABLE IF NOT EXISTS product(\
-                       idProduct INTEGER PRIMARY KEY,\
-                       name VARCHAR(45),\
-                       price REAL,\
-                       description VARCHAR(255))") ;
+    if( base.tables().size()==0){
+        QSqlQuery result ;
+        result = base.exec("CREATE  TABLE IF NOT EXISTS product(\
+                           idProduct INTEGER PRIMARY KEY,\
+                           name VARCHAR(45),\
+                           price REAL,\
+                           description VARCHAR(255))") ;
 
-    if(result.lastError().type()!=QSqlError::NoError){
-         QMessageBox::critical(this,tr("Erreur de création de la table 'product'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.");
-         return false;
+        if(result.lastError().type()!=QSqlError::NoError){
+             QMessageBox::critical(this,tr("Erreur de création de la table 'product'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.");
+             return false;
+        }
+
+        result = base.exec("CREATE  TABLE IF NOT EXISTS customer (\
+                           idCustomer INTEGER PRIMARY KEY,\
+                           name VARCHAR(255),\
+                           adress VARCHAR(255),\
+                           adress2 VARCHAR(255),\
+                           postalCode INTEGER\
+                           ,city VARCHAR(255),\
+                           country VARCHAR(45),\
+                           email VARCHAR(255),\
+                           phone VARCHAR(15))") ;
+
+        if(result.lastError().type()!=QSqlError::NoError){
+             QMessageBox::critical(this,tr("Erreur de création de la table 'customer'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
+             return false;
+        }
+
+        result = base.exec("CREATE  TABLE IF NOT EXISTS document (\
+                           idDocument INTEGER PRIMARY KEY,\
+                           idCustomer INTEGER,\
+                           totalPrice REAL,\
+                           type VARCHAR(255),\
+                           payment VARCHAR(45),\
+                           date VARCHAR(45))") ;
+
+        if(result.lastError().type()!=QSqlError::NoError){
+             QMessageBox::critical(this,tr("Erreur de création de la table 'document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
+             return false;
+        }
+
+        result = base.exec("CREATE  TABLE IF NOT EXISTS product_document (\
+                          idproduct_document INTEGER PRIMARY KEY ,\
+                          idDocument INTEGER,\
+                          idProduct INTEGER,\
+                          reduction VARCHAR(45),\
+                          quantity INTEGER )") ;
+
+        if(result.lastError().type()!=QSqlError::NoError){
+             QMessageBox::critical(this,tr("Erreur de création de la table 'product_document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
+             return false;
+        }
+
+        base.commit();
     }
 
-    result = base.exec("CREATE  TABLE IF NOT EXISTS customer (\
-                       idCustomer INTEGER PRIMARY KEY,\
-                       name VARCHAR(255),\
-                       adress VARCHAR(255),\
-                       adress2 VARCHAR(255),\
-                       postalCode INTEGER\
-                       ,city VARCHAR(255),\
-                       country VARCHAR(45),\
-                       email VARCHAR(255),\
-                       phone VARCHAR(15))") ;
-
-    if(result.lastError().type()!=QSqlError::NoError){
-         QMessageBox::critical(this,tr("Erreur de création de la table 'customer'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
-         return false;
-    }
-
-    result = base.exec("CREATE  TABLE IF NOT EXISTS document (\
-                       idDocument INTEGER PRIMARY KEY,\
-                       idCustomer INTEGER,\
-                       totalPrice REAL,\
-                       type VARCHAR(255),\
-                       payment VARCHAR(45),\
-                       date VARCHAR(45))") ;
-
-    if(result.lastError().type()!=QSqlError::NoError){
-         QMessageBox::critical(this,tr("Erreur de création de la table 'document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
-         return false;
-    }
-
-    result = base.exec("CREATE  TABLE IF NOT EXISTS product_document (\
-                      idproduct_document INTEGER PRIMARY KEY ,\
-                      idDocument INTEGER,\
-                      idProduct INTEGER,\
-                      reduction VARCHAR(45),\
-                      quantity INTEGER )") ;
-
-    if(result.lastError().type()!=QSqlError::NoError){
-         QMessageBox::critical(this,tr("Erreur de création de la table 'product_document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
-         return false;
-    }
-
-    base.commit();
     return true;
 
 }

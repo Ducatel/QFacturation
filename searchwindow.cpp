@@ -66,8 +66,17 @@ QGroupBox* SearchWindow::createCustomerSearchInterface(){
     layoutFormClient->addRow(tr("Mots clés: "),lineSearchClient);
 
 
+    QHBoxLayout *layoutButtonCustomer=new QHBoxLayout;
+
     searchButtonCustomer=new QPushButton(tr("Rechercher"),this);
-    layoutFormClient->addRow(tr("Rechercher le client: "),searchButtonCustomer);
+    layoutButtonCustomer->addWidget(searchButtonCustomer);
+
+    editButtonCustomer=new QPushButton(tr("Editer le client sélectionné"),this);
+    layoutButtonCustomer->addWidget(editButtonCustomer);
+
+    layoutFormClient->addRow(tr("Action: "),layoutButtonCustomer);
+
+
     layoutClient->addLayout(layoutFormClient);
 
     /***********************************************/
@@ -102,7 +111,7 @@ QGroupBox* SearchWindow::createCustomerSearchInterface(){
     /** ******************************* **/
     /**             Slots               **/
     /** ******************************* **/
-
+    connect(editButtonCustomer, SIGNAL(clicked()), this, SLOT(editCustomer()));
     connect(searchButtonCustomer, SIGNAL(clicked()), this, SLOT(showCustomerResult()));
 
     return groupClient;
@@ -129,8 +138,16 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
     layoutFormProduct->addRow(tr("Mots clés: "),lineSearchProduct);
 
 
-    buttonSearchProduct=new QPushButton(tr("Rechercher"),this);
-    layoutFormProduct->addRow(tr("Rechercher le client: "),buttonSearchProduct);
+    QHBoxLayout *layoutButtonProduct=new QHBoxLayout;
+
+    searchButtonProduct=new QPushButton(tr("Rechercher"),this);
+    layoutButtonProduct->addWidget(searchButtonProduct);
+
+    editButtonProduct=new QPushButton(tr("Editer le produit sélectionné"),this);
+    layoutButtonProduct->addWidget(editButtonProduct);
+
+    layoutFormProduct->addRow(tr("Action: "),layoutButtonProduct);
+
 
     layoutProduct->addLayout(layoutFormProduct);
 
@@ -162,7 +179,8 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
     /**             Slots               **/
     /** ******************************* **/
 
-    connect(buttonSearchProduct, SIGNAL(clicked()), this, SLOT(showProductResult()));
+    connect(editButtonProduct, SIGNAL(clicked()), this, SLOT(editProduct()));
+    connect(searchButtonProduct, SIGNAL(clicked()), this, SLOT(showProductResult()));
 
     return groupProduct;
 }
@@ -353,4 +371,35 @@ void SearchWindow::showProductResult(){
     query.finish();
     queryModel.clear();
     base.commit();
+}
+
+/**
+ * Methode qui lance l'edition d'un client
+ */
+void SearchWindow::editCustomer(){
+
+    QItemSelectionModel *select = customerView->selectionModel();
+    if(select->hasSelection()){
+        QModelIndexList rows=select->selectedRows(0);
+        QModelIndex row=rows.at(0);
+        parent->setCentralWidget(new NewCustomerWindow(parent,row.data(0).toInt()));
+    }
+    else
+        QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun client sélectionné"));
+
+}
+
+/**
+ * Methode qui lance l'edition d'un produit
+ */
+void SearchWindow::editProduct(){
+    QItemSelectionModel *select = productView->selectionModel();
+    if(select->hasSelection()){
+        QModelIndexList rows=select->selectedRows(0);
+        QModelIndex row=rows.at(0);
+        parent->setCentralWidget(new NewProductWindow(parent,row.data(0).toInt()));
+    }
+    else
+        QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun produit sélectionné"));
+
 }
