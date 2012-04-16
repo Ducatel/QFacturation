@@ -13,18 +13,8 @@
  * along with this program.  If not, see http://www.gnu.org/licenses
  */
 
-#ifndef ABOUTFRAME_H
-#define ABOUTFRAME_H
-#include <QtGui>
+#include "newdocumentwindow.h"
 
-/**
- * Class qui gere la fenetre "a propos"
- * @author David Ducatel
- */
-class AboutFrame: public QDialog
-{
-    public:
-        AboutFrame();
-};
+NewDocumentWindow::NewDocumentWindow(QWidget *parent) :QWidget(parent){
 
-#endif // ABOUTFRAME_H
+}

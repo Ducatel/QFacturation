@@ -1,3 +1,18 @@
+/**
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses
+ */
+
 #include "searchwindow.h"
 
 /**
@@ -157,14 +172,6 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
  * trier par nom
  */
 void SearchWindow::loadCustomer(){
-    /*QSqlDatabase base = QSqlDatabase::database();
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-
-    if(!base.isOpen())
-        base.open();
-
-    qDebug()<<"coucou 3";*/
-
     QSqlDatabase base = QSqlDatabase::database();
     QSqlQuery query;
     query.exec("SELECT * FROM customer ORDER BY name");
@@ -190,8 +197,6 @@ void SearchWindow::loadCustomer(){
 
     query.finish();
     base.commit();
-    /*base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
 }
 
 /**
@@ -199,12 +204,6 @@ void SearchWindow::loadCustomer(){
  * trier par nom
  */
 void SearchWindow::loadProduct(){
-   /* QSqlDatabase base = QSqlDatabase::database();
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-
-    if(!base.isOpen())
-        base.open();*/
-
     QSqlDatabase base = QSqlDatabase::database();
     QSqlQuery query;
     query.exec("SELECT * FROM product ORDER BY name");
@@ -226,8 +225,6 @@ void SearchWindow::loadProduct(){
 
     query.finish();
     base.commit();
-    /*base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
 }
 
 /**
@@ -243,9 +240,6 @@ void SearchWindow::loadDocument(){
  * et de l'afficher
  */
 void SearchWindow::showCustomerResult(){
-   /* QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();*/
     QSqlDatabase base = QSqlDatabase::database();
     QSqlQueryModel queryModel;
     QSqlQuery query;
@@ -307,8 +301,6 @@ void SearchWindow::showCustomerResult(){
     query.finish();
     queryModel.clear();
     base.commit();
-    /*base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
 }
 
 /**
@@ -316,10 +308,6 @@ void SearchWindow::showCustomerResult(){
  * et de l'afficher
  */
 void SearchWindow::showProductResult(){
-
-    /*QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();*/
     QSqlDatabase base = QSqlDatabase::database();
     QSqlQueryModel queryModel;
     QSqlQuery query;
@@ -365,7 +353,4 @@ void SearchWindow::showProductResult(){
     query.finish();
     queryModel.clear();
     base.commit();
-    /*base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
-
 }

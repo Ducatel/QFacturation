@@ -13,41 +13,25 @@
  * along with this program.  If not, see http://www.gnu.org/licenses
  */
 
-#ifndef NEWPRODUCTWINDOW_H
-#define NEWPRODUCTWINDOW_H
+#ifndef NEWDOCUMENTWINDOW_H
+#define NEWDOCUMENTWINDOW_H
 
-#include <QtGui>
-#include "product.h"
+#include <QWidget>
 
 /**
- * Class qui gere le widget permettant de créer/editer un nouveau produit
+ * Class qui va géré l'interface de création/edition d'un document
  * @author David Ducatel
  */
-class NewProductWindow : public QWidget
+class NewDocumentWindow : public QWidget
 {
     Q_OBJECT
+public:
+    explicit NewDocumentWindow(QWidget *parent = 0);
 
-    public:
-        explicit NewProductWindow(QMainWindow *parent);
-        explicit NewProductWindow(QMainWindow *parent,int id);
+signals:
 
-        QLineEdit *name;
-        QLineEdit *description;
-        QDoubleSpinBox *price;
-
-    private:
-        void createInterface();
-        void initByBDD();
-        void clean();
-
-        QMainWindow *parent;
-        int idProduct;
-        QPushButton *validate;
-
-    private slots:
-        void validateProduct();
-
+public slots:
 
 };
 
-#endif // NEWPRODUCTWINDOW_H
+#endif // NEWDOCUMENTWINDOW_H
