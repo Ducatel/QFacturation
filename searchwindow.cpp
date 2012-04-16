@@ -13,8 +13,30 @@ SearchWindow::SearchWindow(QMainWindow *parent) :QWidget(parent){
     /**     Partie Recherche Client     **/
     /** ******************************* **/
 
-    QVBoxLayout *layoutClient= new QVBoxLayout;
+    layoutPrinc->addWidget(createCustomerSearchInterface());
+
+    /** ******************************* **/
+    /**    Partie Recherche Produit     **/
+    /** ******************************* **/
+
+    layoutPrinc->addWidget(createProductSearchInterface());
+
+
+
+    setLayout(layoutPrinc);
+
+}
+
+/**
+ * Methode permettant de construire la partie interface
+ * de recherche client
+ * @return le QGroupBox contenant l'interface
+ */
+QGroupBox* SearchWindow::createCustomerSearchInterface(){
+
     QGroupBox *groupClient = new QGroupBox(tr("Rechercher un client"), this);
+    QVBoxLayout *layoutClient= new QVBoxLayout;
+
 
     QFormLayout *layoutFormClient=new QFormLayout;
 
@@ -60,13 +82,23 @@ SearchWindow::SearchWindow(QMainWindow *parent) :QWidget(parent){
     layoutClient->addLayout(layoutTabClient);
 
     groupClient->setLayout(layoutClient);
-    layoutPrinc->addWidget(groupClient);
-
 
     /** ******************************* **/
-    /**    Partie Recherche Produit     **/
+    /**             Slots               **/
     /** ******************************* **/
 
+    connect(searchButtonCustomer, SIGNAL(clicked()), this, SLOT(showCustomerResult()));
+
+
+    return groupClient;
+}
+
+/**
+ * Methode permettant de construire la partie interface
+ * de recherche produit
+ * @return le QGroupBox contenant l'interface
+ */
+QGroupBox* SearchWindow::createProductSearchInterface(){
     QVBoxLayout *layoutProduct= new QVBoxLayout;
     QGroupBox *groupProduct = new QGroupBox(tr("Rechercher un Produit"), this);
 
@@ -108,17 +140,16 @@ SearchWindow::SearchWindow(QMainWindow *parent) :QWidget(parent){
     layoutProduct->addLayout(layoutTabProduct);
 
     groupProduct->setLayout(layoutProduct);
-    layoutPrinc->addWidget(groupProduct);
 
     /** ******************************* **/
     /**             Slots               **/
     /** ******************************* **/
 
-    connect(searchButtonCustomer, SIGNAL(clicked()), this, SLOT(showCustomerResult()));
+    connect(buttonSearchProduct, SIGNAL(clicked()), this, SLOT(showProductResult()));
 
 
-    setLayout(layoutPrinc);
 
+    return groupProduct;
 }
 
 /**
@@ -207,58 +238,65 @@ void SearchWindow::showCustomerResult(){
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
     base.open();
 
+    QSqlQueryModel queryModel;
     QSqlQuery query;
+    QString paramValue = lineSearchClient->text();
+
     switch (typeSearchClient->currentIndex()){
     case 0:
-        query.prepare("SELECT * FROM customer WHERE name LIKE % :value %");
-        query.bindValue(":value",lineSearchClient->text());
+        query.prepare("SELECT * FROM customer WHERE name LIKE :value");
+        paramValue.prepend("%");
+        paramValue.append("%");
+        query.bindValue(":value",paramValue);
         break;
 
     case 1:
-        query.prepare("SELECT * FROM customer WHERE city LIKE % :value %");
-        query.bindValue(":value",lineSearchClient->text());
+        query.prepare("SELECT * FROM customer WHERE city LIKE :value ");
+        paramValue.prepend("%");
+        paramValue.append("%");
+        query.bindValue(":value",paramValue);
         break;
 
     case 2:
         query.prepare("SELECT * FROM customer WHERE postalCode=:value");
-        query.bindValue(":value",lineSearchClient->text());
+        query.bindValue(":value",paramValue);
         break;
     case 3:
         query.prepare("SELECT * FROM customer WHERE phone=:value");
-        query.bindValue(":value",lineSearchClient->text());
+        query.bindValue(":value",paramValue);
         break;
     }
 
-    // TODO trouver comment connaitre le nombre de resultat retourner
-    // TODO verifier le fonctionnement de chaque requete
-
     query.exec();
+    queryModel.setQuery(query);
+    int nbResult=queryModel.rowCount();
 
-    if(query.size()==0){
+    if(nbResult==0){
         QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retourné aucun resultat."));
     }
     else{
         while(customerModel->rowCount()>0)
             customerModel->removeRow(0);
+
+        for (int i=0;i<nbResult;i++){
+
+            QSqlRecord rec = queryModel.record(i);
+            customerModel->setItem(i, 0, new QStandardItem(rec.value("idCustomer").toString()));
+            customerModel->setItem(i, 1, new QStandardItem(rec.value("name").toString()));
+            customerModel->setItem(i, 2, new QStandardItem(rec.value("adress").toString()));
+            customerModel->setItem(i, 3, new QStandardItem(rec.value("adress2").toString()));
+            customerModel->setItem(i, 4, new QStandardItem(rec.value("postalCode").toString()));
+            customerModel->setItem(i, 5, new QStandardItem(rec.value("city").toString()));
+            customerModel->setItem(i, 6, new QStandardItem(rec.value("country").toString()));
+            customerModel->setItem(i, 7, new QStandardItem(rec.value("email").toString()));
+            customerModel->setItem(i, 8, new QStandardItem(rec.value("phone").toString()));
+
+        }
+        customerView->resizeColumnsToContents();
     }
-    qDebug()<<query.size();
-    int i=0;
-    while(query.next()){
-        QSqlRecord rec = query.record();
-        customerModel->setItem(i, 0, new QStandardItem(rec.value("idCustomer").toString()));
-        customerModel->setItem(i, 1, new QStandardItem(rec.value("name").toString()));
-        customerModel->setItem(i, 2, new QStandardItem(rec.value("adress").toString()));
-        customerModel->setItem(i, 3, new QStandardItem(rec.value("adress2").toString()));
-        customerModel->setItem(i, 4, new QStandardItem(rec.value("postalCode").toString()));
-        customerModel->setItem(i, 5, new QStandardItem(rec.value("city").toString()));
-        customerModel->setItem(i, 6, new QStandardItem(rec.value("country").toString()));
-        customerModel->setItem(i, 7, new QStandardItem(rec.value("email").toString()));
-        customerModel->setItem(i, 8, new QStandardItem(rec.value("phone").toString()));
-        i++;
-    }
-    customerView->resizeColumnsToContents();
 
     query.finish();
+    queryModel.clear();
     base.commit();
     base.close();
     QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
@@ -269,5 +307,58 @@ void SearchWindow::showCustomerResult(){
  * et de l'afficher
  */
 void SearchWindow::showProductResult(){
+
+    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
+    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+    base.open();
+
+    QSqlQueryModel queryModel;
+    QSqlQuery query;
+    QString paramValue = lineSearchProduct->text();
+
+    switch (typeSearchProduct->currentIndex()){
+    case 0:
+        query.prepare("SELECT * FROM product WHERE name LIKE :value");
+        paramValue.prepend("%");
+        paramValue.append("%");
+        query.bindValue(":value",paramValue);
+        break;
+
+    case 1:
+        query.prepare("SELECT * FROM product WHERE price=:value ");
+        query.bindValue(":value",paramValue.toDouble());
+        break;
+
+
+    }
+
+    query.exec();
+    queryModel.setQuery(query);
+    int nbResult=queryModel.rowCount();
+
+    if(nbResult==0){
+        QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retourné aucun resultat."));
+    }
+    else{
+        while(productModel->rowCount()>0)
+            productModel->removeRow(0);
+
+        for (int i=0;i<nbResult;i++){
+
+            QSqlRecord rec = queryModel.record(i);
+            productModel->setItem(i, 0, new QStandardItem(rec.value("idProduct").toString()));
+            productModel->setItem(i, 1, new QStandardItem(rec.value("name").toString()));
+            productModel->setItem(i, 2, new QStandardItem(rec.value("price").toString()));
+            productModel->setItem(i, 3, new QStandardItem(rec.value("description").toString()));
+
+        }
+        productView->resizeColumnsToContents();
+    }
+
+    query.finish();
+    queryModel.clear();
+    base.commit();
+    base.close();
+    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
 
 }

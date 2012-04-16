@@ -33,6 +33,10 @@ class SearchWindow : public QWidget
         void loadProduct();
         void loadDocument();
 
+        QGroupBox* createCustomerSearchInterface();
+        QGroupBox* createProductSearchInterface();
+
+
     private slots:
         void showCustomerResult();
         void showProductResult();
