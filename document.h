@@ -15,6 +15,7 @@ class Document
     public:
         Document();
         int getId();
+        QString getDateInString();
         QDate getDate();
         double getTotalPrice;
 

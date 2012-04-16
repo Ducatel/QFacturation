@@ -22,10 +22,8 @@ Customer::Customer()
  * @param identifiant, identifiant du client au sein de la BDD
  */
 Customer::Customer(int identifiant){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();
 
+    QSqlDatabase base = QSqlDatabase::database();
     QSqlQuery query;
     query.prepare("SELECT * FROM customer WHERE idCustomer=:id");
     query.bindValue(":id",identifiant);
@@ -46,8 +44,7 @@ Customer::Customer(int identifiant){
 
     query.finish();
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+
 }
 
 int Customer::getId(){
@@ -59,11 +56,9 @@ int Customer::getId(){
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool Customer::save(){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    if(!base.open())
-        return false;
 
+
+    QSqlDatabase base = QSqlDatabase::database();
     bool retour=false;
 
     if(id==-1){
@@ -73,9 +68,6 @@ bool Customer::save(){
         retour=updateEntry();
     }
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-
     return retour;
 }
 
@@ -84,8 +76,8 @@ bool Customer::save(){
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool Customer::updateEntry(){
-    QSqlQuery query;
 
+    QSqlQuery query;
     query.prepare("UPDATE customer SET name=:name, adress=:adress, adress2=:adress2, postalCode=:postalCode, city=:city, country=:country,email=:email,phone=:phone WHERE idCustomer=:id ");
     query.bindValue(":name",name);
     query.bindValue(":adress",adress);

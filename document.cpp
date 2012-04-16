@@ -9,3 +9,7 @@ Document::Document(){
 }
 
 
+QString Document::getDateInString(){
+
+}
+

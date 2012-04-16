@@ -75,6 +75,7 @@ QGroupBox* SearchWindow::createCustomerSearchInterface(){
     customerView->setModel(customerModel);
     customerView->setSelectionMode(QAbstractItemView::SingleSelection);
     customerView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    customerView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     loadCustomer();
 
@@ -88,7 +89,6 @@ QGroupBox* SearchWindow::createCustomerSearchInterface(){
     /** ******************************* **/
 
     connect(searchButtonCustomer, SIGNAL(clicked()), this, SLOT(showCustomerResult()));
-
 
     return groupClient;
 }
@@ -133,6 +133,8 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
     productView->setModel(productModel);
     productView->setSelectionMode(QAbstractItemView::SingleSelection);
     productView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    productView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 
     loadProduct();
 
@@ -147,8 +149,6 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
 
     connect(buttonSearchProduct, SIGNAL(clicked()), this, SLOT(showProductResult()));
 
-
-
     return groupProduct;
 }
 
@@ -157,9 +157,15 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
  * trier par nom
  */
 void SearchWindow::loadCustomer(){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
+    /*QSqlDatabase base = QSqlDatabase::database();
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();
+
+    if(!base.isOpen())
+        base.open();
+
+    qDebug()<<"coucou 3";*/
+
+    QSqlDatabase base = QSqlDatabase::database();
     QSqlQuery query;
     query.exec("SELECT * FROM customer ORDER BY name");
 
@@ -184,8 +190,8 @@ void SearchWindow::loadCustomer(){
 
     query.finish();
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+    /*base.close();
+    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
 }
 
 /**
@@ -193,9 +199,13 @@ void SearchWindow::loadCustomer(){
  * trier par nom
  */
 void SearchWindow::loadProduct(){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
+   /* QSqlDatabase base = QSqlDatabase::database();
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();
+
+    if(!base.isOpen())
+        base.open();*/
+
+    QSqlDatabase base = QSqlDatabase::database();
     QSqlQuery query;
     query.exec("SELECT * FROM product ORDER BY name");
 
@@ -216,10 +226,9 @@ void SearchWindow::loadProduct(){
 
     query.finish();
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+    /*base.close();
+    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
 }
-
 
 /**
  * Methode permettant de charger la liste complete des documents
@@ -234,10 +243,10 @@ void SearchWindow::loadDocument(){
  * et de l'afficher
  */
 void SearchWindow::showCustomerResult(){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
+   /* QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();
-
+    base.open();*/
+    QSqlDatabase base = QSqlDatabase::database();
     QSqlQueryModel queryModel;
     QSqlQuery query;
     QString paramValue = lineSearchClient->text();
@@ -298,8 +307,8 @@ void SearchWindow::showCustomerResult(){
     query.finish();
     queryModel.clear();
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+    /*base.close();
+    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
 }
 
 /**
@@ -308,10 +317,10 @@ void SearchWindow::showCustomerResult(){
  */
 void SearchWindow::showProductResult(){
 
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
+    /*QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();
-
+    base.open();*/
+    QSqlDatabase base = QSqlDatabase::database();
     QSqlQueryModel queryModel;
     QSqlQuery query;
     QString paramValue = lineSearchProduct->text();
@@ -328,8 +337,6 @@ void SearchWindow::showProductResult(){
         query.prepare("SELECT * FROM product WHERE price=:value ");
         query.bindValue(":value",paramValue.toDouble());
         break;
-
-
     }
 
     query.exec();
@@ -358,7 +365,7 @@ void SearchWindow::showProductResult(){
     query.finish();
     queryModel.clear();
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+    /*base.close();
+    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));*/
 
 }

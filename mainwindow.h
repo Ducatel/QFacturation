@@ -24,6 +24,9 @@ class MainWindow : public QMainWindow
         ConfigWindow *confWin;
         AboutFrame *aboutWin;
 
+    protected :
+        void closeEvent(QCloseEvent* event);
+
 
     private slots:
         void createNewCustomer();

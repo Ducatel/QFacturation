@@ -16,10 +16,7 @@ Product::Product(){
  * @param identifiant, identifiant du produit au sein de la BDD
  */
 Product::Product(int identifiant){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();
-
+    QSqlDatabase base = QSqlDatabase::database();
     QSqlQuery query;
     query.prepare("SELECT * FROM product WHERE idProduct=:id");
     query.bindValue(":id",identifiant);
@@ -35,8 +32,6 @@ Product::Product(int identifiant){
 
     query.finish();
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
 }
 
 /**
@@ -45,11 +40,7 @@ Product::Product(int identifiant){
  */
 bool Product::save(){
 
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    if(!base.open())
-        return false;
-
+    QSqlDatabase base = QSqlDatabase::database();
     bool retour=false;
 
     if(id==-1){
@@ -60,9 +51,6 @@ bool Product::save(){
     }
 
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-
     return retour;
 }
 

@@ -111,10 +111,9 @@ void ConfigWindow::validateInfo(){
  */
 bool ConfigWindow::createDatabase(){
 
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(bddFilePath);
+    QSqlDatabase base = QSqlDatabase::database();
 
-    if (!base.open()){
+    if (!base.isOpen()){
         QMessageBox::critical(this,tr("Erreur de création de la base de données"),base.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
         return false;
     }
@@ -173,8 +172,6 @@ bool ConfigWindow::createDatabase(){
     }
 
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(bddFilePath);
     return true;
 
 }

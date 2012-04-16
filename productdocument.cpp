@@ -19,10 +19,7 @@ ProductDocument::ProductDocument()
  */
 ProductDocument::ProductDocument(int identifiant){
 
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    base.open();
-
+    QSqlDatabase base = QSqlDatabase::database();
     QSqlQuery query;
     query.prepare("SELECT * FROM product_document WHERE idProduct_document=:id");
     query.bindValue(":id",identifiant);
@@ -38,11 +35,7 @@ ProductDocument::ProductDocument(int identifiant){
     this->id=identifiant;
 
     query.finish();
-
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-
 }
 
 int ProductDocument::getId(){
@@ -54,11 +47,7 @@ int ProductDocument::getId(){
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool ProductDocument::save(){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    if(!base.open())
-        return false;
-
+    QSqlDatabase base = QSqlDatabase::database();
     bool retour=false;
 
     if(id==-1){
@@ -69,9 +58,6 @@ bool ProductDocument::save(){
     }
 
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-
     return retour;
 }
 
@@ -80,10 +66,7 @@ bool ProductDocument::save(){
  * @return true si la suppression n'a pas poser de probleme, false sinon
  */
 bool ProductDocument::remove(){
-    QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
-    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-    if(!base.open())
-        return false;
+    QSqlDatabase base = QSqlDatabase::database();
 
     QSqlQuery query;
     query.prepare("DELETE FROM product_document WHERE idProduct_document=:id ");
@@ -93,8 +76,6 @@ bool ProductDocument::remove(){
     query.finish();
 
     base.commit();
-    base.close();
-    QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
     return retour;
 
 }

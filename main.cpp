@@ -1,14 +1,5 @@
 #include "main.h"
 
-
-//TODO supprimer include de test
-#include "customer.h"
-#include "product.h"
-#include "document.h"
-#include "productdocument.h"
-
-
-
 /**
  * Fonction qui verifie si la configuration de base est présente
  * @return true si la conf est presente, false sinon
@@ -32,6 +23,9 @@ int main(int argc, char *argv[])
 {
 
     QApplication a(argc, argv);
+    QSqlDatabase base=QSqlDatabase::addDatabase("QSQLITE");
+    base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+    base.open();
 
     ConfigWindow confWin(0);
     if(!configExist()){

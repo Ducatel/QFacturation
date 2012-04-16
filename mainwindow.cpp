@@ -69,19 +69,30 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     /**            Slots            **/
     /** *************************** **/
 
-    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit())); //TODO faire comme la méthode closeEvent
     connect(newCustomerAction, SIGNAL(triggered()), this, SLOT(createNewCustomer()));
     connect(newProductAction, SIGNAL(triggered()), this, SLOT(createNewProduct()));
     connect(newDocAction, SIGNAL(triggered()), this, SLOT(createNewDocument()));
     connect(editConfAction, SIGNAL(triggered()), this, SLOT(editConfFile()));    
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(showAboutWindow()));
     connect(searchAction, SIGNAL(triggered()), this, SLOT(search()));
+}
 
-
-
+void MainWindow::closeEvent(QCloseEvent* event) {
+    int ret = QMessageBox::question(this,tr("Quitter?"),tr("Voulez-vous vraiment quitter?"),QMessageBox::Yes | QMessageBox::No);
+    if (ret == QMessageBox::Yes){
+        QSqlDatabase base = QSqlDatabase::database();
+        base.commit();
+        base.close();
+        QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
+        event->accept();
+    }
+    else
+        event->ignore();
 }
 
 void MainWindow::createNewCustomer(){
+
     setCentralWidget(new NewCustomerWindow(this));
 
 }
