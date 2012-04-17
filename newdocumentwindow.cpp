@@ -17,11 +17,15 @@
 
 NewDocumentWindow::NewDocumentWindow(QMainWindow *parent) :QWidget(parent){
     this->parent=parent;
+    idDocument=-1;
     createInterface();
 }
 
 NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
-
+    this->parent=parent;
+    idDocument=identifiant;
+    createInterface();
+    //TODO faire le init by DB
 }
 
 void NewDocumentWindow::createInterface(){
@@ -35,10 +39,11 @@ void NewDocumentWindow::createInterface(){
     QFormLayout *layoutFormBase=new QFormLayout;
 
     customerName=new QComboBox(this);
-    QList<Customer> list= Customer::getAllCustomer();
+    customerName->setToolTip(tr("Nom du client, ville"));
+    QList<Customer> listCustomer= Customer::getAllCustomer();
 
-    for(int i=0;i<list.size();i++)
-        customerName->addItem(list.at(i).name+", "+list.at(i).city);
+    for(int i=0;i<listCustomer.size();i++)
+        customerName->addItem(listCustomer.at(i).name+", "+listCustomer.at(i).city);
 
     layoutFormBase->addRow(tr("Client: "),customerName);
 
@@ -59,6 +64,58 @@ void NewDocumentWindow::createInterface(){
     groupBase->setLayout(layoutFormBase);
     layoutPrinc->addWidget(groupBase);
 
+    /** ******************************** **/
+    /**     Formulaire Ajout Produit     **/
+    /** ******************************** **/
+
+    QGroupBox *groupAddProduct = new QGroupBox(tr("Ajout de produit"), this);
+    QFormLayout *layoutFormAddProduct=new QFormLayout;
+
+    productName=new QComboBox(this);
+    productName->setToolTip(tr("Nom du produit, description, prix"));
+    QList<Product> listProduct= Product::getAllProduct();
+
+    for(int i=0;i<listProduct.size();i++)
+        productName->addItem(listProduct.at(i).name+", "+listProduct.at(i).description+", "+QVariant(listProduct.at(i).price).toString()+QString(8364));
+
+
+    layoutFormAddProduct->addRow(tr("Produit: "),productName);
+
+
+    productQuantity=new QSpinBox(this);
+    productQuantity->setMaximum(99999);
+    layoutFormAddProduct->addRow(tr("Quantité: "),productQuantity);
+
+
+    productReduction=new QLineEdit(this);
+    productReduction->setToolTip(tr("Pour une reduction en pourcentage, finir par le symbole %"));
+    layoutFormAddProduct->addRow(tr("Reduction: "),productReduction);
+
+
+    QHBoxLayout *layoutButtonProduct=new QHBoxLayout;
+
+    addProduct=new QPushButton(tr("Ajouter le produit"),this);
+    layoutButtonProduct->addWidget(addProduct);
+
+    removeProduct=new QPushButton(tr("Supprimer le produit sélectionné"),this);
+    layoutButtonProduct->addWidget(removeProduct);
+
+    layoutFormAddProduct->addRow(tr("Actions: "),layoutButtonProduct);
+
+    groupAddProduct->setLayout(layoutFormAddProduct);
+    layoutPrinc->addWidget(groupAddProduct);
+
+    /** ******************************** **/
+    /**     Produit dans le document     **/
+    /** ******************************** **/
+
+
+
+
+
+    /** ******************************** **/
+    /**               Slots              **/
+    /** ******************************** **/
 
     connect(documentType, SIGNAL(currentIndexChanged(int)), this, SLOT(turnOnOffDocumentType(int)));
 
@@ -74,13 +131,7 @@ void NewDocumentWindow::createInterface(){
  * @param currentIndex index qui viens d'etre selectionner
  */
 void NewDocumentWindow::turnOnOffDocumentType(int currentIndex){
-
     // currentIndex ==0, facture
     // currentIndex ==1, devis
-
-    if(currentIndex==0)
-        reglementMode->setDisabled(false);
-    else
-        reglementMode->setDisabled(true);
-
+    reglementMode->setDisabled((currentIndex!=0));
 }

@@ -40,6 +40,13 @@ class NewDocumentWindow : public QWidget
         QComboBox *documentType;
         QComboBox *reglementMode;
 
+        QComboBox *productName;
+        QSpinBox *productQuantity;
+        QLineEdit *productReduction;
+        QPushButton *addProduct;
+        QPushButton *removeProduct;
+
+
         void createInterface();
 
     private slots:

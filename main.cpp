@@ -33,7 +33,6 @@ bool configExist(){
         return true;
 }
 
-
 int main(int argc, char *argv[])
 {
 
