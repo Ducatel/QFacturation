@@ -17,6 +17,8 @@
 #define NEWDOCUMENTWINDOW_H
 
 #include <QtGui>
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
 #include "customer.h"
 #include "product.h"
 #include "document.h"
@@ -32,8 +34,10 @@ class NewDocumentWindow : public QWidget
     public:
         explicit NewDocumentWindow(QMainWindow *parent);
         explicit NewDocumentWindow(QMainWindow *parent,int identifiant);
+        ~NewDocumentWindow();
 
     private:
+        bool isSave;
         int idDocument;
         QMainWindow *parent;
 

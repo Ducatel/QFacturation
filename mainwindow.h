@@ -17,11 +17,16 @@
 #define MAINWINDOW_H
 
 #include <QtGui>
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
+
 #include "configwindow.h"
 #include "aboutframe.h"
 #include "newcustomerwindow.h"
 #include "newproductwindow.h"
 #include "searchwindow.h"
+
+
 
 /**
  * Class qui gere l'interface principale

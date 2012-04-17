@@ -19,6 +19,9 @@
 #include <QtXml>
 #include <QtSql>
 
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
+
 /**
  * Class qui gere la fenetre de configuration de base
  * @author David Ducatel

@@ -15,16 +15,25 @@
 
 #include "newdocumentwindow.h"
 
+NewDocumentWindow::~NewDocumentWindow(){
+    if(!isSave){
+        //Document d(idDocument);
+        //d.remove();
+    }
+}
+
 NewDocumentWindow::NewDocumentWindow(QMainWindow *parent) :QWidget(parent){
     this->parent=parent;
     idDocument=-1;
     createInterface();
+    isSave=false;
 }
 
 NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
     this->parent=parent;
     idDocument=identifiant;
     createInterface();
+    isSave=false;
     //TODO faire le init by DB
 }
 
@@ -48,6 +57,13 @@ void NewDocumentWindow::createInterface(){
     /** ******************************** **/
 
     layoutPrinc->addWidget(createProductViewInterface());
+
+    /** ******************************** **/
+    /**       Bouton bas interface       **/
+    /** ******************************** **/
+
+    QHBoxLayout *layoutBouton=new QHBoxLayout;
+
 
 
     setLayout(layoutPrinc);
@@ -226,11 +242,18 @@ void NewDocumentWindow::addProduct(){
     if(productReduction->value()>0){
         if(fixedValue->isChecked()){
             remise=productReduction->value();
+            productModel->setItem(positionInView, 5, new QStandardItem(QVariant(remise).toString()));
+
         }
         else{
             remise=(priceWithoutReduction*productReduction->value())/100.0;
+            productModel->setItem(positionInView, 5, new QStandardItem(QVariant(productReduction->value()).toString()+"%"));
+
         }
     }
+    else
+        productModel->setItem(positionInView, 5, new QStandardItem("0"));
+
     double priceWithReduction=priceWithoutReduction-remise;
 
 
@@ -239,7 +262,6 @@ void NewDocumentWindow::addProduct(){
     productModel->setItem(positionInView, 2, new QStandardItem(QVariant(productQuantity->value()).toString()));
     productModel->setItem(positionInView, 3, new QStandardItem(QVariant(p.price).toString()));
     productModel->setItem(positionInView, 4, new QStandardItem(QVariant(priceWithoutReduction).toString()));
-    productModel->setItem(positionInView, 5, new QStandardItem(QVariant(remise).toString()));
     productModel->setItem(positionInView, 6, new QStandardItem(QVariant(priceWithReduction).toString()));
 
     productView->resizeColumnsToContents();
@@ -250,5 +272,19 @@ void NewDocumentWindow::addProduct(){
  * Methode permettant de supprimer un produit du document
  */
 void NewDocumentWindow::removeProduct(){
+    QItemSelectionModel *select = productView->selectionModel();
+
+    if(select->hasSelection()){
+
+        QModelIndexList rows=select->selectedRows();
+        QModelIndex row=rows.at(0);
+        productModel->removeRow(row.row());
+
+        int idProduct=row.data(0).toInt();
+
+
+    }
+    else
+        QMessageBox::information(this, tr("Suppression impossible"), tr("Suppression impossible, aucun produit sélectionné"));
 
 }

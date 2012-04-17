@@ -20,6 +20,9 @@
 #include<QString>
 #include<QDir>
 
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
+
 /**
  * class qui gere la table de jointure entre
  * les produits et les documents
@@ -33,6 +36,8 @@ class ProductDocument
         int getId();
         bool save();
         bool remove();
+        static bool removeAllByIdDocument(int identifiant);
+        static QList<ProductDocument> getAllByIdDocument(int identifiant);
 
         int idDocument;
         int idProduct;

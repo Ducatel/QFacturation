@@ -15,7 +15,11 @@
 
 #ifndef ABOUTFRAME_H
 #define ABOUTFRAME_H
+
 #include <QtGui>
+
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
 
 /**
  * Class qui gere la fenetre "a propos"

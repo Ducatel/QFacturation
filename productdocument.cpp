@@ -138,4 +138,36 @@ bool ProductDocument::createEntry(){
     return retour;
 }
 
+ bool ProductDocument::removeAllByIdDocument(int identifiant){
+     QSqlDatabase base = QSqlDatabase::database();
+
+     QSqlQuery query;
+     query.prepare("DELETE FROM product_document WHERE idDocument=:id ");
+     query.bindValue(":id",identifiant);
+     bool retour=query.exec();
+
+     query.finish();
+
+     base.commit();
+     return retour;
+ }
+
+ QList<ProductDocument> ProductDocument::getAllByIdDocument(int identifiant){
+     QList<ProductDocument> list;
+     QSqlDatabase base = QSqlDatabase::database();
+
+     QSqlQuery query;
+     query.prepare("SELECT idproduct_document FROM product_document WHERE idDocument=:id ");
+     query.bindValue(":id",identifiant);
+     query.exec();
+
+     while(query.next())
+         list.append(ProductDocument(query.record().value("idproduct_document").toInt()));
+
+
+     query.finish();
+     base.commit();
+     return list;
+ }
+
 

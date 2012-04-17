@@ -21,6 +21,9 @@
 #include<QDir>
 #include<QDate>
 
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
+#include "product.h"
 #include "productdocument.h"
 
 /**
@@ -31,21 +34,23 @@ class Document
 {
     public:
         Document();
+        Document(int identifiant);
         int getId();
         QString getDateInString();
         QDate getDate();
-        double getTotalPrice;
+        bool remove();
+        bool save();
+        double getTotalPrice();
 
         enum DocTypeEnum{
-            Facture,
-            Devis
+            Facture=0,
+            Devis=1
         };
 
         enum PaymentEnum{
-            Cheque,
-            Especes,
-            Virement,
-            None
+            Cheque=0,
+            Especes=1,
+            Virement=2
         };
 
         int idCustomer;
@@ -58,6 +63,8 @@ class Document
     private:
         int id;
         QDate date;
+        bool updateEntry();
+        bool createEntry();
 
 
 

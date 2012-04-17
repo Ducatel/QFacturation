@@ -17,6 +17,8 @@
 #define NEWPRODUCTWINDOW_H
 
 #include <QtGui>
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
 #include "product.h"
 
 /**

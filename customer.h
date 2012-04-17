@@ -21,6 +21,9 @@
 #include<QDir>
 #include<QList>
 
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
+
 /**
  * Class qui permet de gerer un client
  * @author David Ducatel

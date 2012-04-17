@@ -41,6 +41,8 @@ int main(int argc, char *argv[])
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
     base.open();
 
+
+
     ConfigWindow confWin(0);
     if(!configExist()){
         confWin.show();

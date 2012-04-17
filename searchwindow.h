@@ -18,6 +18,8 @@
 
 #include <QtGui>
 #include <QtSql>
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
 #include "newcustomerwindow.h"
 #include "newdocumentwindow.h"
 #include "newproductwindow.h"
