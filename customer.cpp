@@ -137,4 +137,20 @@ bool Customer::createEntry(){
 
 }
 
+QList<Customer> Customer::getAllCustomer(){
+    QList<Customer> list;
+
+    QSqlDatabase base = QSqlDatabase::database();
+    QSqlQuery query;
+    query.exec("SELECT idCustomer FROM customer ORDER BY idCustomer");
+
+    while(query.next()){
+        Customer c(query.record().value("idCustomer").toInt());
+        list.append(c);
+    }
+
+    query.finish();
+    base.commit();
+    return list;
+}
 

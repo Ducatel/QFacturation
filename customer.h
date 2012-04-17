@@ -19,6 +19,7 @@
 #include<QtSql>
 #include<QString>
 #include<QDir>
+#include<QList>
 
 /**
  * Class qui permet de gerer un client
@@ -29,6 +30,7 @@ class Customer
     public:
         Customer();
         Customer(int identifiant);
+        static QList<Customer> getAllCustomer();
 
         QString name;
         QString adress;

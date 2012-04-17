@@ -114,6 +114,21 @@ bool Product::createEntry(){
     query.finish();
 
     return retour;
+}
 
+QList<Product> Product::getAllProduct(){
+    QList<Product> list;
 
+    QSqlDatabase base = QSqlDatabase::database();
+    QSqlQuery query;
+    query.exec("SELECT idProduct FROM product ORDER BY idProduct");
+
+    while(query.next()){
+        Product p(query.record().value("idProduct").toInt());
+        list.append(p);
+    }
+
+    query.finish();
+    base.commit();
+    return list;
 }

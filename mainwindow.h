@@ -50,6 +50,8 @@ class MainWindow : public QMainWindow
         void editConfFile();
         void showAboutWindow();
         void search();
+        void quitSlot();
+        void quit(QCloseEvent* event=0);
 };
 
 #endif // MAINWINDOW_H

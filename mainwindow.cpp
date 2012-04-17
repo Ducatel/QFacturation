@@ -15,6 +15,12 @@
 
 #include "mainwindow.h"
 
+MainWindow::~MainWindow()
+{
+    delete aboutWin;
+    delete confWin;
+}
+
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 {
     confWin=new ConfigWindow(this);
@@ -84,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     /**            Slots            **/
     /** *************************** **/
 
-    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit())); //TODO faire comme la méthode closeEvent
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(quitSlot())); //TODO faire comme la méthode closeEvent
     connect(newCustomerAction, SIGNAL(triggered()), this, SLOT(createNewCustomer()));
     connect(newProductAction, SIGNAL(triggered()), this, SLOT(createNewProduct()));
     connect(newDocAction, SIGNAL(triggered()), this, SLOT(createNewDocument()));
@@ -93,45 +99,84 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(searchAction, SIGNAL(triggered()), this, SLOT(search()));
 }
 
-void MainWindow::closeEvent(QCloseEvent* event) {
+
+void MainWindow::quit(QCloseEvent* event){
     int ret = QMessageBox::question(this,tr("Quitter?"),tr("Voulez-vous vraiment quitter?"),QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes){
         QSqlDatabase base = QSqlDatabase::database();
         base.commit();
         base.close();
         QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-        event->accept();
+
+        if(event!=0)
+            event->accept();
+        else
+            exit(0);
     }
     else
-        event->ignore();
+        if(event!=0)
+            event->ignore();
 }
 
+/**
+ * Methode qui ferme l'application
+ * (slot du bouton quitter)
+ */
+void MainWindow::quitSlot(){
+    quit();
+}
+
+/**
+ * Methode appeler lors de la fermeture de l'application
+ */
+void MainWindow::closeEvent(QCloseEvent* event) {
+    quit(event);
+}
+
+/**
+ * Methode qui créer l'interface d'ajout/edition de client
+ * et la place au centre de cette fenetre
+ */
 void MainWindow::createNewCustomer(){
     setCentralWidget(new NewCustomerWindow(this));
 }
 
+/**
+ * Methode qui créer l'interface d'ajout/edition de produit
+ * et la place au centre de cette fenetre
+ */
 void MainWindow::createNewProduct(){
     setCentralWidget(new NewProductWindow(this));
 }
 
+/**
+ * Methode qui créer l'interface d'ajout/edition de document
+ * et la place au centre de cette fenetre
+ */
 void MainWindow::createNewDocument(){
-    qDebug()<<"new document";
+    setCentralWidget(new NewDocumentWindow(this));
 }
 
-void MainWindow::editConfFile(){
-    confWin->show();
-}
-
-void MainWindow::showAboutWindow(){
-    aboutWin->show();
-}
-
+/**
+ * Methode qui créer l'interface de recherche
+ * et la place au centre de cette fenetre
+ */
 void MainWindow::search(){
     setCentralWidget(new SearchWindow(this));
 }
 
-MainWindow::~MainWindow()
-{
-    delete aboutWin;
-    delete confWin;
+/**
+ * Methode qui affiche la fenetre d'edition des info de la société
+ */
+void MainWindow::editConfFile(){
+    confWin->show();
 }
+
+/**
+ * Methode qui affiche la fenetre a propos
+ */
+void MainWindow::showAboutWindow(){
+    aboutWin->show();
+}
+
+

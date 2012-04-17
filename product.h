@@ -29,6 +29,7 @@ class Product
     public:
         Product();
         Product(int identifiant);
+        static QList<Product> getAllProduct();
 
         QString name;
         QString description;

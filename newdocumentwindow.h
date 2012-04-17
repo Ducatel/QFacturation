@@ -17,6 +17,9 @@
 #define NEWDOCUMENTWINDOW_H
 
 #include <QtGui>
+#include "customer.h"
+#include "product.h"
+#include "document.h"
 
 /**
  * Class qui va géré l'interface de création/edition d'un document
@@ -25,15 +28,22 @@
 class NewDocumentWindow : public QWidget
 {
     Q_OBJECT
-public:
-    explicit NewDocumentWindow(QMainWindow *parent);
-    explicit NewDocumentWindow(QMainWindow *parent,int identifiant);
+    public:
+        explicit NewDocumentWindow(QMainWindow *parent);
+        explicit NewDocumentWindow(QMainWindow *parent,int identifiant);
 
+    private:
+        int idDocument;
+        QMainWindow *parent;
 
-signals:
+        QComboBox *customerName;
+        QComboBox *documentType;
+        QComboBox *reglementMode;
 
-public slots:
+        void createInterface();
 
+    private slots:
+        void turnOnOffDocumentType(int currentIndex);
 };
 
 #endif // NEWDOCUMENTWINDOW_H
