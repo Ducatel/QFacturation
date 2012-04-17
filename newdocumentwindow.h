@@ -20,6 +20,7 @@
 #include "customer.h"
 #include "product.h"
 #include "document.h"
+#include "productdocument.h"
 
 /**
  * Class qui va géré l'interface de création/edition d'un document
@@ -42,15 +43,27 @@ class NewDocumentWindow : public QWidget
 
         QComboBox *productName;
         QSpinBox *productQuantity;
-        QLineEdit *productReduction;
-        QPushButton *addProduct;
-        QPushButton *removeProduct;
+        QDoubleSpinBox *productReduction;
+        QRadioButton *percentage;
+        QRadioButton *fixedValue;
+        QPushButton *buttonAddProduct;
+        QPushButton *buttonRemoveProduct;
+
+        QStandardItemModel *productModel;
+        QTableView *productView;
 
 
         void createInterface();
+        QGroupBox* createBasicInfoInterface();
+        QGroupBox* createAddProductInterface();
+        QGroupBox* createProductViewInterface();
+
 
     private slots:
         void turnOnOffDocumentType(int currentIndex);
+        void addProduct();
+        void removeProduct();
+
 };
 
 #endif // NEWDOCUMENTWINDOW_H
