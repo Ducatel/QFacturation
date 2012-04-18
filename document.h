@@ -57,7 +57,6 @@ class Document
         DocTypeEnum docType;
         PaymentEnum payment;
         bool addProduct(int idProduct,int quantity,QString reduction);
-        bool removeProduct(int idProduct);
 
 
     private:
@@ -65,12 +64,6 @@ class Document
         QDate date;
         bool updateEntry();
         bool createEntry();
-
-
-
-
-
-
 
 
 };

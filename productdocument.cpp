@@ -53,33 +53,7 @@ ProductDocument::ProductDocument(int identifiant){
     base.commit();
 }
 
-/**
- * Constructeur qui initialise la liaison produit<-->document grace au info contenu dans la BDD
- * @param identifiantProduct, identifiant du produit
- * @param identifiantDOcument, identifiant du document
- */
-ProductDocument::ProductDocument(int identifiantProduct,int identifiantDocument){
 
-    QSqlDatabase base = QSqlDatabase::database();
-    QSqlQuery query;
-    query.prepare("SELECT * FROM product_document WHERE idDocument=:idDoc AND idProduct=:idProd");
-    query.bindValue(":idDoc",identifiantDocument);
-    query.bindValue(":idProd",identifiantProduct);
-
-    query.exec();
-
-    query.next();
-    QSqlRecord rec = query.record();
-
-    idDocument=identifiantDocument;
-    idProduct=identifiantProduct;
-    reduction=rec.value("reduction").toString();
-    quantity=rec.value("quantity").toInt();
-    this->id=rec.value("idProduct_document").toInt();
-
-    query.finish();
-    base.commit();
-}
 
 int ProductDocument::getId(){
     return id;

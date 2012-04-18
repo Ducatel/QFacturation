@@ -28,7 +28,7 @@ Document::Document(int identifiant){
     QSqlDatabase base = QSqlDatabase::database();
 
     QSqlQuery query;
-    query.prepare("SELECT * FROM product_document where idproduct_document=:id");
+    query.prepare("SELECT * FROM document where idDocument=:id");
     query.bindValue(":id",identifiant);
     query.exec();
     query.next();
@@ -48,7 +48,6 @@ Document::Document(int identifiant){
 
     date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
     this->id=identifiant;
-
 
     query.finish();
     base.commit();
@@ -164,6 +163,7 @@ double Document::getTotalPrice(){
 
 bool Document::addProduct(int idProduct,int quantity,QString reduction){
     ProductDocument prodDoc;
+
     prodDoc.idDocument=this->id;
     prodDoc.idProduct=idProduct;
     prodDoc.quantity=quantity;
@@ -173,12 +173,6 @@ bool Document::addProduct(int idProduct,int quantity,QString reduction){
     return (save() && addProd);
 }
 
-bool Document::removeProduct(int idProduct){
-    ProductDocument prodDoc(idProduct,this->id);
-    bool removeProd=prodDoc.remove();
-
-    return (save() && removeProd);
-}
 
 QString Document::getDateInString(){
     return date.toString("dd/MM/yyyy");

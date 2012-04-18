@@ -33,7 +33,6 @@ class ProductDocument
     public:
         ProductDocument();
         ProductDocument(int identifiant);
-        ProductDocument(int identifiantProduct,int identifiantDocument);
 
         int getId();
         bool save();

@@ -38,8 +38,10 @@ NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
  * Methode qui initialise les champs grace au info de la BDD
  */
 void NewDocumentWindow::initByBDD(){
+
+    //TODO probleme a l'edition
     Document d(idDocument);
-    customerName->setCurrentIndex(d.getId()-1);
+    customerName->setCurrentIndex(d.idCustomer-1);
 
     if(d.docType==Document::Facture)
         documentType->setCurrentIndex(0);
@@ -365,6 +367,8 @@ void NewDocumentWindow::save(){
 
     d.save();
     idDocument=d.getId();
+
+    ProductDocument::removeAllByIdDocument(idDocument);
 
     for(int i=0;i<productModel->rowCount();i++){
         int prodId=productModel->item(i,0)->text().toInt();
