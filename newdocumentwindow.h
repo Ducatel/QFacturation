@@ -22,8 +22,7 @@
 #include "customer.h"
 #include "product.h"
 #include "document.h"
-#include "productdocument.h"
-
+#include "searchwindow.h"
 /**
  * Class qui va géré l'interface de création/edition d'un document
  * @author David Ducatel
@@ -34,7 +33,6 @@ class NewDocumentWindow : public QWidget
     public:
         explicit NewDocumentWindow(QMainWindow *parent);
         explicit NewDocumentWindow(QMainWindow *parent,int identifiant);
-        ~NewDocumentWindow();
 
     private:
         bool isSave;
@@ -56,17 +54,23 @@ class NewDocumentWindow : public QWidget
         QStandardItemModel *productModel;
         QTableView *productView;
 
+        QPushButton *validateButton;
+        QPushButton *saveButton;
+
 
         void createInterface();
         QGroupBox* createBasicInfoInterface();
         QGroupBox* createAddProductInterface();
         QGroupBox* createProductViewInterface();
+        void initByBDD();
 
 
     private slots:
         void turnOnOffDocumentType(int currentIndex);
         void addProduct();
         void removeProduct();
+        void save();
+        void validate();
 
 };
 

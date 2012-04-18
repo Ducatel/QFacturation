@@ -15,6 +15,7 @@
 
 #include "main.h"
 
+
 /**
  * Fonction qui verifie si la configuration de base est présente
  * @return true si la conf est presente, false sinon
@@ -33,6 +34,7 @@ bool configExist(){
         return true;
 }
 
+#include "document.h";
 int main(int argc, char *argv[])
 {
 
@@ -41,6 +43,25 @@ int main(int argc, char *argv[])
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
     base.open();
 
+    /*Document d;
+    d.idCustomer=1;
+    d.payment=Document::Cheque;
+    d.docType=Document::Facture;
+    d.save();
+
+
+    d.addProduct(1,2,"0.0");
+    qDebug(d.getTotalPrice());
+    d.addProduct(2,3,"10.0");
+    qDebug(d.getTotalPrice());
+
+    d.addProduct(3,4,"10%");
+    qDebug(d.getTotalPrice());
+
+    //d.remove();
+
+
+    exit(1);*/
 
 
     ConfigWindow confWin(0);

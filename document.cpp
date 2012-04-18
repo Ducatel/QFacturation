@@ -21,7 +21,6 @@ Document::Document(){
     date=QDate::currentDate();
     docType=Document::Facture;
     payment=Document::Cheque;
-    save();
 }
 
 Document::Document(int identifiant){
@@ -55,6 +54,10 @@ Document::Document(int identifiant){
     base.commit();
 }
 
+int Document::getId(){
+    return this->id;
+}
+
 /**
  * Methode qui sauvegarde un document dans la base de données
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
@@ -81,12 +84,13 @@ bool Document::save(){
 bool Document::updateEntry(){
     QSqlQuery query;
 
-    query.prepare("UPDATE document SET idCustomer=:idCustomer, totalPrice=:totalPrice, type=:type, payment=:payment, date=:date WHERE idDocument=:id ");
+    query.prepare("UPDATE document SET idCustomer=:idCustomer, totalPrice=:totalPrice, type=:type, payment=:payment, date=:date WHERE idDocument=:id ");    
     query.bindValue(":idCustomer",idCustomer);
     query.bindValue(":totalPrice",getTotalPrice());
     query.bindValue(":type",docType);
     query.bindValue(":payment",payment);
     query.bindValue(":date",date.toString("yyyy-MM-dd"));
+    query.bindValue(":id",this->id);
 
     bool retour=query.exec();
     query.finish();
@@ -137,7 +141,6 @@ bool Document::remove(){
 }
 
 double Document::getTotalPrice(){
-    //TODO a tester
     QList<ProductDocument> list=ProductDocument::getAllByIdDocument(id);
 
     double result=0.0;
@@ -145,12 +148,10 @@ double Document::getTotalPrice(){
         ProductDocument prodDoc=list.at(i);
         Product prod(prodDoc.idProduct);
 
-
-
         double reduction=0.0;
         if(prodDoc.reduction.endsWith('%')){
-           double pourcentage=prodDoc.reduction.mid(0,prodDoc.reduction.size()-2).toDouble();
-           reduction=(prod.price*pourcentage)/100.0;
+           double pourcentage=prodDoc.reduction.mid(0,prodDoc.reduction.size()-1).toDouble();
+           reduction=((prodDoc.quantity*prod.price)*pourcentage)/100.0;
         }
         else
             reduction=prodDoc.reduction.toDouble();
@@ -161,14 +162,22 @@ double Document::getTotalPrice(){
     return result;
 }
 
-bool Document::addProduct(int idProduct){
+bool Document::addProduct(int idProduct,int quantity,QString reduction){
+    ProductDocument prodDoc;
+    prodDoc.idDocument=this->id;
+    prodDoc.idProduct=idProduct;
+    prodDoc.quantity=quantity;
+    prodDoc.reduction=reduction;
+    bool addProd=prodDoc.save();
 
-
-    return false;
+    return (save() && addProd);
 }
 
 bool Document::removeProduct(int idProduct){
-    return false;
+    ProductDocument prodDoc(idProduct,this->id);
+    bool removeProd=prodDoc.remove();
+
+    return (save() && removeProd);
 }
 
 QString Document::getDateInString(){

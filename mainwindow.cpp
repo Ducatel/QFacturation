@@ -100,22 +100,18 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 }
 
 
-void MainWindow::quit(QCloseEvent* event){
+bool MainWindow::quit(){
     int ret = QMessageBox::question(this,tr("Quitter?"),tr("Voulez-vous vraiment quitter?"),QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes){
         QSqlDatabase base = QSqlDatabase::database();
         base.commit();
         base.close();
         QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
-
-        if(event!=0)
-            event->accept();
-        else
-            exit(0);
+        exit(0);
     }
     else
-        if(event!=0)
-            event->ignore();
+        return false;
+
 }
 
 /**
@@ -130,7 +126,9 @@ void MainWindow::quitSlot(){
  * Methode appeler lors de la fermeture de l'application
  */
 void MainWindow::closeEvent(QCloseEvent* event) {
-    quit(event);
+    if(!quit()){
+        event->ignore();
+    }
 }
 
 /**

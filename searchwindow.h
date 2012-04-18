@@ -51,12 +51,32 @@ class SearchWindow : public QWidget
         QStandardItemModel *productModel;
         QTableView *productView;
 
+        QPushButton *searchButtonDocumentNotValidate;
+        QPushButton *editButtonDocumentNotValidate;
+        QPushButton *validateDocumentButton;
+        QPushButton *deleteButtonDocumentNotValidate;
+
+        QLineEdit *lineSearchDocumentNotValidate;
+        QComboBox *typeSearchDocumentNotValidate;
+        QComboBox *typeDocumentNotValidate;
+        QComboBox *paymentDocumentNotValidate;
+        QStandardItemModel *documentNotValidateModel;
+        QTableView *documentNotValidateView;
+
+
+
+
+
         void loadCustomer();
         void loadProduct();
-        void loadDocument();
+        void loadDocumentNotValidate();
 
         QGroupBox* createCustomerSearchInterface();
         QGroupBox* createProductSearchInterface();
+        QGroupBox* createNotValidateDocumentSearchInterface();
+        QGroupBox* createValidateDocumentSearchInterface();
+
+
 
 
     private slots:
@@ -64,6 +84,10 @@ class SearchWindow : public QWidget
         void showProductResult();
         void editCustomer();
         void editProduct();
+        void showDocumentNotValideResult();
+        void editDocument();
+        void valideDocument();
+        void deleteDocument();
 
 };
 

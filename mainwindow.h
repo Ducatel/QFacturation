@@ -56,7 +56,7 @@ class MainWindow : public QMainWindow
         void showAboutWindow();
         void search();
         void quitSlot();
-        void quit(QCloseEvent* event=0);
+        bool quit();
 };
 
 #endif // MAINWINDOW_H

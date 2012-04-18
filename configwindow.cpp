@@ -187,6 +187,18 @@ bool ConfigWindow::createDatabase(){
              return false;
         }
 
+        result = base.exec("CREATE  TABLE IF NOT EXISTS DocumentValide(\
+                           id INTEGER PRIMARY KEY,\
+                           idCustomer INTEGER,\
+                           date VARCHAR(45),\
+                           price REAL,\
+                           view TEXT)") ;
+
+        if(result.lastError().type()!=QSqlError::NoError){
+             QMessageBox::critical(this,tr("Erreur de création de la table 'DocumentValide'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.");
+             return false;
+        }
+
         base.commit();
     }
 

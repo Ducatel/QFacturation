@@ -36,6 +36,15 @@ SearchWindow::SearchWindow(QMainWindow *parent) :QWidget(parent){
 
     layoutPrinc->addWidget(createProductSearchInterface());
 
+    /** ***************************************** **/
+    /**   Partie Recherche document non valider   **/
+    /** ***************************************** **/
+
+    layoutPrinc->addWidget(createNotValidateDocumentSearchInterface());
+
+    /** ***************************************** **/
+    /**     Partie Recherche document valider     **/
+    /** ***************************************** **/
 
 
     setLayout(layoutPrinc);
@@ -186,6 +195,100 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
 }
 
 /**
+ * Methode permettant de construire la partie interface
+ * de recherche d'un document non validé
+ * @return le QGroupBox contenant l'interface
+ */
+QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
+
+    QVBoxLayout *layoutDoc= new QVBoxLayout;
+    QGroupBox *groupDoc = new QGroupBox(tr("Rechercher un document non validé"), this);
+    QFormLayout *layoutFormDoc=new QFormLayout;
+
+    typeSearchDocumentNotValidate=new QComboBox(this);
+    typeSearchDocumentNotValidate->addItem(tr("Nom de client"));
+    typeSearchDocumentNotValidate->addItem(tr("Date"));
+    typeSearchDocumentNotValidate->addItem(tr("Prix"));
+
+    layoutFormDoc->addRow(tr("Rechercher par: "),typeSearchDocumentNotValidate);
+
+    typeDocumentNotValidate=new QComboBox(this);
+    typeDocumentNotValidate->addItem(tr("Tout"));
+    typeDocumentNotValidate->addItem(tr("Facture"));
+    typeDocumentNotValidate->addItem(tr("Devis"));
+
+    layoutFormDoc->addRow(tr("Type de document: "),typeDocumentNotValidate);
+
+    paymentDocumentNotValidate=new QComboBox(this);
+    paymentDocumentNotValidate->addItem(tr("Tout"));
+    paymentDocumentNotValidate->addItem(tr("Cheque"));
+    paymentDocumentNotValidate->addItem(tr("Virement"));
+    paymentDocumentNotValidate->addItem(tr("Espece"));
+
+    layoutFormDoc->addRow(tr("Moyen de paiement: "),paymentDocumentNotValidate);
+
+
+    lineSearchDocumentNotValidate=new QLineEdit(this);
+    layoutFormDoc->addRow(tr("Mots clés: "),lineSearchDocumentNotValidate);
+
+    QHBoxLayout *layoutButtonDoc=new QHBoxLayout;
+
+    searchButtonDocumentNotValidate=new QPushButton(tr("Rechercher"),this);
+    layoutButtonDoc->addWidget(searchButtonDocumentNotValidate);
+
+    editButtonDocumentNotValidate=new QPushButton(tr("Editer le document sélectionné"),this);
+    layoutButtonDoc->addWidget(editButtonDocumentNotValidate);
+
+    validateDocumentButton=new QPushButton(tr("Valider le document sélectionné"),this);
+    layoutButtonDoc->addWidget(validateDocumentButton);
+
+    deleteButtonDocumentNotValidate=new QPushButton(tr("Supprimer le document sélectionné"),this);
+    layoutButtonDoc->addWidget(deleteButtonDocumentNotValidate);
+
+    layoutFormDoc->addRow(tr("Action: "),layoutButtonDoc);
+
+    layoutDoc->addLayout(layoutFormDoc);
+
+    /***********************************************************/
+
+    QHBoxLayout *layoutTabDoc= new QHBoxLayout;
+    documentNotValidateModel = new QStandardItemModel(0, 6);
+    documentNotValidateModel->setHeaderData(0,Qt::Horizontal,"id");
+    documentNotValidateModel->setHeaderData(1,Qt::Horizontal,tr("Nom du client"));
+    documentNotValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix"));
+    documentNotValidateModel->setHeaderData(3,Qt::Horizontal,tr("Date"));
+    documentNotValidateModel->setHeaderData(4,Qt::Horizontal,tr("Type de document"));
+    documentNotValidateModel->setHeaderData(5,Qt::Horizontal,tr("Moyen de paiement"));
+
+    documentNotValidateView = new QTableView(this);
+    documentNotValidateView->verticalHeader()->hide();
+    documentNotValidateView->setModel(documentNotValidateModel);
+    documentNotValidateView->setSelectionMode(QAbstractItemView::SingleSelection);
+    documentNotValidateView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    documentNotValidateView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    loadDocumentNotValidate();
+
+    layoutTabDoc->addWidget(documentNotValidateView);
+    layoutDoc->addLayout(layoutTabDoc);
+
+    groupDoc->setLayout(layoutDoc);
+
+    /** ******************************* **/
+    /**             Slots               **/
+    /** ******************************* **/
+
+    connect(searchButtonDocumentNotValidate, SIGNAL(clicked()), this, SLOT(showDocumentNotValideResult()));
+    connect(editButtonDocumentNotValidate, SIGNAL(clicked()), this, SLOT(editDocument()));
+    connect(validateDocumentButton, SIGNAL(clicked()), this, SLOT(valideDocument()));
+    connect(deleteButtonDocumentNotValidate, SIGNAL(clicked()), this, SLOT(deleteDocument()));
+
+
+
+    return groupDoc;
+}
+
+/**
  * Methode permettant de charger la liste complete des cliens
  * trier par nom
  */
@@ -249,8 +352,46 @@ void SearchWindow::loadProduct(){
  * Methode permettant de charger la liste complete des documents
  * trier par nom
  */
-void SearchWindow::loadDocument(){
+void SearchWindow::loadDocumentNotValidate(){
+    QSqlDatabase base = QSqlDatabase::database();
+    QSqlQuery query;
+    query.exec("SELECT D.*, C.name FROM document D, customer C WHERE D.idCustomer=C.idCustomer ORDER BY date");
 
+    while(documentNotValidateModel->rowCount()>0)
+        documentNotValidateModel->removeRow(0);
+
+
+    int i=0;
+    while(query.next()){
+        QSqlRecord rec = query.record();
+
+        documentNotValidateModel->setItem(i, 0, new QStandardItem(rec.value("idDocument").toString()));
+        documentNotValidateModel->setItem(i, 1, new QStandardItem(rec.value("name").toString()));
+        documentNotValidateModel->setItem(i, 2, new QStandardItem(rec.value("totalPrice").toString()));
+
+        QDate date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
+        documentNotValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
+
+        int docType=rec.value("type").toInt();
+        QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+        documentNotValidateModel->setItem(i, 4, new QStandardItem(type));
+
+        int paymentType=rec.value("payment").toInt();
+        QString payment="";
+        if(paymentType==Document::Cheque)
+            payment=tr("Cheque");
+        else if(paymentType==Document::Virement)
+            payment=tr("Virement");
+        else
+            payment=tr("Espece");
+
+        documentNotValidateModel->setItem(i, 5, new QStandardItem(payment));
+        i++;
+    }
+    documentNotValidateView->resizeColumnsToContents();
+
+    query.finish();
+    base.commit();
 }
 
 /**
@@ -386,7 +527,6 @@ void SearchWindow::editCustomer(){
     }
     else
         QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun client sélectionné"));
-
 }
 
 /**
@@ -401,5 +541,29 @@ void SearchWindow::editProduct(){
     }
     else
         QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun produit sélectionné"));
+
+}
+
+void SearchWindow::showDocumentNotValideResult(){
+
+}
+
+void SearchWindow::editDocument(){
+    QItemSelectionModel *select = documentNotValidateView->selectionModel();
+    if(select->hasSelection()){
+        QModelIndexList rows=select->selectedRows(0);
+        QModelIndex row=rows.at(0);
+        parent->setCentralWidget(new NewDocumentWindow(parent,row.data(0).toInt()));
+    }
+    else
+        QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun document sélectionné"));
+
+}
+
+void SearchWindow::valideDocument(){
+
+}
+
+void SearchWindow::deleteDocument(){
 
 }

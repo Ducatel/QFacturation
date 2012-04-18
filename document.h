@@ -56,7 +56,7 @@ class Document
         int idCustomer;
         DocTypeEnum docType;
         PaymentEnum payment;
-        bool addProduct(int idProduct);
+        bool addProduct(int idProduct,int quantity,QString reduction);
         bool removeProduct(int idProduct);
 
 

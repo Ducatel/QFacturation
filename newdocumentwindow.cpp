@@ -15,12 +15,6 @@
 
 #include "newdocumentwindow.h"
 
-NewDocumentWindow::~NewDocumentWindow(){
-    if(!isSave){
-        //Document d(idDocument);
-        //d.remove();
-    }
-}
 
 NewDocumentWindow::NewDocumentWindow(QMainWindow *parent) :QWidget(parent){
     this->parent=parent;
@@ -34,7 +28,61 @@ NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
     idDocument=identifiant;
     createInterface();
     isSave=false;
-    //TODO faire le init by DB
+    initByBDD();
+
+
+
+}
+
+/**
+ * Methode qui initialise les champs grace au info de la BDD
+ */
+void NewDocumentWindow::initByBDD(){
+    Document d(idDocument);
+    customerName->setCurrentIndex(d.getId()-1);
+
+    if(d.docType==Document::Facture)
+        documentType->setCurrentIndex(0);
+    else
+        documentType->setCurrentIndex(1);
+
+    if(d.payment==Document::Cheque)
+        reglementMode->setCurrentIndex(0);
+    else if(d.payment==Document::Especes)
+        reglementMode->setCurrentIndex(1);
+    else
+        reglementMode->setCurrentIndex(2);
+
+    QList<ProductDocument> list=ProductDocument::getAllByIdDocument(idDocument);
+    for(int i=0;i<list.size();i++){
+        ProductDocument prodDoc=list.at(i);
+        Product p(prodDoc.idProduct);
+
+        double priceWithoutReduction=prodDoc.quantity*p.price;
+        bool percentValue=prodDoc.reduction.endsWith('%');
+
+        double reduction=0.0;
+        if(percentValue){
+            double pourcentage=prodDoc.reduction.mid(0,prodDoc.reduction.size()-1).toDouble();
+            reduction=((prodDoc.quantity*p.price)*pourcentage)/100.0;
+        }
+        else{
+            reduction=prodDoc.reduction.toDouble();
+        }
+
+        double finalPrice=prodDoc.quantity*p.price-reduction;
+
+        productModel->setItem(i, 0, new QStandardItem(QVariant(prodDoc.idProduct).toString()));
+        productModel->setItem(i, 1, new QStandardItem(p.name));
+        productModel->setItem(i, 2, new QStandardItem(QVariant(prodDoc.quantity).toString()));
+        productModel->setItem(i, 3, new QStandardItem(QVariant(p.price).toString()));
+        productModel->setItem(i, 4, new QStandardItem(QVariant(priceWithoutReduction).toString()));
+        productModel->setItem(i, 5, new QStandardItem(prodDoc.reduction));
+        productModel->setItem(i, 6, new QStandardItem(QVariant(finalPrice).toString()));
+
+    }
+    productView->resizeColumnsToContents();
+
 }
 
 void NewDocumentWindow::createInterface(){
@@ -64,7 +112,16 @@ void NewDocumentWindow::createInterface(){
 
     QHBoxLayout *layoutBouton=new QHBoxLayout;
 
+    saveButton=new QPushButton(tr("Enregistrer le document"),this);
+    layoutBouton->addWidget(saveButton);
 
+    validateButton=new QPushButton(tr("Valider le document"),this);
+    layoutBouton->addWidget(validateButton);
+
+    layoutPrinc->addLayout(layoutBouton);
+
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(save()));
+    connect(validateButton, SIGNAL(clicked()), this, SLOT(validate()));
 
     setLayout(layoutPrinc);
 
@@ -279,12 +336,50 @@ void NewDocumentWindow::removeProduct(){
         QModelIndexList rows=select->selectedRows();
         QModelIndex row=rows.at(0);
         productModel->removeRow(row.row());
-
-        int idProduct=row.data(0).toInt();
-
-
     }
     else
         QMessageBox::information(this, tr("Suppression impossible"), tr("Suppression impossible, aucun produit sélectionné"));
 
+}
+
+void NewDocumentWindow::save(){
+    Document d;
+    if(idDocument==-1)
+        d=Document();
+    else
+        d=Document(idDocument);
+
+    d.idCustomer=customerName->currentIndex()+1;
+
+    if(reglementMode->currentText()==tr("Cheque"))
+        d.payment=Document::Cheque;
+    else if(reglementMode->currentText()==tr("Espece"))
+        d.payment=Document::Especes;
+    else
+        d.payment=Document::Virement;
+
+    if(documentType->currentText()==tr("Facture"))
+        d.docType=Document::Facture;
+    else
+         d.docType=Document::Devis;
+
+    d.save();
+    idDocument=d.getId();
+
+    for(int i=0;i<productModel->rowCount();i++){
+        int prodId=productModel->item(i,0)->text().toInt();
+        int quantity=productModel->item(i,2)->text().toInt();
+        QString reduction=productModel->item(i,5)->text();
+
+        d.addProduct(prodId,quantity,reduction);
+    }
+
+
+    d.save();
+    parent->setCentralWidget(new SearchWindow(parent));
+
+}
+
+void NewDocumentWindow::validate(){
+    //TODO faire cette methode
 }
