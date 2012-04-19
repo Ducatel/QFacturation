@@ -52,10 +52,11 @@ class ConfigWindow : public QDialog{
 
         void writeXMLConfigFile();
         bool createDatabase();
-
+        bool createDocumentTemplate();
 
         QString bddFilePath;
         QString configFilePath;
+        QString templateFilePath;
 
     private slots:
         void validateInfo();

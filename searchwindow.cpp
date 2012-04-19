@@ -679,7 +679,7 @@ void SearchWindow::valideDocument(){
             int idDoc=row.data(0).toInt();
             Document d(idDoc);
             ValidDocument vd(d);
-            d.save();
+            vd.save();
             documentNotValidateModel->removeRow(row.row());
         }
     }

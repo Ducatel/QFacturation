@@ -18,8 +18,19 @@
 #include <QtSql>
 #include <QDate>
 #include <QString>
+#include <QFile>
+#include <QTextStream>
+#include <QDir>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QList>
+#include <QVariant>
 
 #include "document.h"
+#include "customer.h"
+#include "productdocument.h"
+#include "product.h"
+
 #define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
 
 /**
@@ -45,6 +56,11 @@ class ValidDocument
     private:
         int id;
         QString makeView();
+        QString loadTemplate();
+        QString initDocumentInfo(QString string);
+        QString initCompagnyInfo(QString string);
+        QString initCustomerInfo(QString string);
+        QString initProductInfo(QString string);
 
 };
 

@@ -17,12 +17,14 @@
 #define NEWDOCUMENTWINDOW_H
 
 #include <QtGui>
+
 #define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
 
 #include "customer.h"
 #include "product.h"
 #include "document.h"
 #include "searchwindow.h"
+#include "validdocument.h"
 /**
  * Class qui va géré l'interface de création/edition d'un document
  * @author David Ducatel
@@ -69,7 +71,7 @@ class NewDocumentWindow : public QWidget
         void turnOnOffDocumentType(int currentIndex);
         void addProduct();
         void removeProduct();
-        void save();
+        void save(bool redirect=true);
         void validate();
 
 };

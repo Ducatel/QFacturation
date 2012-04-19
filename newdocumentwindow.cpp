@@ -339,9 +339,9 @@ void NewDocumentWindow::removeProduct(){
 
 /**
  * Methode permettant de sauvegarder le document
- * (redirige vers la page de recherche)
+ * @param redirect permet de determiné si on redirige a la fin
  */
-void NewDocumentWindow::save(){
+void NewDocumentWindow::save(bool redirect){
     Document d;
     if(idDocument==-1)
         d=Document();
@@ -382,7 +382,16 @@ void NewDocumentWindow::save(){
 
 }
 
+/**
+ * Methode permettant de valider un document
+ * (redirige vers la page de recherche)
+ */
 void NewDocumentWindow::validate(){
-    //TODO faire cette methode
-
+    save(false);
+    Document d(idDocument);
+    ValidDocument vd(d);
+    vd.save();
+    QStatusBar *statBar = parent->statusBar();
+    statBar->showMessage(tr("Informations du document sauvegardé et valider"), 4000);
+    parent->setCentralWidget(new SearchWindow(parent));
 }

@@ -23,6 +23,7 @@ ConfigWindow::ConfigWindow(QMainWindow *parent=0) : QDialog(parent){
     this->parent=parent;
     bddFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db");
     configFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/stdConfig.xml");
+    templateFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/template.html");
     setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+QDir::separator()+"img"+QDir::separator()+"icon.png"));
 
     QVBoxLayout *layoutPrin=new QVBoxLayout();
@@ -112,12 +113,55 @@ void ConfigWindow::validateInfo(){
         exit(2);
     }
     writeXMLConfigFile();
+    createDocumentTemplate();
 
     if(parent!=NULL){
         QStatusBar *statBar = parent->statusBar();
         statBar->showMessage(tr("Informations sur l'entreprise sauvegardé"), 4000);
     }
     this->accept();
+}
+
+/**
+ * Methode qui ecrie le template HTML du document
+ * @return true si l'ecriture a ete effectuer, false sinon
+ */
+bool ConfigWindow::createDocumentTemplate(){
+
+    QFile file(templateFilePath);
+    if(!file.exists()){
+        file.open(QIODevice::WriteOnly);
+        QTextStream flux(&file);
+        flux.setCodec("UTF-8");
+        flux<<"<html><head><meta http-equiv='content-type' content='text/html; charset=utf-8' /><style>"<<endl;
+        flux<<"#compagnyInfo{margin:5px;padding:5px;text-align:left;float:left;}"<<endl;
+        flux<<"#customerInfo{float:right;text-align:right;margin:5px;padding:5px;}"<<endl;
+        flux<<"#documentInfo{padding-top:10px;}"<<endl;
+        flux<<"#totalPrice{text-align:right;}"<<endl;
+        flux<<"#endPage{text-align:center;}"<<endl;
+        flux<<".title{text-weight:bold;text-transform:uppercase;}"<<endl;
+        flux<<".stopFloat{clear: both;}"<<endl;
+        flux<<"table{margin:10px auto;border-collapse:collapse;width:95%;}"<<endl;
+        flux<<"table,td,th{border:1px solid black;}"<<endl;
+        flux<<"th{background-color:#BCBCBC;}</style></head>"<<endl;
+        flux<<"<body>"<<endl;
+        flux<<"<div id='compagnyInfo'>{compagnyName}<br/>{description}<br/>{compagnyAdress}<br/>{compagnyAdress2}<br/>{compagnyZipCode} {compagnyCity}<br/>{compagnyCountry}<br/></div>"<<endl;
+        flux<<"<div id='customerInfo'>{customerName}<br/>{customerAdress}<br/>{customerAdress2}<br/>{customerZipCode} {customerCity}<br/>{customerCountry}<br/></div>"<<endl;
+        flux<<"<div class=\"stopFloat\"></div>"<<endl;
+        flux<<"<div id='documentInfo'><span class='title'>{documentType} N&deg; {documentId}</span> "<<tr("du","document numero XX du xx/xx/xxxx")<<" {date}<br/><span class='title'>"<<tr("Moyen de reglement")<<": </span>{payment}<br/></div>"<<endl;
+        flux<<"<table>"<<endl;
+        flux<<" <tr><th>"<<tr("Nom")<<"</th><th>"<<tr("Quantité")<<"</th><th>"<<tr("Prix unitaire")<<"</th><th>"<<tr("Prix de base")<<"</th><th>"<<tr("Remise")<<"</th><th>"<<tr("Prix finale")<<"</th></tr>"<<endl;
+        flux<<"{product}"<<endl;
+        flux<<"<tr><td colspan='6' id='totalPrice'>"<<tr("Total TTC")<<" {totalPrice}</td></tr>"<<endl;
+        flux<<"</table>"<<endl;
+        flux<<"<div id='endPage'>{compagnyName}, SIRET: {siret}, Code APE: {ape}, "<<tr("Téléphone: ")<<" {phone}<br/>"<<tr("Email: ")<<" {email}, "<<tr("Site internet: ")<<" {site}</div>"<<endl;
+        flux<<"</body></html>"<<endl;
+        flux.flush();
+        file.close();
+        return true;
+    }
+    else
+        return false;
 }
 
 /**
@@ -295,6 +339,7 @@ void ConfigWindow::writeXMLConfigFile(){
     QFile file(configFilePath);
     file.open(QIODevice::WriteOnly);
     QTextStream ts(&file);
+    ts.setCodec("UTF-8");
     doc.save(ts, 4);
 }
 
@@ -329,8 +374,6 @@ void ConfigWindow::initByConfigFile(){
                 adress->setText(elt.text());
             else if(elt.tagName() == "adress2")
                 adress2->setText(elt.text());
-            else if(elt.tagName() == "zipCode")
-                zipCode->setText(elt.text());
             else if(elt.tagName() == "zipCode")
                 zipCode->setText(elt.text());
             else if(elt.tagName() == "city")

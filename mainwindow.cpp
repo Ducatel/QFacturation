@@ -109,9 +109,8 @@ bool MainWindow::quit(){
         QSqlDatabase::removeDatabase(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
         qApp->quit();
     }
-    else
-        return false;
 
+    return false;
 }
 
 /**
