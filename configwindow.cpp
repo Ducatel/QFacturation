@@ -192,6 +192,8 @@ bool ConfigWindow::createDatabase(){
                            idCustomer INTEGER,\
                            date VARCHAR(45),\
                            price REAL,\
+                           type INTEGER,\
+                           payment INTEGER,\
                            view TEXT)") ;
 
         if(result.lastError().type()!=QSqlError::NoError){

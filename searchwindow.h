@@ -23,6 +23,7 @@
 #include "newcustomerwindow.h"
 #include "newdocumentwindow.h"
 #include "newproductwindow.h"
+#include "validdocument.h"
 
 /**
  * Class qui gere l'interface de recherche
@@ -70,7 +71,6 @@ class SearchWindow : public QWidget
         void loadCustomer();
         void loadProduct();
         void loadDocumentNotValidate();
-
         QGroupBox* createCustomerSearchInterface();
         QGroupBox* createProductSearchInterface();
         QGroupBox* createNotValidateDocumentSearchInterface();

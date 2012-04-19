@@ -29,9 +29,6 @@ NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
     createInterface();
     isSave=false;
     initByBDD();
-
-
-
 }
 
 /**
@@ -39,7 +36,6 @@ NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
  */
 void NewDocumentWindow::initByBDD(){
 
-    //TODO probleme a l'edition
     Document d(idDocument);
     customerName->setCurrentIndex(d.idCustomer-1);
 
@@ -294,8 +290,6 @@ void NewDocumentWindow::addProduct(){
     int idProduct=productName->currentIndex()+1;
     Product p(idProduct);
 
-
-
     double priceWithoutReduction=productQuantity->value()*p.price;
     double remise=0.0;
     if(productReduction->value()>0){
@@ -314,7 +308,6 @@ void NewDocumentWindow::addProduct(){
         productModel->setItem(positionInView, 5, new QStandardItem("0"));
 
     double priceWithReduction=priceWithoutReduction-remise;
-
 
     productModel->setItem(positionInView, 0, new QStandardItem(QVariant(idProduct).toString()));
     productModel->setItem(positionInView, 1, new QStandardItem(p.name));
@@ -344,6 +337,10 @@ void NewDocumentWindow::removeProduct(){
 
 }
 
+/**
+ * Methode permettant de sauvegarder le document
+ * (redirige vers la page de recherche)
+ */
 void NewDocumentWindow::save(){
     Document d;
     if(idDocument==-1)
@@ -378,12 +375,14 @@ void NewDocumentWindow::save(){
         d.addProduct(prodId,quantity,reduction);
     }
 
-
     d.save();
+    QStatusBar *statBar = parent->statusBar();
+    statBar->showMessage(tr("Informations du document sauvegardé"), 4000);
     parent->setCentralWidget(new SearchWindow(parent));
 
 }
 
 void NewDocumentWindow::validate(){
     //TODO faire cette methode
+
 }

@@ -541,13 +541,117 @@ void SearchWindow::editProduct(){
     }
     else
         QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun produit sélectionné"));
-
 }
 
+/**
+ * Methode qui effectue la recherche en fonction des infos de l'interface
+ * et qui affiche les resultats dans la table
+ */
 void SearchWindow::showDocumentNotValideResult(){
+    QSqlDatabase base = QSqlDatabase::database();
+    QSqlQueryModel queryModel;
+    QSqlQuery query;
+    QString paramValue = lineSearchDocumentNotValidate->text();
 
+    QString typeSearch="";
+    if(typeSearchDocumentNotValidate->currentIndex()==0){
+        //ici on recherche par nom de client
+        paramValue.prepend("%");
+        paramValue.append("%");
+        typeSearch=" C.name LIKE :paramValue ";
+    }
+    else if(typeSearchDocumentNotValidate->currentIndex()==1){
+        // ici on recherche par date
+        paramValue=QDate::fromString(paramValue,"dd-MM-yyyy").toString("yyyy-MM-dd");
+        typeSearch=" D.date=:paramValue ";
+    }
+    else{
+        // ici on recherche par prix
+        typeSearch=" D.totalPrice=:paramValue ";
+    }
+
+    QString typeDoc="";
+    bool usePaymentInfo=true;// si il s'agit d'un devis on utilisera pas le mode de paiement
+    if(typeDocumentNotValidate->currentIndex()==1){
+        //ici une facture
+        typeDoc=" AND D.type="+QVariant(Document::Facture).toString();
+    }
+    else if(typeDocumentNotValidate->currentIndex()==2){
+        //ici un devis
+        typeDoc=" AND D.type="+QVariant(Document::Devis).toString();
+        usePaymentInfo=false;
+    }
+
+    QString typePayment="";
+    if(usePaymentInfo){
+        if(paymentDocumentNotValidate->currentIndex()==1){
+            //ici un cheque
+            typePayment=" AND D.payment="+QVariant(Document::Cheque).toString();
+        }
+        else if(paymentDocumentNotValidate->currentIndex()==2){
+            //ici un virement
+            typePayment=" AND D.payment="+QVariant(Document::Virement).toString();
+        }
+        else if(paymentDocumentNotValidate->currentIndex()==3){
+            //ici en espece
+            typePayment=" AND D.payment="+QVariant(Document::Especes).toString();
+        }
+    }
+
+    QString requete="SELECT D.*, C.name FROM document D, customer C WHERE C.idCustomer=D.idCustomer AND "+typeSearch+typeDoc+typePayment;
+    query.prepare(requete);
+    query.bindValue(":paramValue",paramValue);
+    query.exec();
+    queryModel.setQuery(query);
+
+    qDebug(query.lastQuery());
+    int nbResult=queryModel.rowCount();
+    qDebug(nbResult);
+    if(nbResult==0){
+        QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retourné aucun resultat."));
+    }
+    else{
+        // ici on affiche les resultat;
+
+        while(documentNotValidateModel->rowCount()>0)
+            documentNotValidateModel->removeRow(0);
+
+        for (int i=0;i<nbResult;i++){
+
+            QSqlRecord rec = queryModel.record(i);
+            documentNotValidateModel->setItem(i, 0, new QStandardItem(rec.value("idDocument").toString()));
+            documentNotValidateModel->setItem(i, 1, new QStandardItem(rec.value("name").toString()));
+            documentNotValidateModel->setItem(i, 2, new QStandardItem(rec.value("totalPrice").toString()));
+
+            QDate date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
+            documentNotValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
+
+            int docType=rec.value("type").toInt();
+            QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+            documentNotValidateModel->setItem(i, 4, new QStandardItem(type));
+
+            int paymentType=rec.value("payment").toInt();
+            QString payment="";
+            if(paymentType==Document::Cheque)
+                payment=tr("Cheque");
+            else if(paymentType==Document::Virement)
+                payment=tr("Virement");
+            else
+                payment=tr("Espece");
+
+            documentNotValidateModel->setItem(i, 5, new QStandardItem(payment));
+
+        }
+        documentNotValidateView->resizeColumnsToContents();
+    }
+
+    query.finish();
+    base.commit();
 }
 
+/**
+ * Methode permettant de lancer l'edition d'un document
+ */
 void SearchWindow::editDocument(){
     QItemSelectionModel *select = documentNotValidateView->selectionModel();
     if(select->hasSelection()){
@@ -560,10 +664,46 @@ void SearchWindow::editDocument(){
 
 }
 
+/**
+ * Methode permettant de valider un document
+ */
 void SearchWindow::valideDocument(){
+    QItemSelectionModel *select = documentNotValidateView->selectionModel();
+    if(select->hasSelection()){
+        int ret = QMessageBox::question(this,tr("Valider le document ?"),tr("La validation d'un document empeche toutes modification ultérieure.<br/>Voulez-vous vraiment valider le document?"),QMessageBox::Yes | QMessageBox::No);
+
+        if (ret == QMessageBox::Yes){
+            QModelIndexList rows=select->selectedRows(0);
+            QModelIndex row=rows.at(0);
+
+            int idDoc=row.data(0).toInt();
+            Document d(idDoc);
+            ValidDocument vd(d);
+            d.save();
+            documentNotValidateModel->removeRow(row.row());
+        }
+    }
+    else
+        QMessageBox::information(this, tr("Validation impossible"), tr("Validation impossible, aucun document sélectionné"));
+
 
 }
 
+/**
+ * Methode permettant de supprimer un document selectionner
+ */
 void SearchWindow::deleteDocument(){
+    QItemSelectionModel *select = documentNotValidateView->selectionModel();
+    if(select->hasSelection()){
+        QModelIndexList rows=select->selectedRows(0);
+        QModelIndex row=rows.at(0);
 
+        int idDoc=row.data(0).toInt();
+        Document d(idDoc);
+        d.remove();
+
+        documentNotValidateModel->removeRow(row.row());
+    }
+    else
+        QMessageBox::information(this, tr("Suppression impossible"), tr("Suppression impossible, aucun document sélectionné"));
 }

@@ -173,6 +173,9 @@ bool Document::addProduct(int idProduct,int quantity,QString reduction){
     return (save() && addProd);
 }
 
+QDate Document::getDate(){
+    return date;
+}
 
 QString Document::getDateInString(){
     return date.toString("dd/MM/yyyy");
