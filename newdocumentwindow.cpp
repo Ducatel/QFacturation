@@ -387,11 +387,15 @@ void NewDocumentWindow::save(bool redirect){
  * (redirige vers la page de recherche)
  */
 void NewDocumentWindow::validate(){
-    save(false);
-    Document d(idDocument);
-    ValidDocument vd(d);
-    vd.save();
-    QStatusBar *statBar = parent->statusBar();
-    statBar->showMessage(tr("Informations du document sauvegardé et valider"), 4000);
-    parent->setCentralWidget(new SearchWindow(parent));
+    int ret = QMessageBox::question(this,tr("Valider le document ?"),tr("La validation d'un document empeche toutes modification ultérieure.<br/>Voulez-vous vraiment valider le document?"),QMessageBox::Yes | QMessageBox::No);
+
+    if (ret == QMessageBox::Yes){
+        save(false);
+        Document d(idDocument);
+        ValidDocument vd(d);
+        vd.save();
+        QStatusBar *statBar = parent->statusBar();
+        statBar->showMessage(tr("Informations du document sauvegardé et valider"), 4000);
+        parent->setCentralWidget(new SearchWindow(parent));
+    }
 }

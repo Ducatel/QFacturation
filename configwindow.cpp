@@ -152,7 +152,7 @@ bool ConfigWindow::createDocumentTemplate(){
         flux<<"<table>"<<endl;
         flux<<" <tr><th>"<<tr("Nom")<<"</th><th>"<<tr("Quantité")<<"</th><th>"<<tr("Prix unitaire")<<"</th><th>"<<tr("Prix de base")<<"</th><th>"<<tr("Remise")<<"</th><th>"<<tr("Prix finale")<<"</th></tr>"<<endl;
         flux<<"{product}"<<endl;
-        flux<<"<tr><td colspan='6' id='totalPrice'>"<<tr("Total TTC")<<" {totalPrice}</td></tr>"<<endl;
+        flux<<"<tr><td colspan='6' id='totalPrice'>"<<tr("Total TTC")<<": {totalPrice}</td></tr>"<<endl;
         flux<<"</table>"<<endl;
         flux<<"<div id='endPage'>{compagnyName}, SIRET: {siret}, Code APE: {ape}, "<<tr("Téléphone: ")<<" {phone}<br/>"<<tr("Email: ")<<" {email}, "<<tr("Site internet: ")<<" {site}</div>"<<endl;
         flux<<"</body></html>"<<endl;

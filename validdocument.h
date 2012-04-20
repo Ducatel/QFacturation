@@ -41,9 +41,12 @@ class ValidDocument
 {
     public:
         ValidDocument(Document d);
+        ValidDocument(int identifiant);
+
         bool save();
         int getId();
         void print();
+        bool transform(Document::PaymentEnum typePayment);
 
         QDate date;
         double price;
@@ -61,6 +64,8 @@ class ValidDocument
         QString initCompagnyInfo(QString string);
         QString initCustomerInfo(QString string);
         QString initProductInfo(QString string);
+        bool createEntry();
+        bool updateEntry();
 
 };
 

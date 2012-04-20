@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     newproductwindow.cpp \
     searchwindow.cpp \
     newdocumentwindow.cpp \
-    validdocument.cpp
+    validdocument.cpp \
+    paymenttypewindow.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
@@ -39,4 +40,5 @@ HEADERS  += mainwindow.h \
     newproductwindow.h \
     searchwindow.h \
     newdocumentwindow.h \
-    validdocument.h
+    validdocument.h \
+    paymenttypewindow.h

@@ -24,6 +24,7 @@
 #include "newdocumentwindow.h"
 #include "newproductwindow.h"
 #include "validdocument.h"
+#include "paymenttypewindow.h"
 
 /**
  * Class qui gere l'interface de recherche
@@ -56,7 +57,6 @@ class SearchWindow : public QWidget
         QPushButton *editButtonDocumentNotValidate;
         QPushButton *validateDocumentButton;
         QPushButton *deleteButtonDocumentNotValidate;
-
         QLineEdit *lineSearchDocumentNotValidate;
         QComboBox *typeSearchDocumentNotValidate;
         QComboBox *typeDocumentNotValidate;
@@ -64,6 +64,15 @@ class SearchWindow : public QWidget
         QStandardItemModel *documentNotValidateModel;
         QTableView *documentNotValidateView;
 
+        QLineEdit *lineSearchDocumentValidate;
+        QComboBox *typeSearchDocumentValidate;
+        QComboBox *typeDocumentValidate;
+        QComboBox *paymentDocumentValidate;
+        QStandardItemModel *documentValidateModel;
+        QTableView *documentValidateView;
+        QPushButton *searchButtonDocumentValidate;
+        QPushButton *printButtonDocumentValidate;
+        QPushButton *transformDocumentButton;
 
 
 
@@ -71,6 +80,8 @@ class SearchWindow : public QWidget
         void loadCustomer();
         void loadProduct();
         void loadDocumentNotValidate();
+        void loadDocumentValidate();
+
         QGroupBox* createCustomerSearchInterface();
         QGroupBox* createProductSearchInterface();
         QGroupBox* createNotValidateDocumentSearchInterface();
@@ -88,6 +99,10 @@ class SearchWindow : public QWidget
         void editDocument();
         void valideDocument();
         void deleteDocument();
+        void showDocumentValideResult();
+        void printDocument();
+        void transformDocument();
+        void endTransformDocument(Document::PaymentEnum choice);
 
 };
 

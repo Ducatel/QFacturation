@@ -42,9 +42,8 @@ int main(int argc, char *argv[])
     base.setDatabaseName(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db"));
     base.open();
 
-    qDebug("Ajouter la recherche de document valider");
-    qDebug("Ajouter un bouton pour transformer un devis valider en facture valider");
     qDebug("Gerer l'impression du document");
+    qDebug("Envoyé un signal lors de la mise un jour d'un produit pour remmetre a jour les documents si besoin");
     qDebug("Voir si on affiche un editeur de template");
 
     ConfigWindow confWin(0);

@@ -24,10 +24,64 @@ ValidDocument::ValidDocument(Document d){
     idDocument=d.getId();
     id=-1;
     view=makeView();
-    qDebug(view);
 }
 
+ValidDocument::ValidDocument(int identifiant){
+    QSqlDatabase base = QSqlDatabase::database();
+
+    QSqlQuery query;
+    query.prepare("SELECT * FROM DocumentValide where id=:id");
+    query.bindValue(":id",identifiant);
+    query.exec();
+    query.next();
+
+    QSqlRecord rec = query.record();
+
+    idCustomer=rec.value("idCustomer").toInt();
+    price=rec.value("price").toDouble();
+    view=rec.value("view").toString();
+
+    docType=(rec.value("type").toInt()==Document::Devis)?Document::Devis:Document::Facture;
+
+    int tmpPayment=rec.value("payment").toInt();
+    if(tmpPayment==Document::Cheque)
+        payment=Document::Cheque;
+    else if(tmpPayment==Document::Virement)
+        payment=Document::Virement;
+    else
+        payment=Document::Especes;
+
+    date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
+    this->id=identifiant;
+
+    idDocument=-1;
+
+    query.finish();
+    base.commit();
+
+}
+
+/**
+ * Methode qui sauvegarde un document valider dans la base de données
+ * @return true si l'enregistrement n'a pas poser de probleme, false sinon
+ */
 bool ValidDocument::save(){
+    QSqlDatabase base = QSqlDatabase::database();
+    bool retour=false;
+
+    if(id==-1){
+        retour=createEntry();
+    }
+    else{
+        retour=updateEntry();
+    }
+
+    base.commit();
+    return retour;
+}
+
+
+bool ValidDocument::createEntry(){
     QSqlDatabase base = QSqlDatabase::database();
     bool retour=false;
 
@@ -48,9 +102,31 @@ bool ValidDocument::save(){
     query.finish();
     base.commit();
 
+
     Document d(idDocument);
     d.remove();
 
+
+    return retour;
+
+}
+
+/**
+ * Methode qui permet de mettre a jour un document dans la BDD
+ * @return true si l'enregistrement n'a pas poser de probleme, false sinon
+ */
+bool ValidDocument::updateEntry(){
+    QSqlQuery query;
+
+    query.prepare("UPDATE DocumentValide SET type=:type, payment=:payment, date=:date , view=:view WHERE id=:id ");
+    query.bindValue(":type",docType);
+    query.bindValue(":payment",payment);
+    query.bindValue(":view",view);
+    query.bindValue(":id",this->id);
+    query.bindValue(":date",QDate::currentDate().toString("yyyy-MM-dd"));
+
+    bool retour=query.exec();
+    query.finish();
     return retour;
 
 }
@@ -175,12 +251,17 @@ QString ValidDocument::initDocumentInfo(QString string){
     QString type=(d.docType==Document::Facture)?QObject::tr("Facture"):QObject::tr("Devis");
     string.replace("{documentType}",type);
 
-    if(d.payment==Document::Cheque)
-        string.replace("{payment}",QObject::tr("Cheque"));
-    else if(d.payment==Document::Virement)
-        string.replace("{payment}",QObject::tr("Virement"));
-    else
-        string.replace("{payment}",QObject::tr("Espece"));
+    if(d.docType==Document::Facture){
+        if(d.payment==Document::Cheque)
+            string.replace("{payment}",QObject::tr("Cheque"));
+        else if(d.payment==Document::Virement)
+            string.replace("{payment}",QObject::tr("Virement"));
+        else
+            string.replace("{payment}",QObject::tr("Espece"));
+    }
+    else{
+        string.replace("{payment}",QObject::tr("Non précisé"));
+    }
 
     return string;
 }
@@ -226,4 +307,28 @@ QString ValidDocument::initProductInfo(QString string){
     string.replace("{totalPrice}",totalPrice);
 
     return string;
+}
+
+/**
+ * Methode permettant de transformer un devis en facture
+ * @param typePayment moyen de paiement a mettre sur la facture
+ * @return true si la transformation a ete effectué, false sinon
+ */
+bool ValidDocument::transform(Document::PaymentEnum typePayment){
+    if(docType==Document::Facture)
+        return false;
+
+    payment=typePayment;
+    if(payment==Document::Cheque)
+        view.replace(QObject::tr("Non précisé"),QObject::tr("Cheque"));
+    else if(payment==Document::Virement)
+        view.replace(QObject::tr("Non précisé"),QObject::tr("Virement"));
+    else
+        view.replace(QObject::tr("Non précisé"),QObject::tr("Espece"));
+
+    docType=Document::Facture;
+    view.replace(QObject::tr("Devis"),QObject::tr("Facture"));
+
+    return save();
+
 }

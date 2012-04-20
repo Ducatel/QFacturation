@@ -22,30 +22,37 @@
 SearchWindow::SearchWindow(QMainWindow *parent) :QWidget(parent){
     this->parent=parent;
 
-    QVBoxLayout *layoutPrinc=new QVBoxLayout;
+    QHBoxLayout *layoutPrinc=new QHBoxLayout;
+    QVBoxLayout *subLayout1=new QVBoxLayout;
+    QVBoxLayout *subLayout2=new QVBoxLayout;
 
     /** ******************************* **/
     /**     Partie Recherche Client     **/
     /** ******************************* **/
 
-    layoutPrinc->addWidget(createCustomerSearchInterface());
+    subLayout1->addWidget(createCustomerSearchInterface());
 
     /** ******************************* **/
     /**    Partie Recherche Produit     **/
     /** ******************************* **/
 
-    layoutPrinc->addWidget(createProductSearchInterface());
+    subLayout1->addWidget(createProductSearchInterface());
 
     /** ***************************************** **/
     /**   Partie Recherche document non valider   **/
     /** ***************************************** **/
 
-    layoutPrinc->addWidget(createNotValidateDocumentSearchInterface());
+    subLayout2->addWidget(createNotValidateDocumentSearchInterface());
 
     /** ***************************************** **/
     /**     Partie Recherche document valider     **/
     /** ***************************************** **/
 
+    subLayout2->addWidget(createValidateDocumentSearchInterface());
+
+
+    layoutPrinc->addLayout(subLayout1);
+    layoutPrinc->addLayout(subLayout2);
 
     setLayout(layoutPrinc);
 
@@ -288,6 +295,96 @@ QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
     return groupDoc;
 }
 
+
+/**
+ * Methode permettant de construire la partie interface
+ * de recherche d'un document validé
+ * @return le QGroupBox contenant l'interface
+ */
+QGroupBox* SearchWindow::createValidateDocumentSearchInterface(){
+
+    QVBoxLayout *layoutDoc= new QVBoxLayout;
+    QGroupBox *groupDoc = new QGroupBox(tr("Rechercher un document validé"), this);
+    QFormLayout *layoutFormDoc=new QFormLayout;
+
+    typeSearchDocumentValidate=new QComboBox(this);
+    typeSearchDocumentValidate->addItem(tr("Nom de client"));
+    typeSearchDocumentValidate->addItem(tr("Date"));
+    typeSearchDocumentValidate->addItem(tr("Prix"));
+
+    layoutFormDoc->addRow(tr("Rechercher par: "),typeSearchDocumentValidate);
+
+    typeDocumentValidate=new QComboBox(this);
+    typeDocumentValidate->addItem(tr("Tout"));
+    typeDocumentValidate->addItem(tr("Facture"));
+    typeDocumentValidate->addItem(tr("Devis"));
+
+    layoutFormDoc->addRow(tr("Type de document: "),typeDocumentValidate);
+
+    paymentDocumentValidate=new QComboBox(this);
+    paymentDocumentValidate->addItem(tr("Tout"));
+    paymentDocumentValidate->addItem(tr("Cheque"));
+    paymentDocumentValidate->addItem(tr("Virement"));
+    paymentDocumentValidate->addItem(tr("Espece"));
+
+    layoutFormDoc->addRow(tr("Moyen de paiement: "),paymentDocumentValidate);
+
+
+    lineSearchDocumentValidate=new QLineEdit(this);
+    layoutFormDoc->addRow(tr("Mots clés: "),lineSearchDocumentValidate);
+
+    QHBoxLayout *layoutButtonDoc=new QHBoxLayout;
+
+    searchButtonDocumentValidate=new QPushButton(tr("Rechercher"),this);
+    layoutButtonDoc->addWidget(searchButtonDocumentValidate);
+
+    printButtonDocumentValidate=new QPushButton(tr("Imprimmer le document sélectionné"),this);
+    layoutButtonDoc->addWidget(printButtonDocumentValidate);
+
+    transformDocumentButton=new QPushButton(tr("Transformer un devis en facture"),this);
+    layoutButtonDoc->addWidget(transformDocumentButton);
+
+    layoutFormDoc->addRow(tr("Action: "),layoutButtonDoc);
+
+    layoutDoc->addLayout(layoutFormDoc);
+
+    /***********************************************************/
+
+    QHBoxLayout *layoutTabDoc= new QHBoxLayout;
+    documentValidateModel = new QStandardItemModel(0, 6);
+    documentValidateModel->setHeaderData(0,Qt::Horizontal,"id");
+    documentValidateModel->setHeaderData(1,Qt::Horizontal,tr("Nom du client"));
+    documentValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix"));
+    documentValidateModel->setHeaderData(3,Qt::Horizontal,tr("Date"));
+    documentValidateModel->setHeaderData(4,Qt::Horizontal,tr("Type de document"));
+    documentValidateModel->setHeaderData(5,Qt::Horizontal,tr("Moyen de paiement"));
+
+    documentValidateView = new QTableView(this);
+    documentValidateView->verticalHeader()->hide();
+    documentValidateView->setModel(documentValidateModel);
+    documentValidateView->setSelectionMode(QAbstractItemView::SingleSelection);
+    documentValidateView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    documentValidateView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    loadDocumentValidate();
+
+    layoutTabDoc->addWidget(documentValidateView);
+    layoutDoc->addLayout(layoutTabDoc);
+
+    groupDoc->setLayout(layoutDoc);
+
+    /** ******************************* **/
+    /**             Slots               **/
+    /** ******************************* **/
+
+    connect(searchButtonDocumentValidate, SIGNAL(clicked()), this, SLOT(showDocumentValideResult()));
+    connect(printButtonDocumentValidate, SIGNAL(clicked()), this, SLOT(printDocument()));
+    connect(transformDocumentButton, SIGNAL(clicked()), this, SLOT(transformDocument()));
+
+    return groupDoc;
+
+}
+
 /**
  * Methode permettant de charger la liste complete des cliens
  * trier par nom
@@ -389,6 +486,52 @@ void SearchWindow::loadDocumentNotValidate(){
         i++;
     }
     documentNotValidateView->resizeColumnsToContents();
+
+    query.finish();
+    base.commit();
+}
+
+/**
+ * Methode permettant de charger la liste complete des documents valider
+ * trier par nom
+ */
+void SearchWindow::loadDocumentValidate(){
+    QSqlDatabase base = QSqlDatabase::database();
+    QSqlQuery query;
+    query.exec("SELECT D.*, C.name FROM DocumentValide D, customer C WHERE D.idCustomer=C.idCustomer ORDER BY date");
+
+    while(documentValidateModel->rowCount()>0)
+        documentValidateModel->removeRow(0);
+
+
+    int i=0;
+    while(query.next()){
+        QSqlRecord rec = query.record();
+
+        documentValidateModel->setItem(i, 0, new QStandardItem(rec.value("id").toString()));
+        documentValidateModel->setItem(i, 1, new QStandardItem(rec.value("name").toString()));
+        documentValidateModel->setItem(i, 2, new QStandardItem(rec.value("price").toString()));
+
+        QDate date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
+        documentValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
+
+        int docType=rec.value("type").toInt();
+        QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+        documentValidateModel->setItem(i, 4, new QStandardItem(type));
+
+        int paymentType=rec.value("payment").toInt();
+        QString payment="";
+        if(paymentType==Document::Cheque)
+            payment=tr("Cheque");
+        else if(paymentType==Document::Virement)
+            payment=tr("Virement");
+        else
+            payment=tr("Espece");
+
+        documentValidateModel->setItem(i, 5, new QStandardItem(payment));
+        i++;
+    }
+    documentValidateView->resizeColumnsToContents();
 
     query.finish();
     base.commit();
@@ -604,9 +747,7 @@ void SearchWindow::showDocumentNotValideResult(){
     query.exec();
     queryModel.setQuery(query);
 
-    qDebug(query.lastQuery());
     int nbResult=queryModel.rowCount();
-    qDebug(nbResult);
     if(nbResult==0){
         QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retourné aucun resultat."));
     }
@@ -681,6 +822,10 @@ void SearchWindow::valideDocument(){
             ValidDocument vd(d);
             vd.save();
             documentNotValidateModel->removeRow(row.row());
+            loadDocumentValidate();
+
+            QStatusBar *statBar = parent->statusBar();
+            statBar->showMessage(tr("Document validé"), 4000);
         }
     }
     else
@@ -703,7 +848,163 @@ void SearchWindow::deleteDocument(){
         d.remove();
 
         documentNotValidateModel->removeRow(row.row());
+        QStatusBar *statBar = parent->statusBar();
+        statBar->showMessage(tr("Document supprimé"), 4000);
     }
     else
         QMessageBox::information(this, tr("Suppression impossible"), tr("Suppression impossible, aucun document sélectionné"));
+}
+
+/**
+ * Methode qui effectue la recherche en fonction des infos de l'interface
+ * et qui affiche les resultats dans la table
+ */
+void SearchWindow::showDocumentValideResult(){
+    QSqlDatabase base = QSqlDatabase::database();
+    QSqlQueryModel queryModel;
+    QSqlQuery query;
+    QString paramValue = lineSearchDocumentValidate->text();
+
+    QString typeSearch="";
+    if(typeSearchDocumentValidate->currentIndex()==0){
+        //ici on recherche par nom de client
+        paramValue.prepend("%");
+        paramValue.append("%");
+        typeSearch=" C.name LIKE :paramValue ";
+    }
+    else if(typeSearchDocumentValidate->currentIndex()==1){
+        // ici on recherche par date
+        paramValue=QDate::fromString(paramValue,"dd-MM-yyyy").toString("yyyy-MM-dd");
+        typeSearch=" D.date=:paramValue ";
+    }
+    else{
+        // ici on recherche par prix
+        typeSearch=" D.price=:paramValue ";
+    }
+
+    QString typeDoc="";
+    bool usePaymentInfo=true;// si il s'agit d'un devis on utilisera pas le mode de paiement
+    if(typeDocumentValidate->currentIndex()==1){
+        //ici une facture
+        typeDoc=" AND D.type="+QVariant(Document::Facture).toString();
+    }
+    else if(typeDocumentValidate->currentIndex()==2){
+        //ici un devis
+        typeDoc=" AND D.type="+QVariant(Document::Devis).toString();
+        usePaymentInfo=false;
+    }
+
+    QString typePayment="";
+    if(usePaymentInfo){
+        if(paymentDocumentValidate->currentIndex()==1){
+            //ici un cheque
+            typePayment=" AND D.payment="+QVariant(Document::Cheque).toString();
+        }
+        else if(paymentDocumentValidate->currentIndex()==2){
+            //ici un virement
+            typePayment=" AND D.payment="+QVariant(Document::Virement).toString();
+        }
+        else if(paymentDocumentValidate->currentIndex()==3){
+            //ici en espece
+            typePayment=" AND D.payment="+QVariant(Document::Especes).toString();
+        }
+    }
+
+    QString requete="SELECT D.*, C.name FROM DocumentValide D, customer C WHERE C.idCustomer=D.idCustomer AND "+typeSearch+typeDoc+typePayment;
+    query.prepare(requete);
+    query.bindValue(":paramValue",paramValue);
+    query.exec();
+    queryModel.setQuery(query);
+
+    int nbResult=queryModel.rowCount();
+    if(nbResult==0){
+        QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retourné aucun resultat."));
+    }
+    else{
+        // ici on affiche les resultat;
+
+        while(documentValidateModel->rowCount()>0)
+            documentValidateModel->removeRow(0);
+
+        for (int i=0;i<nbResult;i++){
+
+            QSqlRecord rec = queryModel.record(i);
+            documentValidateModel->setItem(i, 0, new QStandardItem(rec.value("id").toString()));
+            documentValidateModel->setItem(i, 1, new QStandardItem(rec.value("name").toString()));
+            documentValidateModel->setItem(i, 2, new QStandardItem(rec.value("price").toString()));
+
+            QDate date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
+            documentValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
+
+            int docType=rec.value("type").toInt();
+            QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+            documentValidateModel->setItem(i, 4, new QStandardItem(type));
+
+            int paymentType=rec.value("payment").toInt();
+            QString payment="";
+            if(paymentType==Document::Cheque)
+                payment=tr("Cheque");
+            else if(paymentType==Document::Virement)
+                payment=tr("Virement");
+            else
+                payment=tr("Espece");
+
+            documentValidateModel->setItem(i, 5, new QStandardItem(payment));
+
+        }
+        documentValidateView->resizeColumnsToContents();
+    }
+
+    query.finish();
+    base.commit();
+}
+
+/**
+ * Methode permettant d'imprimmer un document valider
+ */
+void SearchWindow::printDocument(){
+    qDebug("a implementer");
+}
+
+/**
+ * Methode permettant de transformer un devis en facture (valider)
+ */
+void SearchWindow::transformDocument(){
+    QItemSelectionModel *select = documentValidateView->selectionModel();
+    if(select->hasSelection()){
+        QModelIndexList rows=select->selectedRows(0);
+        QModelIndex row=rows.at(0);
+
+        int idDoc=row.data(0).toInt();
+        ValidDocument vd(idDoc);
+        if(vd.docType==Document::Facture){
+            QMessageBox::information(this, tr("Transformation impossible"), tr("Transformation impossible, vous avez sélectionné une facture"));
+            return;
+        }
+        else{
+            // afficher une boite de dialogue demandant le type de reglement
+            PaymentTypeWindow *ptw=new PaymentTypeWindow(this);
+            ptw->show();
+            connect(ptw,SIGNAL(choixEffectuer(Document::PaymentEnum)),this,SLOT(endTransformDocument(Document::PaymentEnum)));
+        }
+    }
+    else
+        QMessageBox::information(this, tr("Transformation impossible"), tr("Transformation impossible, aucun devis sélectionné"));
+
+}
+
+/**
+ * Slot qui est appeler lorsque l'utilisateur a choisie le moyen de paiement pour
+ * la transformation du devis en facture
+ */
+void SearchWindow::endTransformDocument(Document::PaymentEnum choice){
+    QItemSelectionModel *select = documentValidateView->selectionModel();
+    QModelIndexList rows=select->selectedRows(0);
+    QModelIndex row=rows.at(0);
+    int idDoc=row.data(0).toInt();
+    ValidDocument vd(idDoc);
+    vd.transform(choice);
+    loadDocumentValidate();
+    QStatusBar *statBar = parent->statusBar();
+    statBar->showMessage(tr("Devis tranformé en facture"), 4000);
 }
