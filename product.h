@@ -22,7 +22,7 @@
 
 #define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
 
-
+#include "document.h"
 /**
  * Class qui permet de gerer un produit
  * @author David Ducatel
@@ -40,6 +40,7 @@ class Product
 
         int getId();
         bool save();
+        void updateDocumentPrice();
     private:
         int id;
         bool updateEntry();

@@ -132,3 +132,27 @@ QList<Product> Product::getAllProduct(){
     base.commit();
     return list;
 }
+
+/**
+ * Methode qui met a jour le prix total des documents qui utilise
+ * le produit courant
+ */
+void Product::updateDocumentPrice(){
+    QSqlDatabase base = QSqlDatabase::database();
+    QSqlQuery query;
+
+    query.prepare("SELECT idDocument FROM product_document WHERE idProduct=:idProd GROUP BY idDocument");
+    query.bindValue(":idProd",this->id);
+    query.exec();
+
+    while(query.next()){
+        QSqlRecord rec = query.record();
+        int idDoc=rec.value("idDocument").toInt();
+
+        Document d(idDoc);
+        d.save();
+    }
+
+    query.finish();
+    base.commit();
+}

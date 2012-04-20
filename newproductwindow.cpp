@@ -107,6 +107,7 @@ void NewProductWindow::validateProduct(){
         p.description=description->text();
         p.price=price->value();
         p.save();
+        p.updateDocumentPrice();
     }
 
     QStatusBar *statBar = parent->statusBar();
