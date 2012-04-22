@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
     base.open();
 
     qDebug("Gerer l'impression du document");
-    qDebug("Voir si on affiche un editeur de template");
 
     ConfigWindow confWin(0);
     if(!configExist()){

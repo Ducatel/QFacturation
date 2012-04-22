@@ -15,7 +15,10 @@
 
 #ifndef VALIDDOCUMENT_H
 #define VALIDDOCUMENT_H
-#include <QtSql>
+
+#include <QSqlRecord>
+#include <QSqlDatabase>
+#include <QSqlQuery>
 #include <QDate>
 #include <QString>
 #include <QFile>
@@ -25,6 +28,10 @@
 #include <QDomElement>
 #include <QList>
 #include <QVariant>
+#include <QWebView>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QTextDocument>
 
 #include "document.h"
 #include "customer.h"

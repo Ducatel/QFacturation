@@ -135,8 +135,43 @@ int ValidDocument::getId(){
     return this->id;
 }
 
+/**
+ * Methode permettant d'imprimer un document
+ */
 void ValidDocument::print(){
+    qDebug("a implementer");
+    qDebug(view);
 
+    QWebView webView;
+    QPrinter printer ;
+
+    printer.setPageSize(QPrinter::A4);
+    printer.setFullPage(true);
+    QString type=(docType==Document::Facture)?QObject::tr("Facture"):QObject::tr("Devis");
+    printer.setDocName(type+"_"+id );
+    printer.setCreator(QObject::tr("QFacturation"));
+    printer.setOutputFormat(QPrinter::NativeFormat);
+
+    webView.setHtml(view);
+    webView.show();
+    QPrintDialog printDialog(&printer);
+    if(printDialog.exec() == QDialog::Accepted) {
+        //webView.print(&printer);
+        QTextDocument TextDocument;
+        TextDocument.setHtml(view);
+        TextDocument.print(&printer);
+    }
+
+
+/*
+       QPrintDialog PrintDialog(&printer);
+       if (PrintDialog.exec())
+       {
+           printer.setFullPage(true);
+           QTextDocument TextDocument;
+           TextDocument.setHtml(view);
+           TextDocument.print(&printer);
+       }*/
 }
 
 /**

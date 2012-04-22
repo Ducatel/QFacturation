@@ -71,7 +71,7 @@ class NewDocumentWindow : public QWidget
         void turnOnOffDocumentType(int currentIndex);
         void addProduct();
         void removeProduct();
-        void save(bool redirect=true);
+        void save();
         void validate();
 
 };

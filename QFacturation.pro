@@ -7,6 +7,7 @@
 QT       += core gui
 QT       += xml
 QT       += sql
+QT       +=webkit
 
 TARGET = QFacturation
 TEMPLATE = app
@@ -42,3 +43,5 @@ HEADERS  += mainwindow.h \
     newdocumentwindow.h \
     validdocument.h \
     paymenttypewindow.h
+
+TRANSLATIONS = qfacturation_en.ts

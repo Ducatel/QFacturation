@@ -339,9 +339,8 @@ void NewDocumentWindow::removeProduct(){
 
 /**
  * Methode permettant de sauvegarder le document
- * @param redirect permet de determiné si on redirige a la fin
  */
-void NewDocumentWindow::save(bool redirect){
+void NewDocumentWindow::save(){
     Document d;
     if(idDocument==-1)
         d=Document();
@@ -390,7 +389,7 @@ void NewDocumentWindow::validate(){
     int ret = QMessageBox::question(this,tr("Valider le document ?"),tr("La validation d'un document empeche toutes modification ultérieure.<br/>Voulez-vous vraiment valider le document?"),QMessageBox::Yes | QMessageBox::No);
 
     if (ret == QMessageBox::Yes){
-        save(false);
+        save();
         Document d(idDocument);
         ValidDocument vd(d);
         vd.save();

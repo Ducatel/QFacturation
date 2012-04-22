@@ -338,7 +338,7 @@ QGroupBox* SearchWindow::createValidateDocumentSearchInterface(){
     searchButtonDocumentValidate=new QPushButton(tr("Rechercher"),this);
     layoutButtonDoc->addWidget(searchButtonDocumentValidate);
 
-    printButtonDocumentValidate=new QPushButton(tr("Imprimmer le document sélectionné"),this);
+    printButtonDocumentValidate=new QPushButton(tr("Imprimer le document sélectionné"),this);
     layoutButtonDoc->addWidget(printButtonDocumentValidate);
 
     transformDocumentButton=new QPushButton(tr("Transformer un devis en facture"),this);
@@ -960,10 +960,23 @@ void SearchWindow::showDocumentValideResult(){
 }
 
 /**
- * Methode permettant d'imprimmer un document valider
+ * Methode permettant d'imprimer un document valider
  */
 void SearchWindow::printDocument(){
-    qDebug("a implementer");
+    QItemSelectionModel *select = documentValidateView->selectionModel();
+    if(select->hasSelection()){
+        QModelIndexList rows=select->selectedRows(0);
+        QModelIndex row=rows.at(0);
+        int idDoc=row.data(0).toInt();
+
+        ValidDocument vd(idDoc);
+        vd.print();
+        QStatusBar *statBar = parent->statusBar();
+        statBar->showMessage(tr("Document en cour d'impression"), 4000);
+    }
+    else
+        QMessageBox::information(this, tr("Impression impossible"), tr("Impression impossible, aucun document sélectionné"));
+
 }
 
 /**

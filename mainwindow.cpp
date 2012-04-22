@@ -97,6 +97,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(editConfAction, SIGNAL(triggered()), this, SLOT(editConfFile()));    
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(showAboutWindow()));
     connect(searchAction, SIGNAL(triggered()), this, SLOT(search()));
+
+    setCentralWidget(new NewDocumentWindow(this));
 }
 
 
