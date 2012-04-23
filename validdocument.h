@@ -62,6 +62,7 @@ class ValidDocument
         QString view;
         int idCustomer;
         int idDocument;
+        double tva;
 
     private:
         int id;

@@ -51,6 +51,8 @@ void NewDocumentWindow::initByBDD(){
     else
         reglementMode->setCurrentIndex(2);
 
+    documentTva->setValue(d.tva);
+
     QList<ProductDocument> list=ProductDocument::getAllByIdDocument(idDocument);
     for(int i=0;i<list.size();i++){
         ProductDocument prodDoc=list.at(i);
@@ -156,6 +158,11 @@ QGroupBox* NewDocumentWindow::createBasicInfoInterface(){
     reglementMode->addItem(tr("Espece"));
     reglementMode->addItem(tr("Virement"));
     layoutFormBase->addRow(tr("Mode de paiement: "),reglementMode);
+
+    documentTva=new QDoubleSpinBox(this);
+    documentTva->setMinimum(0.0);
+    documentTva->setMaximum(100.0);
+    layoutFormBase->addRow(tr("TVA du document: "),documentTva);
 
 
     groupBase->setLayout(layoutFormBase);
@@ -360,6 +367,8 @@ void NewDocumentWindow::save(){
         d.docType=Document::Facture;
     else
          d.docType=Document::Devis;
+
+    d.tva=documentTva->value();
 
     d.save();
     idDocument=d.getId();

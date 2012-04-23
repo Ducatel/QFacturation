@@ -48,6 +48,8 @@ class NewDocumentWindow : public QWidget
         QComboBox *productName;
         QSpinBox *productQuantity;
         QDoubleSpinBox *productReduction;
+        QDoubleSpinBox *documentTva;
+
         QRadioButton *percentage;
         QRadioButton *fixedValue;
         QPushButton *buttonAddProduct;

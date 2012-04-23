@@ -38,14 +38,16 @@ class ConfigWindow : public QDialog{
         QLineEdit *description;
         QLineEdit *adress;
         QLineEdit *adress2;
-        QLineEdit *zipCode;
-        QLineEdit *city;
+        QSpinBox *zipCode;
         QLineEdit *country;
         QLineEdit *phone;
         QLineEdit *email;
         QLineEdit *internetSite;
         QLineEdit *siret;
         QLineEdit *ape;
+
+        QLineEdit *city;
+
 
         QPushButton *validate;
         QPushButton *close;

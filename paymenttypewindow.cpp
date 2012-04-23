@@ -41,7 +41,7 @@ PaymentTypeWindow::PaymentTypeWindow(QWidget *parent) :QDialog(parent){
 }
 
 void PaymentTypeWindow::valide(){
-    Document::PaymentEnum type;
+    Document::PaymentEnum type=Document::Cheque;
     if(payment->currentIndex()==0){
         type=Document::Cheque;
     }

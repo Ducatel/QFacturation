@@ -24,6 +24,7 @@ ValidDocument::ValidDocument(Document d){
     idDocument=d.getId();
     id=-1;
     view=makeView();
+    tva=d.tva;
 }
 
 ValidDocument::ValidDocument(int identifiant){
@@ -51,10 +52,12 @@ ValidDocument::ValidDocument(int identifiant){
     else
         payment=Document::Especes;
 
+    tva=rec.value("tva").toDouble();
     date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
     this->id=identifiant;
 
     idDocument=-1;
+
 
     query.finish();
     base.commit();
@@ -86,13 +89,14 @@ bool ValidDocument::createEntry(){
     bool retour=false;
 
     QSqlQuery query;
-    query.prepare("INSERT INTO DocumentValide (idCustomer,price,type,payment,date,view) VALUES (:idCustomer,:price,:type,:payment,:date,:view )");
+    query.prepare("INSERT INTO DocumentValide (idCustomer,price,type,payment,date,view,tva) VALUES (:idCustomer,:price,:type,:payment,:date,:view,:tva )");
     query.bindValue(":idCustomer",idCustomer);
     query.bindValue(":price",price);
     query.bindValue(":type",docType);
     query.bindValue(":payment",payment);
     query.bindValue(":date",date.toString("yyyy-MM-dd"));
     query.bindValue(":view",view);
+    query.bindValue(":tva",tva);
 
     retour=query.exec();
 
@@ -113,6 +117,7 @@ bool ValidDocument::createEntry(){
 
 /**
  * Methode qui permet de mettre a jour un document dans la BDD
+ * appeler pour la transformation devis-> facture
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool ValidDocument::updateEntry(){
@@ -156,22 +161,9 @@ void ValidDocument::print(){
     webView.show();
     QPrintDialog printDialog(&printer);
     if(printDialog.exec() == QDialog::Accepted) {
-        //webView.print(&printer);
-        QTextDocument TextDocument;
-        TextDocument.setHtml(view);
-        TextDocument.print(&printer);
+        webView.print(&printer);
     }
 
-
-/*
-       QPrintDialog PrintDialog(&printer);
-       if (PrintDialog.exec())
-       {
-           printer.setFullPage(true);
-           QTextDocument TextDocument;
-           TextDocument.setHtml(view);
-           TextDocument.print(&printer);
-       }*/
 }
 
 /**
@@ -338,8 +330,17 @@ QString ValidDocument::initProductInfo(QString string){
     string.replace("{product}",productView);
 
     Document d(idDocument);
-    QString totalPrice=QVariant(d.getTotalPrice()).toString()+"&euro;";
-    string.replace("{totalPrice}",totalPrice);
+
+    QString tvaHTML=QVariant(d.tva).toString()+"%";
+    string.replace("{tva}",tvaHTML);
+
+    double priceHT=d.getTotalPrice();
+    QString totalPriceHT=QString::number(priceHT)+"&euro;";
+    string.replace("{totalPriceHT}",totalPriceHT);
+
+    double prixTTC=((priceHT*d.tva)/100.0)+priceHT;
+    QString totalPriceTTC=QString::number(prixTTC)+"&euro;";
+    string.replace("{totalPriceTTC}",totalPriceTTC);
 
     return string;
 }

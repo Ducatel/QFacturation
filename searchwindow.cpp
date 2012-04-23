@@ -146,7 +146,7 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
 
     typeSearchProduct= new QComboBox(this);
     typeSearchProduct->addItem(tr("Nom"));
-    typeSearchProduct->addItem(tr("Prix"));
+    typeSearchProduct->addItem(tr("Prix HT"));
 
     layoutFormProduct->addRow(tr("Rechercher par: "),typeSearchProduct);
 
@@ -173,7 +173,7 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
     productModel = new QStandardItemModel(0, 4);
     productModel->setHeaderData(0,Qt::Horizontal,"id");
     productModel->setHeaderData(1,Qt::Horizontal,tr("Nom"));
-    productModel->setHeaderData(2,Qt::Horizontal,tr("Prix"));
+    productModel->setHeaderData(2,Qt::Horizontal,tr("Prix HT"));
     productModel->setHeaderData(3,Qt::Horizontal,tr("Description"));
 
     productView = new QTableView(this);
@@ -215,7 +215,7 @@ QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
     typeSearchDocumentNotValidate=new QComboBox(this);
     typeSearchDocumentNotValidate->addItem(tr("Nom de client"));
     typeSearchDocumentNotValidate->addItem(tr("Date"));
-    typeSearchDocumentNotValidate->addItem(tr("Prix"));
+    typeSearchDocumentNotValidate->addItem(tr("Prix HT"));
 
     layoutFormDoc->addRow(tr("Rechercher par: "),typeSearchDocumentNotValidate);
 
@@ -259,13 +259,14 @@ QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
     /***********************************************************/
 
     QHBoxLayout *layoutTabDoc= new QHBoxLayout;
-    documentNotValidateModel = new QStandardItemModel(0, 6);
+    documentNotValidateModel = new QStandardItemModel(0, 7);
     documentNotValidateModel->setHeaderData(0,Qt::Horizontal,"id");
     documentNotValidateModel->setHeaderData(1,Qt::Horizontal,tr("Nom du client"));
-    documentNotValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix"));
+    documentNotValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix HT"));
     documentNotValidateModel->setHeaderData(3,Qt::Horizontal,tr("Date"));
     documentNotValidateModel->setHeaderData(4,Qt::Horizontal,tr("Type de document"));
     documentNotValidateModel->setHeaderData(5,Qt::Horizontal,tr("Moyen de paiement"));
+    documentNotValidateModel->setHeaderData(6,Qt::Horizontal,tr("TVA"));
 
     documentNotValidateView = new QTableView(this);
     documentNotValidateView->verticalHeader()->hide();
@@ -310,7 +311,7 @@ QGroupBox* SearchWindow::createValidateDocumentSearchInterface(){
     typeSearchDocumentValidate=new QComboBox(this);
     typeSearchDocumentValidate->addItem(tr("Nom de client"));
     typeSearchDocumentValidate->addItem(tr("Date"));
-    typeSearchDocumentValidate->addItem(tr("Prix"));
+    typeSearchDocumentValidate->addItem(tr("Prix HT"));
 
     layoutFormDoc->addRow(tr("Rechercher par: "),typeSearchDocumentValidate);
 
@@ -351,13 +352,15 @@ QGroupBox* SearchWindow::createValidateDocumentSearchInterface(){
     /***********************************************************/
 
     QHBoxLayout *layoutTabDoc= new QHBoxLayout;
-    documentValidateModel = new QStandardItemModel(0, 6);
+    documentValidateModel = new QStandardItemModel(0, 7);
     documentValidateModel->setHeaderData(0,Qt::Horizontal,"id");
     documentValidateModel->setHeaderData(1,Qt::Horizontal,tr("Nom du client"));
-    documentValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix"));
+    documentValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix HT"));
     documentValidateModel->setHeaderData(3,Qt::Horizontal,tr("Date"));
     documentValidateModel->setHeaderData(4,Qt::Horizontal,tr("Type de document"));
     documentValidateModel->setHeaderData(5,Qt::Horizontal,tr("Moyen de paiement"));
+    documentValidateModel->setHeaderData(6,Qt::Horizontal,tr("TVA"));
+
 
     documentValidateView = new QTableView(this);
     documentValidateView->verticalHeader()->hide();
@@ -483,6 +486,7 @@ void SearchWindow::loadDocumentNotValidate(){
             payment=tr("Espece");
 
         documentNotValidateModel->setItem(i, 5, new QStandardItem(payment));
+        documentNotValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
         i++;
     }
     documentNotValidateView->resizeColumnsToContents();
@@ -529,6 +533,7 @@ void SearchWindow::loadDocumentValidate(){
             payment=tr("Espece");
 
         documentValidateModel->setItem(i, 5, new QStandardItem(payment));
+        documentValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
         i++;
     }
     documentValidateView->resizeColumnsToContents();
@@ -781,6 +786,7 @@ void SearchWindow::showDocumentNotValideResult(){
                 payment=tr("Espece");
 
             documentNotValidateModel->setItem(i, 5, new QStandardItem(payment));
+            documentNotValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
 
         }
         documentNotValidateView->resizeColumnsToContents();
@@ -950,6 +956,7 @@ void SearchWindow::showDocumentValideResult(){
                 payment=tr("Espece");
 
             documentValidateModel->setItem(i, 5, new QStandardItem(payment));
+            documentValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
 
         }
         documentValidateView->resizeColumnsToContents();

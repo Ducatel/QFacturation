@@ -51,7 +51,9 @@ ConfigWindow::ConfigWindow(QMainWindow *parent=0) : QDialog(parent){
     adress2=new QLineEdit();
     layoutFormCompagny->addRow(tr("Complément d'adresse: "),adress2);
 
-    zipCode=new QLineEdit();
+    zipCode=new QSpinBox();
+    zipCode->setMaximum(99999);
+    zipCode->setMinimum(0);
     layoutFormCompagny->addRow(tr("Code Postal: "),zipCode);
 
     city=new QLineEdit();
@@ -141,8 +143,9 @@ bool ConfigWindow::createDocumentTemplate(){
         flux<<"#endPage{text-align:center;}"<<endl;
         flux<<".title{text-weight:bold;text-transform:uppercase;}"<<endl;
         flux<<".stopFloat{clear: both;}"<<endl;
+        flux<<".emptyCell{border:none;}"<<endl;
         flux<<"table{margin:10px auto;border-collapse:collapse;width:95%;}"<<endl;
-        flux<<"table,td,th{border:1px solid black;}"<<endl;
+        flux<<"td,th{border:1px solid black;}"<<endl;
         flux<<"th{background-color:#BCBCBC;}</style></head>"<<endl;
         flux<<"<body>"<<endl;
         flux<<"<div id='compagnyInfo'>{compagnyName}<br/>{description}<br/>{compagnyAdress}<br/>{compagnyAdress2}<br/>{compagnyZipCode} {compagnyCity}<br/>{compagnyCountry}<br/></div>"<<endl;
@@ -152,7 +155,7 @@ bool ConfigWindow::createDocumentTemplate(){
         flux<<"<table>"<<endl;
         flux<<" <tr><th>"<<tr("Nom")<<"</th><th>"<<tr("Quantit&eacute;","les caracteres speciaux sont encoder en HTML")<<"</th><th>"<<tr("Prix unitaire")<<"</th><th>"<<tr("Prix de base")<<"</th><th>"<<tr("Remise")<<"</th><th>"<<tr("Prix finale")<<"</th></tr>"<<endl;
         flux<<"{product}"<<endl;
-        flux<<"<tr><td colspan='6' id='totalPrice'>"<<tr("Total TTC")<<": {totalPrice}</td></tr>"<<endl;
+        flux<<"<tr class='emptyCell'><td colspan='5' class='emptyCell' ></td><td id='totalPrice'>"<<tr("TVA")<<": {tva}<br/>"<<tr("Total HT")<<": {totalPriceHT}<br/>"<<tr("Total TTC")<<": {totalPriceTTC}</td></tr>"<<endl;
         flux<<"</table>"<<endl;
         flux<<"<div id='endPage'>{compagnyName}, SIRET: {siret}, Code APE: {ape}, "<<tr("T&eacute;l&eacute;phone: ","les caracteres speciaux sont encoder en HTML")<<" {phone}<br/>"<<tr("Email: ")<<" {email}, "<<tr("Site internet: ")<<" {site}</div>"<<endl;
         flux<<"</body></html>"<<endl;
@@ -212,6 +215,7 @@ bool ConfigWindow::createDatabase(){
                            totalPrice REAL,\
                            type VARCHAR(255),\
                            payment VARCHAR(45),\
+                           tva INTEGER,\
                            date VARCHAR(45))") ;
 
         if(result.lastError().type()!=QSqlError::NoError){
@@ -238,6 +242,7 @@ bool ConfigWindow::createDatabase(){
                            price REAL,\
                            type INTEGER,\
                            payment INTEGER,\
+                           tva REAL,\
                            view TEXT)") ;
 
         if(result.lastError().type()!=QSqlError::NoError){
@@ -294,7 +299,7 @@ void ConfigWindow::writeXMLConfigFile(){
 
     QDomElement zipCodeElt = doc.createElement("zipCode");
     userElt.appendChild(zipCodeElt);
-    QDomText zipCodeText = doc.createTextNode(zipCode->text());
+    QDomText zipCodeText = doc.createTextNode(QString::number(zipCode->value()));
     zipCodeElt.appendChild(zipCodeText);
 
     QDomElement cityElt = doc.createElement("city");
@@ -375,7 +380,7 @@ void ConfigWindow::initByConfigFile(){
             else if(elt.tagName() == "adress2")
                 adress2->setText(elt.text());
             else if(elt.tagName() == "zipCode")
-                zipCode->setText(elt.text());
+                zipCode->setValue(elt.text().toInt());
             else if(elt.tagName() == "city")
                 city->setText(elt.text());
             else if(elt.tagName() == "country")

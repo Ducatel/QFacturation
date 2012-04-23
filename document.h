@@ -41,6 +41,8 @@ class Document
         bool remove();
         bool save();
         double getTotalPrice();
+        bool addProduct(int idProduct,int quantity,QString reduction);
+
 
         enum DocTypeEnum{
             Facture=0,
@@ -56,7 +58,7 @@ class Document
         int idCustomer;
         DocTypeEnum docType;
         PaymentEnum payment;
-        bool addProduct(int idProduct,int quantity,QString reduction);
+        double tva;
 
 
     private:

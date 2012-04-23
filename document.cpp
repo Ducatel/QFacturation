@@ -21,6 +21,7 @@ Document::Document(){
     date=QDate::currentDate();
     docType=Document::Facture;
     payment=Document::Cheque;
+    tva=0.0;
 }
 
 Document::Document(int identifiant){
@@ -47,6 +48,8 @@ Document::Document(int identifiant){
         payment=Document::Especes;
 
     date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
+
+    tva=rec.value("tva").toDouble();
     this->id=identifiant;
 
     query.finish();
@@ -83,12 +86,13 @@ bool Document::save(){
 bool Document::updateEntry(){
     QSqlQuery query;
 
-    query.prepare("UPDATE document SET idCustomer=:idCustomer, totalPrice=:totalPrice, type=:type, payment=:payment, date=:date WHERE idDocument=:id ");    
+    query.prepare("UPDATE document SET idCustomer=:idCustomer, tva=:tva, totalPrice=:totalPrice, type=:type, payment=:payment, date=:date WHERE idDocument=:id ");
     query.bindValue(":idCustomer",idCustomer);
     query.bindValue(":totalPrice",getTotalPrice());
     query.bindValue(":type",docType);
     query.bindValue(":payment",payment);
     query.bindValue(":date",date.toString("yyyy-MM-dd"));
+    query.bindValue(":tva",tva);
     query.bindValue(":id",this->id);
 
     bool retour=query.exec();
@@ -106,11 +110,12 @@ bool Document::createEntry(){
     QSqlQuery query;
     bool retour=false;
 
-    query.prepare("INSERT INTO document (idCustomer,totalPrice,type,payment,date) VALUES (:idCustomer,:totalPrice,:type,:payment,:date )");
+    query.prepare("INSERT INTO document (idCustomer,totalPrice,type,payment,date,tva) VALUES (:idCustomer,:totalPrice,:type,:payment,:date,:tva )");
     query.bindValue(":idCustomer",idCustomer);
     query.bindValue(":totalPrice",getTotalPrice());
     query.bindValue(":type",docType);
     query.bindValue(":payment",payment);
+    query.bindValue(":tva",tva);
     query.bindValue(":date",date.toString("yyyy-MM-dd"));
 
     retour=query.exec();
