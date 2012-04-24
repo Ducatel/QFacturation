@@ -27,7 +27,6 @@ bool configExist(){
 
     QFile confFile(QDir::fromNativeSeparators(confDir.absolutePath()+"/stdConfig.xml"));
 
-
     if(confFile.size()==0)
        return false;
     else
@@ -43,7 +42,6 @@ int main(int argc, char *argv[])
     base.open();
 
     qDebug("Gerer l'impression du document");
-    qDebug("corriger le probleme de layout sous linux");
 
     ConfigWindow confWin(0);
     if(!configExist()){

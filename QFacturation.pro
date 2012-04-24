@@ -31,7 +31,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     main.h \
     configwindow.h \
-    configwindow.h \
     aboutframe.h \
     customer.h \
     product.h \

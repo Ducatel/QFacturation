@@ -124,7 +124,6 @@ void NewDocumentWindow::createInterface(){
     connect(validateButton, SIGNAL(clicked()), this, SLOT(validate()));
 
     setLayout(layoutPrinc);
-
 }
 
 /**
@@ -140,6 +139,10 @@ QGroupBox* NewDocumentWindow::createBasicInfoInterface(){
     customerName=new QComboBox(this);
     customerName->setToolTip(tr("Nom du client, ville"));
     QList<Customer> listCustomer= Customer::getAllCustomer();
+
+    if(listCustomer.size()==0){
+        this->setDisabled(true);
+    }
 
     for(int i=0;i<listCustomer.size();i++)
         customerName->addItem(listCustomer.at(i).name+", "+listCustomer.at(i).city);
@@ -190,6 +193,10 @@ QGroupBox* NewDocumentWindow::createAddProductInterface(){
     productName=new QComboBox(this);
     productName->setToolTip(tr("Nom du produit, description, prix"));
     QList<Product> listProduct= Product::getAllProduct();
+
+    if(listProduct.size()==0){
+        this->setDisabled(true);
+    }
 
     for(int i=0;i<listProduct.size();i++)
         productName->addItem(listProduct.at(i).name+", "+listProduct.at(i).description+", "+QVariant(listProduct.at(i).price).toString()+QString(8364));
