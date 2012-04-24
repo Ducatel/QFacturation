@@ -62,7 +62,7 @@ void NewProductWindow::createInterface(){
 
     price=new QDoubleSpinBox ();
     price->setMaximum(9999999.9);
-    layoutForm->addRow(tr("Prix unitaire: "),price);
+    layoutForm->addRow(tr("Prix unitaire HT: "),price);
 
 
     layoutPrinc->addLayout(layoutForm);

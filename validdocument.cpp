@@ -161,6 +161,7 @@ void ValidDocument::print(){
     webView.show();
     QPrintDialog printDialog(&printer);
     if(printDialog.exec() == QDialog::Accepted) {
+
         webView.print(&printer);
     }
 
@@ -320,12 +321,20 @@ QString ValidDocument::initProductInfo(QString string){
 
         double priceWithReduction=prodDoc.quantity*prod.price-reduction;
 
-        productView+="<tr><td>"+prod.name+"</td>";
+        if(prod.description.isEmpty())
+            productView+="<tr><td>"+prod.name+"</td>";
+        else
+            productView+="<tr><td rowspan='2'>"+prod.name+"</td>";
+
+
         productView+="<td>"+QVariant(prodDoc.quantity).toString()+"</td>";
         productView+="<td>"+QVariant(prod.price).toString()+"&euro;</td>";
         productView+="<td>"+QVariant(priceWithoutReduction).toString()+"&euro;</td>";
         productView+="<td>"+prodDoc.reduction+"</td>";
         productView+="<td>"+QVariant(priceWithReduction).toString()+"&euro;</td></tr>";
+
+        if(!prod.description.isEmpty())
+            productView+="<tr><td colspan='6'>&rarr; "+prod.description+"</td>";
     }
     string.replace("{product}",productView);
 
