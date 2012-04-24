@@ -238,19 +238,19 @@ QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
     lineSearchDocumentNotValidate=new QLineEdit(this);
     layoutFormDoc->addRow(tr("Mots clés: "),lineSearchDocumentNotValidate);
 
-    QHBoxLayout *layoutButtonDoc=new QHBoxLayout;
+    QGridLayout *layoutButtonDoc=new QGridLayout;
 
     searchButtonDocumentNotValidate=new QPushButton(tr("Rechercher"),this);
-    layoutButtonDoc->addWidget(searchButtonDocumentNotValidate);
+    layoutButtonDoc->addWidget(searchButtonDocumentNotValidate,0,0);
 
     editButtonDocumentNotValidate=new QPushButton(tr("Editer le document sélectionné"),this);
-    layoutButtonDoc->addWidget(editButtonDocumentNotValidate);
+    layoutButtonDoc->addWidget(editButtonDocumentNotValidate,0,1);
 
     validateDocumentButton=new QPushButton(tr("Valider le document sélectionné"),this);
-    layoutButtonDoc->addWidget(validateDocumentButton);
+    layoutButtonDoc->addWidget(validateDocumentButton,1,0);
 
     deleteButtonDocumentNotValidate=new QPushButton(tr("Supprimer le document sélectionné"),this);
-    layoutButtonDoc->addWidget(deleteButtonDocumentNotValidate);
+    layoutButtonDoc->addWidget(deleteButtonDocumentNotValidate,1,1);
 
     layoutFormDoc->addRow(tr("Action: "),layoutButtonDoc);
 
@@ -334,16 +334,17 @@ QGroupBox* SearchWindow::createValidateDocumentSearchInterface(){
     lineSearchDocumentValidate=new QLineEdit(this);
     layoutFormDoc->addRow(tr("Mots clés: "),lineSearchDocumentValidate);
 
-    QHBoxLayout *layoutButtonDoc=new QHBoxLayout;
+    QGridLayout *layoutButtonDoc = new QGridLayout;
 
     searchButtonDocumentValidate=new QPushButton(tr("Rechercher"),this);
-    layoutButtonDoc->addWidget(searchButtonDocumentValidate);
+    layoutButtonDoc->addWidget(searchButtonDocumentValidate,0,0,1,2);
 
     printButtonDocumentValidate=new QPushButton(tr("Imprimer le document sélectionné"),this);
-    layoutButtonDoc->addWidget(printButtonDocumentValidate);
+    layoutButtonDoc->addWidget(printButtonDocumentValidate,1,0);
 
     transformDocumentButton=new QPushButton(tr("Transformer un devis en facture"),this);
-    layoutButtonDoc->addWidget(transformDocumentButton);
+    layoutButtonDoc->addWidget(transformDocumentButton,1,1);
+
 
     layoutFormDoc->addRow(tr("Action: "),layoutButtonDoc);
 
