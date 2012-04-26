@@ -153,7 +153,7 @@ void ValidDocument::print(){
     printer.setPageSize(QPrinter::A4);
     printer.setFullPage(true);
     QString type=(docType==Document::Facture)?QObject::tr("Facture"):QObject::tr("Devis");
-    printer.setDocName(type+"_"+id );
+    printer.setDocName(type+"_"+QString::number(id) );
     printer.setCreator(QObject::tr("QFacturation"));
     printer.setOutputFormat(QPrinter::NativeFormat);
 
