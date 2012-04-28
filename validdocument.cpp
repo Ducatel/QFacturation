@@ -144,8 +144,6 @@ int ValidDocument::getId(){
  * Methode permettant d'imprimer un document
  */
 void ValidDocument::print(){
-    qDebug("a implementer");
-    qDebug(view);
 
     QWebView webView;
     QPrinter printer ;
@@ -161,8 +159,19 @@ void ValidDocument::print(){
     webView.show();
     QPrintDialog printDialog(&printer);
     if(printDialog.exec() == QDialog::Accepted) {
+        qDebug("Ne fonctionne pas sous windows")<<" Hack ....";
 
-        webView.print(&printer);
+        #if defined(Q_WS_WIN)
+            QTextDocument text;
+            text.setHtml(view);
+            text.print(&printer);
+        #endif
+        #if defined(Q_WS_QWS)
+            webView.print(&printer);
+        #endif
+        #if defined(Q_WS_X11)
+            webView.print(&printer);
+        #endif
     }
 
 }

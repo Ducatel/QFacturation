@@ -57,14 +57,18 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     newDocAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
     newDocAction->setStatusTip(tr("Créer un nouveau document (devis ou facture)"));
 
-    QAction *editConfAction = fileMenu->addAction(tr("Modifier les informations de la société"));
-    editConfAction->setIcon(QIcon(imgDirPath+"edit.png"));
-    editConfAction->setStatusTip(tr("Modifier les informations de la société"));
-
     QAction *searchAction = fileMenu->addAction(tr("Rechercher"));
     searchAction->setIcon(QIcon(imgDirPath+"search.png"));
     searchAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
     searchAction->setStatusTip(tr("Rechercher un client, un produit ou un document"));
+
+    QAction *editConfAction = fileMenu->addAction(tr("Modifier les informations de la société"));
+    editConfAction->setIcon(QIcon(imgDirPath+"edit.png"));
+    editConfAction->setStatusTip(tr("Modifier les informations de la société"));
+
+    QAction *editTemplateAction = fileMenu->addAction(tr("Modifier le template"));
+    editTemplateAction->setIcon(QIcon(imgDirPath+"icon.png"));
+    editTemplateAction->setStatusTip(tr("Modifier le template des documents"));
 
     QAction *quitAction = fileMenu->addAction(tr("Quitter"));
     quitAction->setIcon(QIcon(imgDirPath+"exit.png"));
@@ -83,8 +87,9 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     toolBar->addAction(newCustomerAction);
     toolBar->addAction(newProductAction);
     toolBar->addAction(newDocAction);
-    toolBar->addAction(editConfAction);
     toolBar->addAction(searchAction);
+    toolBar->addAction(editConfAction);
+    toolBar->addAction(editTemplateAction);
 
     /** *************************** **/
     /**            Slots            **/
@@ -97,6 +102,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     connect(editConfAction, SIGNAL(triggered()), this, SLOT(editConfFile()));    
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(showAboutWindow()));
     connect(searchAction, SIGNAL(triggered()), this, SLOT(search()));
+    connect(editTemplateAction,SIGNAL(triggered()),this,SLOT(editTemplate()));
 
     setCentralWidget(new NewDocumentWindow(this));
 }
@@ -130,6 +136,14 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     if(!quit()){
         event->ignore();
     }
+}
+
+/**
+ * Methode qui créer l'interface d'edition du template
+ * de document
+ */
+void MainWindow::editTemplate(){
+     setCentralWidget(new EditTemplateWindow(this));
 }
 
 /**

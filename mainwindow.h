@@ -25,7 +25,7 @@
 #include "newcustomerwindow.h"
 #include "newproductwindow.h"
 #include "searchwindow.h"
-
+#include "edittemplatewindow.h"
 
 
 /**
@@ -57,6 +57,7 @@ class MainWindow : public QMainWindow
         void search();
         void quitSlot();
         bool quit();
+        void editTemplate();
 };
 
 #endif // MAINWINDOW_H

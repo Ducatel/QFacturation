@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     searchwindow.cpp \
     newdocumentwindow.cpp \
     validdocument.cpp \
-    paymenttypewindow.cpp
+    paymenttypewindow.cpp \
+    edittemplatewindow.cpp \
+    balisetemplateframe.cpp
 
 HEADERS  += mainwindow.h \
     main.h \
@@ -41,6 +43,8 @@ HEADERS  += mainwindow.h \
     searchwindow.h \
     newdocumentwindow.h \
     validdocument.h \
-    paymenttypewindow.h
+    paymenttypewindow.h \
+    edittemplatewindow.h \
+    balisetemplateframe.h
 
 TRANSLATIONS = qfacturation_en.ts
