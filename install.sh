@@ -17,7 +17,10 @@ fi
 make
 
 # installation
-sudo ln -s QFacturation /usr/local/bin/QFacturation
+SCRIPT=$(readlink -f $0)
+CURRENTPATH=${SCRIPT%/*}
+
+sudo ln -s "$CURRENTPATH"/QFacturation /usr/local/bin/QFacturation
 sudo cp QFacturation.png /usr/share/pixmaps/QFacturation.png
 sudo cp QFacturation.desktop /usr/share/applications/QFacturation.desktop
 
