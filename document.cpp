@@ -16,12 +16,12 @@
 #include "document.h"
 
 Document::Document(){
-    idCustomer=-1;
+    m_idCustomer=-1;
     id=-1;
     date=QDate::currentDate();
-    docType=Document::Facture;
-    payment=Document::Cheque;
-    tva=0.0;
+    m_docType=Document::Facture;
+    m_payment=Document::Cheque;
+    m_tva=0.0;
 }
 
 Document::Document(int identifiant){
@@ -36,20 +36,20 @@ Document::Document(int identifiant){
 
     QSqlRecord rec = query.record();
 
-    idCustomer=rec.value("idCustomer").toInt();
-    docType=(rec.value("type").toInt()==Document::Devis)?Document::Devis:Document::Facture;
+    m_idCustomer=rec.value("idCustomer").toInt();
+    m_docType=(rec.value("type").toInt()==Document::Devis)?Document::Devis:Document::Facture;
 
     int tmpPayment=rec.value("payment").toInt();
     if(tmpPayment==Document::Cheque)
-        payment=Document::Cheque;
+        m_payment=Document::Cheque;
     else if(tmpPayment==Document::Virement)
-        payment=Document::Virement;
+        m_payment=Document::Virement;
     else
-        payment=Document::Especes;
+        m_payment=Document::Especes;
 
     date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
 
-    tva=rec.value("tva").toDouble();
+    m_tva=rec.value("tva").toDouble();
     this->id=identifiant;
 
     query.finish();
@@ -61,7 +61,7 @@ int Document::getId(){
 }
 
 /**
- * Methode qui sauvegarde un document dans la base de données
+ * Methode qui sauvegarde un document dans la base de donnÃ©es
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool Document::save(){
@@ -87,12 +87,12 @@ bool Document::updateEntry(){
     QSqlQuery query;
 
     query.prepare("UPDATE document SET idCustomer=:idCustomer, tva=:tva, totalPrice=:totalPrice, type=:type, payment=:payment, date=:date WHERE idDocument=:id ");
-    query.bindValue(":idCustomer",idCustomer);
+    query.bindValue(":idCustomer",m_idCustomer);
     query.bindValue(":totalPrice",getTotalPrice());
-    query.bindValue(":type",docType);
-    query.bindValue(":payment",payment);
+    query.bindValue(":type",m_docType);
+    query.bindValue(":payment",m_payment);
     query.bindValue(":date",date.toString("yyyy-MM-dd"));
-    query.bindValue(":tva",tva);
+    query.bindValue(":tva",m_tva);
     query.bindValue(":id",this->id);
 
     bool retour=query.exec();
@@ -111,11 +111,11 @@ bool Document::createEntry(){
     bool retour=false;
 
     query.prepare("INSERT INTO document (idCustomer,totalPrice,type,payment,date,tva) VALUES (:idCustomer,:totalPrice,:type,:payment,:date,:tva )");
-    query.bindValue(":idCustomer",idCustomer);
+    query.bindValue(":idCustomer",m_idCustomer);
     query.bindValue(":totalPrice",getTotalPrice());
-    query.bindValue(":type",docType);
-    query.bindValue(":payment",payment);
-    query.bindValue(":tva",tva);
+    query.bindValue(":type",m_docType);
+    query.bindValue(":payment",m_payment);
+    query.bindValue(":tva",m_tva);
     query.bindValue(":date",date.toString("yyyy-MM-dd"));
 
     retour=query.exec();

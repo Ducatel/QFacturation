@@ -16,17 +16,20 @@
 #ifndef EDITTEMPLATEWINDOW_H
 #define EDITTEMPLATEWINDOW_H
 
+#include <QString>
+#include <QFile>
+#include <QDir>
+
 #include <QMainWindow>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QTextEdit>
-#include <QString>
-#include <QFile>
-#include <QDir>
 #include <QStatusBar>
 #include <QMessageBox>
+
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
 
 #include "balisetemplateframe.h"
 

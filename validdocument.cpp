@@ -16,15 +16,15 @@
 #include "validdocument.h"
 
 ValidDocument::ValidDocument(Document d){
-    date=d.getDate();
+    mdate=d.getDate();
     price=d.getTotalPrice();
-    docType=d.docType;
-    payment=d.payment;
-    idCustomer=d.idCustomer;
+    docType=d.m_docType;
+    payment=d.m_payment;
+    idCustomer=d.m_idCustomer;
     idDocument=d.getId();
     id=-1;
     view=makeView();
-    tva=d.tva;
+    tva=d.m_tva;
 }
 
 ValidDocument::ValidDocument(int identifiant){
@@ -53,7 +53,7 @@ ValidDocument::ValidDocument(int identifiant){
         payment=Document::Especes;
 
     tva=rec.value("tva").toDouble();
-    date=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
+    mdate=QDate::fromString(rec.value("date").toString(),"yyyy-MM-dd");
     this->id=identifiant;
 
     idDocument=-1;
@@ -65,7 +65,7 @@ ValidDocument::ValidDocument(int identifiant){
 }
 
 /**
- * Methode qui sauvegarde un document valider dans la base de données
+ * Methode qui sauvegarde un document valider dans la base de donnÃ©es
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool ValidDocument::save(){
@@ -94,7 +94,7 @@ bool ValidDocument::createEntry(){
     query.bindValue(":price",price);
     query.bindValue(":type",docType);
     query.bindValue(":payment",payment);
-    query.bindValue(":date",date.toString("yyyy-MM-dd"));
+    query.bindValue(":date",mdate.toString("yyyy-MM-dd"));
     query.bindValue(":view",view);
     query.bindValue(":tva",tva);
 
@@ -150,9 +150,9 @@ void ValidDocument::print(){
 
     printer.setPageSize(QPrinter::A4);
     printer.setFullPage(true);
-    QString type=(docType==Document::Facture)?QObject::tr("Facture"):QObject::tr("Devis");
+    QString type=(docType==Document::Facture)?QObject::trUtf8("Facture"):QObject::trUtf8("Devis");
     printer.setDocName(type+"_"+QString::number(id) );
-    printer.setCreator(QObject::tr("QFacturation"));
+    printer.setCreator(QObject::trUtf8("QFacturation"));
     printer.setOutputFormat(QPrinter::NativeFormat);
 
     webView.setHtml(view);
@@ -262,14 +262,14 @@ QString ValidDocument::initCompagnyInfo(QString string){
  */
 QString ValidDocument::initCustomerInfo(QString string){
     Document d(idDocument);
-    Customer c(d.idCustomer);
+    Customer c(d.m_idCustomer);
 
-    string.replace("{customerName}",c.name);
-    string.replace("{customerAdress}",c.adress);
-    string.replace("{customerAdress2}",c.adress2);
-    string.replace("{customerZipCode}",QVariant(c.postalCode).toString());
-    string.replace("{customerCity}",c.city);
-    string.replace("{customerCountry}",c.country);
+    string.replace("{customerName}",c.m_name);
+    string.replace("{customerAdress}",c.m_adress);
+    string.replace("{customerAdress2}",c.m_adress2);
+    string.replace("{customerZipCode}",QVariant(c.m_postalCode).toString());
+    string.replace("{customerCity}",c.m_city);
+    string.replace("{customerCountry}",c.m_country);
 
     return string;
 }
@@ -285,19 +285,19 @@ QString ValidDocument::initDocumentInfo(QString string){
     string.replace("{documentId}",QVariant(d.getId()).toString());
 
 
-    QString type=(d.docType==Document::Facture)?QObject::tr("Facture"):QObject::tr("Devis");
+    QString type=(d.m_docType==Document::Facture)?QObject::trUtf8("Facture"):QObject::trUtf8("Devis");
     string.replace("{documentType}",type);
 
-    if(d.docType==Document::Facture){
-        if(d.payment==Document::Cheque)
-            string.replace("{payment}",QObject::tr("Cheque"));
-        else if(d.payment==Document::Virement)
-            string.replace("{payment}",QObject::tr("Virement"));
+    if(d.m_docType==Document::Facture){
+        if(d.m_payment==Document::Cheque)
+            string.replace("{payment}",QObject::trUtf8("Cheque"));
+        else if(d.m_payment==Document::Virement)
+            string.replace("{payment}",QObject::trUtf8("Virement"));
         else
-            string.replace("{payment}",QObject::tr("Espece"));
+            string.replace("{payment}",QObject::trUtf8("Espece"));
     }
     else{
-        string.replace("{payment}",QObject::tr("Non précisé"));
+        string.replace("{payment}",QObject::trUtf8("Non prÃ©cisÃ©"));
     }
 
     return string;
@@ -349,14 +349,14 @@ QString ValidDocument::initProductInfo(QString string){
 
     Document d(idDocument);
 
-    QString tvaHTML=QVariant(d.tva).toString()+"%";
+    QString tvaHTML=QVariant(d.m_tva).toString()+"%";
     string.replace("{tva}",tvaHTML);
 
     double priceHT=d.getTotalPrice();
     QString totalPriceHT=QString::number(priceHT)+"&euro;";
     string.replace("{totalPriceHT}",totalPriceHT);
 
-    double prixTTC=((priceHT*d.tva)/100.0)+priceHT;
+    double prixTTC=((priceHT*d.m_tva)/100.0)+priceHT;
     QString totalPriceTTC=QString::number(prixTTC)+"&euro;";
     string.replace("{totalPriceTTC}",totalPriceTTC);
 
@@ -366,7 +366,7 @@ QString ValidDocument::initProductInfo(QString string){
 /**
  * Methode permettant de transformer un devis en facture
  * @param typePayment moyen de paiement a mettre sur la facture
- * @return true si la transformation a ete effectué, false sinon
+ * @return true si la transformation a ete effectuÃ©, false sinon
  */
 bool ValidDocument::transform(Document::PaymentEnum typePayment){
     if(docType==Document::Facture)
@@ -374,14 +374,14 @@ bool ValidDocument::transform(Document::PaymentEnum typePayment){
 
     payment=typePayment;
     if(payment==Document::Cheque)
-        view.replace(QObject::tr("Non précisé"),QObject::tr("Cheque"));
+        view.replace(QObject::trUtf8("Non prÃ©cisÃ©"),QObject::trUtf8("Cheque"));
     else if(payment==Document::Virement)
-        view.replace(QObject::tr("Non précisé"),QObject::tr("Virement"));
+        view.replace(QObject::trUtf8("Non prÃ©cisÃ©"),QObject::trUtf8("Virement"));
     else
-        view.replace(QObject::tr("Non précisé"),QObject::tr("Espece"));
+        view.replace(QObject::trUtf8("Non prÃ©cisÃ©"),QObject::trUtf8("Espece"));
 
     docType=Document::Facture;
-    view.replace(QObject::tr("Devis"),QObject::tr("Facture"));
+    view.replace(QObject::trUtf8("Devis"),QObject::trUtf8("Facture"));
 
     return save();
 

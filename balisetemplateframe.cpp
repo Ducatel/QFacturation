@@ -19,50 +19,50 @@ BaliseTemplateFrame::BaliseTemplateFrame(QWidget *parent): QDialog(parent){
 
     QGridLayout *layoutPrinc=new QGridLayout(this);
 
-    QGroupBox *groupCompagny = new QGroupBox(tr("Société"), this);
+    QGroupBox *groupCompagny = new QGroupBox(trUtf8("SociÃ©tÃ©"), this);
     QFormLayout *layoutCompagny=new QFormLayout;
 
-    layoutCompagny->addRow(tr("Balise"),new QLabel(tr("Description"),this));
-    layoutCompagny->addRow("{compagnyName}",new QLabel(tr("Nom de la société"),this));
-    layoutCompagny->addRow("{description}",new QLabel(tr("Déscription de l'activité de la société"),this));
-    layoutCompagny->addRow("{compagnyAdress}",new QLabel(tr("Adresse de la société"),this));
-    layoutCompagny->addRow("{compagnyAdress2}",new QLabel(tr("Complement d'adresse de la société"),this));
-    layoutCompagny->addRow("{compagnyZipCode}",new QLabel(tr("Code postal de la société"),this));
-    layoutCompagny->addRow("{compagnyCity}",new QLabel(tr("Ville de la société"),this));
-    layoutCompagny->addRow("{compagnyCountry}",new QLabel(tr("Pays de la société"),this));
-    layoutCompagny->addRow("{siret}",new QLabel(tr("Numéro de SIRET de la société"),this));
-    layoutCompagny->addRow("{ape}",new QLabel(tr("Numéro APE de la société"),this));
-    layoutCompagny->addRow("{phone}",new QLabel(tr("Numéro de téléphone de la société"),this));
-    layoutCompagny->addRow("{email}",new QLabel(tr("Adresse email de la société"),this));
-    layoutCompagny->addRow("{site}",new QLabel(tr("Site internet de la société"),this));
+    layoutCompagny->addRow(trUtf8("Balise"),new QLabel(trUtf8("Description"),this));
+    layoutCompagny->addRow("{compagnyName}",new QLabel(trUtf8("Nom de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{description}",new QLabel(trUtf8("DÃ©scription de l'activitÃ© de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{compagnyAdress}",new QLabel(trUtf8("Adresse de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{compagnyAdress2}",new QLabel(trUtf8("Complement d'adresse de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{compagnyZipCode}",new QLabel(trUtf8("Code postal de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{compagnyCity}",new QLabel(trUtf8("Ville de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{compagnyCountry}",new QLabel(trUtf8("Pays de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{siret}",new QLabel(trUtf8("NumÃ©ro de SIRET de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{ape}",new QLabel(trUtf8("NumÃ©ro APE de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{phone}",new QLabel(trUtf8("NumÃ©ro de tÃ©lÃ©phone de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{email}",new QLabel(trUtf8("Adresse email de la sociÃ©tÃ©"),this));
+    layoutCompagny->addRow("{site}",new QLabel(trUtf8("Site internet de la sociÃ©tÃ©"),this));
 
     groupCompagny->setLayout(layoutCompagny);
 
-    QGroupBox *groupCustomer = new QGroupBox(tr("Client"), this);
+    QGroupBox *groupCustomer = new QGroupBox(trUtf8("Client"), this);
     QFormLayout *layoutCustomer=new QFormLayout;
 
-    layoutCustomer->addRow(tr("Balise"),new QLabel(tr("Description"),this));
-    layoutCustomer->addRow("{customerName}",new QLabel(tr("Nom du client"),this));
-    layoutCustomer->addRow("{customerAdress}",new QLabel(tr("Adresse du client"),this));
-    layoutCustomer->addRow("{customerAdress2}",new QLabel(tr("Complement d'adresse du client"),this));
-    layoutCustomer->addRow("{customerZipCode}",new QLabel(tr("Code postal du client"),this));
-    layoutCustomer->addRow("{customerCity}",new QLabel(tr("Ville du client"),this));
-    layoutCustomer->addRow("{customerCountry}",new QLabel(tr("Pays du client"),this));
+    layoutCustomer->addRow(trUtf8("Balise"),new QLabel(trUtf8("Description"),this));
+    layoutCustomer->addRow("{customerName}",new QLabel(trUtf8("Nom du client"),this));
+    layoutCustomer->addRow("{customerAdress}",new QLabel(trUtf8("Adresse du client"),this));
+    layoutCustomer->addRow("{customerAdress2}",new QLabel(trUtf8("Complement d'adresse du client"),this));
+    layoutCustomer->addRow("{customerZipCode}",new QLabel(trUtf8("Code postal du client"),this));
+    layoutCustomer->addRow("{customerCity}",new QLabel(trUtf8("Ville du client"),this));
+    layoutCustomer->addRow("{customerCountry}",new QLabel(trUtf8("Pays du client"),this));
 
     groupCustomer->setLayout(layoutCustomer);
 
-    QGroupBox *groupDocument = new QGroupBox(tr("Document"), this);
+    QGroupBox *groupDocument = new QGroupBox(trUtf8("Document"), this);
     QFormLayout *layoutDocument=new QFormLayout;
 
-    layoutDocument->addRow(tr("Balise"),new QLabel(tr("Description"),this));
-    layoutDocument->addRow("{documentType}",new QLabel(tr("Type du document (facture ou devis)"),this));
-    layoutDocument->addRow("{documentId}",new QLabel(tr("Identifiant du document"),this));
-    layoutDocument->addRow("{date}",new QLabel(tr("Date de création du document"),this));
-    layoutDocument->addRow("{payment}",new QLabel(tr("Moyen de paiement utilisé par le client"),this));
-    layoutDocument->addRow("{product}",new QLabel(tr("Liste des produits du document"),this));
-    layoutDocument->addRow("{tva}",new QLabel(tr("Taxe sur le document"),this));
-    layoutDocument->addRow("{totalPriceHT}",new QLabel(tr("Prix hors taxe du document"),this));
-    layoutDocument->addRow("{totalPriceTTC}",new QLabel(tr("Prix toutes taxes comprise du document"),this));
+    layoutDocument->addRow(trUtf8("Balise"),new QLabel(trUtf8("Description"),this));
+    layoutDocument->addRow("{documentType}",new QLabel(trUtf8("Type du document (facture ou devis)"),this));
+    layoutDocument->addRow("{documentId}",new QLabel(trUtf8("Identifiant du document"),this));
+    layoutDocument->addRow("{date}",new QLabel(trUtf8("Date de crÃ©ation du document"),this));
+    layoutDocument->addRow("{payment}",new QLabel(trUtf8("Moyen de paiement utilisÃ© par le client"),this));
+    layoutDocument->addRow("{product}",new QLabel(trUtf8("Liste des produits du document"),this));
+    layoutDocument->addRow("{tva}",new QLabel(trUtf8("Taxe sur le document"),this));
+    layoutDocument->addRow("{totalPriceHT}",new QLabel(trUtf8("Prix hors taxe du document"),this));
+    layoutDocument->addRow("{totalPriceTTC}",new QLabel(trUtf8("Prix toutes taxes comprise du document"),this));
 
     groupDocument->setLayout(layoutDocument);
 
@@ -73,6 +73,6 @@ BaliseTemplateFrame::BaliseTemplateFrame(QWidget *parent): QDialog(parent){
     setLayout(layoutPrinc);
 
     setModal(true);
-    setWindowTitle(tr("Balise disponible pour le template"));
+    setWindowTitle(trUtf8("Balise disponible pour le template"));
     show();
 }

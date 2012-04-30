@@ -1,0 +1,25 @@
+var NAVTREEINDEX =
+{
+"index.html":[],
+"annotated.html":[0,0],
+"class_about_frame.html":[0,0,0],
+"class_balise_template_frame.html":[0,0,1],
+"class_config_window.html":[0,0,2],
+"class_customer.html":[0,0,3],
+"class_document.html":[0,0,4],
+"class_edit_template_window.html":[0,0,5],
+"class_main_window.html":[0,0,6],
+"class_new_customer_window.html":[0,0,7],
+"class_new_document_window.html":[0,0,8],
+"class_new_product_window.html":[0,0,9],
+"class_payment_type_window.html":[0,0,10],
+"class_product.html":[0,0,11],
+"class_product_document.html":[0,0,12],
+"class_search_window.html":[0,0,13],
+"class_valid_document.html":[0,0,14],
+"classes.html":[0,1],
+"functions.html":[0,2,0],
+"functions_func.html":[0,2,1],
+"functions_enum.html":[0,2,2],
+"files.html":[1,0]
+};

@@ -15,9 +15,31 @@
 
 #ifndef CONFIGWINDOW_H
 #define CONFIGWINDOW_H
-#include <QtGui>
-#include <QtXml>
-#include <QtSql>
+
+#include <QString>
+#include <QDir>
+#include <QFile>
+#include <QTextStream>
+#include <QCoreApplication>
+
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QPushButton>
+#include <QMainWindow>
+#include <QDialog>
+#include <QHBoxLayout>
+#include <QFormLayout>
+#include <QGroupBox>
+#include <QMessageBox>
+#include <QStatusBar>
+
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+
+#include <QDomDocument>
+#include <QDomNode>
+#include <QDomElement>
 
 #define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
 
@@ -56,9 +78,9 @@ class ConfigWindow : public QDialog{
         bool createDatabase();
         bool createDocumentTemplate();
 
-        QString bddFilePath;
-        QString configFilePath;
-        QString templateFilePath;
+        QString mbddFilePath;
+        QString mconfigFilePath;
+        QString mtemplateFilePath;
 
     private slots:
         void validateInfo();

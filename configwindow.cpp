@@ -21,9 +21,9 @@
 ConfigWindow::ConfigWindow(QMainWindow *parent=0) : QDialog(parent){
 
     this->parent=parent;
-    bddFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db");
-    configFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/stdConfig.xml");
-    templateFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/template.html");
+    mbddFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/data.db");
+    mconfigFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/stdConfig.xml");
+    mtemplateFilePath=QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/template.html");
     setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+QDir::separator()+"img"+QDir::separator()+"icon.png"));
 
     QVBoxLayout *layoutPrin=new QVBoxLayout();
@@ -33,49 +33,49 @@ ConfigWindow::ConfigWindow(QMainWindow *parent=0) : QDialog(parent){
 
     QHBoxLayout *layoutForm=new QHBoxLayout;
 
-    QGroupBox *groupCampagny = new QGroupBox(tr("Information sur la sociÈtÈ"), this);
+    QGroupBox *groupCampagny = new QGroupBox(trUtf8("Information sur la soci√©t√©"), this);
 
     QFormLayout *layoutFormCompagny = new QFormLayout;
 
 
     companyName=new QLineEdit();
     companyName->setMinimumWidth(250);
-    layoutFormCompagny->addRow(tr("Nom  de la sociÈtÈ: "),companyName);
+    layoutFormCompagny->addRow(trUtf8("Nom  de la soci√©t√©: "),companyName);
 
     description=new QLineEdit();
-    layoutFormCompagny->addRow(tr("DÈscription de votre activitÈ: "),description);
+    layoutFormCompagny->addRow(trUtf8("D√©scription de votre activit√©: "),description);
 
     adress=new QLineEdit();
-    layoutFormCompagny->addRow(tr("Adresse: "),adress);
+    layoutFormCompagny->addRow(trUtf8("Adresse: "),adress);
 
     adress2=new QLineEdit();
-    layoutFormCompagny->addRow(tr("ComplÈment d'adresse: "),adress2);
+    layoutFormCompagny->addRow(trUtf8("Compl√©ment d'adresse: "),adress2);
 
     zipCode=new QSpinBox();
     zipCode->setMaximum(99999);
     zipCode->setMinimum(0);
-    layoutFormCompagny->addRow(tr("Code Postal: "),zipCode);
+    layoutFormCompagny->addRow(trUtf8("Code Postal: "),zipCode);
 
     city=new QLineEdit();
-    layoutFormCompagny->addRow(tr("Ville: "),city);
+    layoutFormCompagny->addRow(trUtf8("Ville: "),city);
 
     country=new QLineEdit();
-    layoutFormCompagny->addRow(tr("Pays: "),country);
+    layoutFormCompagny->addRow(trUtf8("Pays: "),country);
 
     phone=new QLineEdit();
-    layoutFormCompagny->addRow(tr("TÈlÈphone: "),phone);
+    layoutFormCompagny->addRow(trUtf8("T√©l√©phone: "),phone);
 
     email=new QLineEdit();
-    layoutFormCompagny->addRow(tr("Email: "),email);
+    layoutFormCompagny->addRow(trUtf8("Email: "),email);
 
     internetSite=new QLineEdit();
-    layoutFormCompagny->addRow(tr("Site internet: "),internetSite);
+    layoutFormCompagny->addRow(trUtf8("Site internet: "),internetSite);
 
     siret=new QLineEdit();
-    layoutFormCompagny->addRow(tr("SIRET: ","Numero d'enregistrement de l'entreprise"),siret);
+    layoutFormCompagny->addRow(trUtf8("SIRET: ","Numero d'enregistrement de l'entreprise"),siret);
 
     ape=new QLineEdit();
-    layoutFormCompagny->addRow(tr("Code APE: ","Code designant l'activitÈ de l'entreprise"),ape);
+    layoutFormCompagny->addRow(trUtf8("Code APE: ","Code designant l'activit√© de l'entreprise"),ape);
 
     groupCampagny->setLayout(layoutFormCompagny);
     layoutForm->addWidget(groupCampagny);
@@ -86,17 +86,17 @@ ConfigWindow::ConfigWindow(QMainWindow *parent=0) : QDialog(parent){
     /** ************************************** **/
 
     QHBoxLayout *layoutBouton=new QHBoxLayout();
-    validate=new QPushButton(tr("Valider"),this);
+    validate=new QPushButton(trUtf8("Valider"),this);
     layoutBouton->addWidget(validate);
 
-    close=new QPushButton(tr("Fermer"),this);
+    close=new QPushButton(trUtf8("Fermer"),this);
     layoutBouton->addWidget(close);
 
     layoutPrin->addLayout(layoutBouton);
 
     setLayout(layoutPrin);
     setModal(true);
-    setWindowTitle(tr("Information sur l'entreprise","titre de la popup concernant les informations de l'entreprise"));
+    setWindowTitle(trUtf8("Information sur l'entreprise","titre de la popup concernant les informations de l'entreprise"));
 
     /** ************************************** **/
     /**                  Slots                 **/
@@ -119,7 +119,7 @@ void ConfigWindow::validateInfo(){
 
     if(parent!=NULL){
         QStatusBar *statBar = parent->statusBar();
-        statBar->showMessage(tr("Informations sur l'entreprise sauvegardÈ"), 4000);
+        statBar->showMessage(trUtf8("Informations sur l'entreprise sauvegard√©"), 4000);
     }
     this->accept();
 }
@@ -130,7 +130,7 @@ void ConfigWindow::validateInfo(){
  */
 bool ConfigWindow::createDocumentTemplate(){
 
-    QFile file(templateFilePath);
+    QFile file(mtemplateFilePath);
     if(!file.exists()){
         file.open(QIODevice::WriteOnly);
         QTextStream flux(&file);
@@ -151,13 +151,13 @@ bool ConfigWindow::createDocumentTemplate(){
         flux<<"<div id='compagnyInfo'>{compagnyName}<br/>{description}<br/>{compagnyAdress}<br/>{compagnyAdress2}<br/>{compagnyZipCode} {compagnyCity}<br/>{compagnyCountry}<br/></div>"<<endl;
         flux<<"<div id='customerInfo'>{customerName}<br/>{customerAdress}<br/>{customerAdress2}<br/>{customerZipCode} {customerCity}<br/>{customerCountry}<br/></div>"<<endl;
         flux<<"<div class=\"stopFloat\"></div>"<<endl;
-        flux<<"<div id='documentInfo'><span class='title'>{documentType} N&deg; {documentId}</span> "<<tr("du","document numero XX du xx/xx/xxxx")<<" {date}<br/><span class='title'>"<<tr("Moyen de reglement")<<": </span>{payment}<br/></div>"<<endl;
+        flux<<"<div id='documentInfo'><span class='title'>{documentType} N&deg; {documentId}</span> "<<trUtf8("du","document numero XX du xx/xx/xxxx")<<" {date}<br/><span class='title'>"<<trUtf8("Moyen de reglement")<<": </span>{payment}<br/></div>"<<endl;
         flux<<"<table>"<<endl;
-        flux<<" <tr><th>"<<tr("Nom")<<"</th><th>"<<tr("Quantit&eacute;","les caracteres speciaux sont encoder en HTML")<<"</th><th>"<<tr("Prix unitaire")<<"</th><th>"<<tr("Prix de base")<<"</th><th>"<<tr("Remise")<<"</th><th>"<<tr("Prix finale")<<"</th></tr>"<<endl;
+        flux<<" <tr><th>"<<trUtf8("Nom")<<"</th><th>"<<trUtf8("Quantit&eacute;","les caracteres speciaux sont encoder en HTML")<<"</th><th>"<<trUtf8("Prix unitaire")<<"</th><th>"<<trUtf8("Prix de base")<<"</th><th>"<<trUtf8("Remise")<<"</th><th>"<<trUtf8("Prix finale")<<"</th></tr>"<<endl;
         flux<<"{product}"<<endl;
-        flux<<"<tr class='emptyCell'><td colspan='5' class='emptyCell' ></td><td id='totalPrice'>"<<tr("TVA")<<": {tva}<br/>"<<tr("Total HT")<<": {totalPriceHT}<br/>"<<tr("Total TTC")<<": {totalPriceTTC}</td></tr>"<<endl;
+        flux<<"<tr class='emptyCell'><td colspan='5' class='emptyCell' ></td><td id='totalPrice'>"<<trUtf8("TVA")<<": {tva}<br/>"<<trUtf8("Total HT")<<": {totalPriceHT}<br/>"<<trUtf8("Total TTC")<<": {totalPriceTTC}</td></tr>"<<endl;
         flux<<"</table>"<<endl;
-        flux<<"<div id='endPage'>{compagnyName}, SIRET: {siret}, Code APE: {ape}, "<<tr("T&eacute;l&eacute;phone: ","les caracteres speciaux sont encoder en HTML")<<" {phone}<br/>"<<tr("Email: ")<<" {email}, "<<tr("Site internet: ")<<" {site}</div>"<<endl;
+        flux<<"<div id='endPage'>{compagnyName}, SIRET: {siret}, Code APE: {ape}, "<<trUtf8("T&eacute;l&eacute;phone: ","les caracteres speciaux sont encoder en HTML")<<" {phone}<br/>"<<trUtf8("Email: ")<<" {email}, "<<trUtf8("Site internet: ")<<" {site}</div>"<<endl;
         flux<<"</body></html>"<<endl;
         flux.flush();
         file.close();
@@ -169,14 +169,14 @@ bool ConfigWindow::createDocumentTemplate(){
 
 /**
  * Methode permettant de creer la base de donnees
- * @return true si la creation n'a pas eu de problËme, false sinon
+ * @return true si la creation n'a pas eu de probl√®me, false sinon
  */
 bool ConfigWindow::createDatabase(){
 
     QSqlDatabase base = QSqlDatabase::database();
 
     if (!base.isOpen()){
-        QMessageBox::critical(this,tr("Erreur de crÈation de la base de donnÈes"),base.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
+        QMessageBox::critical(this,trUtf8("Erreur de cr√©ation de la base de donn√©es"),base.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
         return false;
     }
 
@@ -189,7 +189,7 @@ bool ConfigWindow::createDatabase(){
                            description VARCHAR(255))") ;
 
         if(result.lastError().type()!=QSqlError::NoError){
-             QMessageBox::critical(this,tr("Erreur de crÈation de la table 'product'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.");
+             QMessageBox::critical(this,trUtf8("Erreur de cr√©ation de la table 'product'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.");
              return false;
         }
 
@@ -205,7 +205,7 @@ bool ConfigWindow::createDatabase(){
                            phone VARCHAR(15))") ;
 
         if(result.lastError().type()!=QSqlError::NoError){
-             QMessageBox::critical(this,tr("Erreur de crÈation de la table 'customer'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
+             QMessageBox::critical(this,trUtf8("Erreur de cr√©ation de la table 'customer'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
              return false;
         }
 
@@ -219,7 +219,7 @@ bool ConfigWindow::createDatabase(){
                            date VARCHAR(45))") ;
 
         if(result.lastError().type()!=QSqlError::NoError){
-             QMessageBox::critical(this,tr("Erreur de crÈation de la table 'document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
+             QMessageBox::critical(this,trUtf8("Erreur de cr√©ation de la table 'document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
              return false;
         }
 
@@ -231,7 +231,7 @@ bool ConfigWindow::createDatabase(){
                           quantity INTEGER )") ;
 
         if(result.lastError().type()!=QSqlError::NoError){
-             QMessageBox::critical(this,tr("Erreur de crÈation de la table 'product_document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
+             QMessageBox::critical(this,trUtf8("Erreur de cr√©ation de la table 'product_document'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.") ;
              return false;
         }
 
@@ -246,7 +246,7 @@ bool ConfigWindow::createDatabase(){
                            view TEXT)") ;
 
         if(result.lastError().type()!=QSqlError::NoError){
-             QMessageBox::critical(this,tr("Erreur de crÈation de la table 'DocumentValide'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.");
+             QMessageBox::critical(this,trUtf8("Erreur de cr√©ation de la table 'DocumentValide'"),result.lastError().text()+"\nVeuillez contacter votre administrateur.");
              return false;
         }
 
@@ -341,7 +341,7 @@ void ConfigWindow::writeXMLConfigFile(){
     /**                             **/
     /** *************************** **/
 
-    QFile file(configFilePath);
+    QFile file(mconfigFilePath);
     file.open(QIODevice::WriteOnly);
     QTextStream ts(&file);
     ts.setCodec("UTF-8");
@@ -349,12 +349,12 @@ void ConfigWindow::writeXMLConfigFile(){
 }
 
 /**
- * Methode permettant d'initialiser les champs gr‚ce au
+ * Methode permettant d'initialiser les champs gr√¢ce au
  * informations contenue dans le fichier de configuration
  */
 void ConfigWindow::initByConfigFile(){
 
-    QFile file(configFilePath);
+    QFile file(mconfigFilePath);
     file.open(QFile::ReadOnly | QFile::Text);
 
     QDomDocument doc;
@@ -365,10 +365,10 @@ void ConfigWindow::initByConfigFile(){
 
     if(racine.tagName() == "user")
     {
-        // On rÈcupËre le premier enfant de l'ÈlÈment site c'est a dire <nom> ou <url>
+        // On r√©cup√®re le premier enfant de l'√©l√©ment site c'est a dire <nom> ou <url>
         QDomElement elt = racine.firstChildElement();
 
-        // On parcourt tous les enfants de l'ÈlÈment <site>
+        // On parcourt tous les enfants de l'√©l√©ment <site>
         while(!elt.isNull())
         {
             if(elt.tagName() == "name")

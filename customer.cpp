@@ -21,14 +21,14 @@
  */
 Customer::Customer()
 {
-    name="";
-    adress="";
-    adress2="";
-    city="";
-    country="";
-    email="";
-    phone="";
-    postalCode=-1;
+    m_name="";
+    m_adress="";
+    m_adress2="";
+    m_city="";
+    m_country="";
+    m_email="";
+    m_phone="";
+    m_postalCode=-1;
     id=-1;
 }
 
@@ -47,14 +47,14 @@ Customer::Customer(int identifiant){
     query.next();
     QSqlRecord rec = query.record();
 
-    name=rec.value("name").toString();
-    adress=rec.value("adress").toString();
-    adress2=rec.value("adress2").toString();
-    city=rec.value("city").toString();
-    country=rec.value("country").toString();
-    email=rec.value("email").toString();
-    phone=rec.value("phone").toString();
-    postalCode=rec.value("postalCode").toInt();
+    m_name=rec.value("name").toString();
+    m_adress=rec.value("adress").toString();
+    m_adress2=rec.value("adress2").toString();
+    m_city=rec.value("city").toString();
+    m_country=rec.value("country").toString();
+    m_email=rec.value("email").toString();
+    m_phone=rec.value("phone").toString();
+    m_postalCode=rec.value("postalCode").toInt();
     this->id=identifiant;
 
     query.finish();
@@ -67,7 +67,7 @@ int Customer::getId(){
 }
 
 /**
- * Methode qui sauvegarde l'utilisateur dans la base de données
+ * Methode qui sauvegarde l'utilisateur dans la base de donnÃ©es
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool Customer::save(){
@@ -94,14 +94,14 @@ bool Customer::updateEntry(){
 
     QSqlQuery query;
     query.prepare("UPDATE customer SET name=:name, adress=:adress, adress2=:adress2, postalCode=:postalCode, city=:city, country=:country,email=:email,phone=:phone WHERE idCustomer=:id ");
-    query.bindValue(":name",name);
-    query.bindValue(":adress",adress);
-    query.bindValue(":adress2",adress2);
-    query.bindValue(":postalCode",postalCode);
-    query.bindValue(":city",city);
-    query.bindValue(":country",country);
-    query.bindValue(":email",email);
-    query.bindValue(":phone",phone);
+    query.bindValue(":name",m_name);
+    query.bindValue(":adress",m_adress);
+    query.bindValue(":adress2",m_adress2);
+    query.bindValue(":postalCode",m_postalCode);
+    query.bindValue(":city",m_city);
+    query.bindValue(":country",m_country);
+    query.bindValue(":email",m_email);
+    query.bindValue(":phone",m_phone);
     query.bindValue(":id",id);
 
     bool retour= query.exec();
@@ -119,14 +119,14 @@ bool Customer::createEntry(){
     bool retour=false;
 
     query.prepare("INSERT INTO customer (name,adress,adress2,postalCode,city,country,email,phone) VALUES (:name,:adress,:adress2,:postalCode,:city,:country,:email,:phone )");
-    query.bindValue(":name",name);
-    query.bindValue(":adress",adress);
-    query.bindValue(":adress2",adress2);
-    query.bindValue(":postalCode",postalCode);
-    query.bindValue(":city",city);
-    query.bindValue(":country",country);
-    query.bindValue(":email",email);
-    query.bindValue(":phone",phone);
+    query.bindValue(":name",m_name);
+    query.bindValue(":adress",m_adress);
+    query.bindValue(":adress2",m_adress2);
+    query.bindValue(":postalCode",m_postalCode);
+    query.bindValue(":city",m_city);
+    query.bindValue(":country",m_country);
+    query.bindValue(":email",m_email);
+    query.bindValue(":phone",m_phone);
     retour=query.exec();
 
     if(retour)

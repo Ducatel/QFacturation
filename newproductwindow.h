@@ -22,7 +22,7 @@
 #include "product.h"
 
 /**
- * Class qui gere le widget permettant de créer/editer un nouveau produit
+ * Class qui gere le widget permettant de creer/editer un nouveau produit
  * @author David Ducatel
  */
 class NewProductWindow : public QWidget

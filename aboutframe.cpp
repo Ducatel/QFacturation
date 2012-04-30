@@ -24,8 +24,8 @@ AboutFrame::AboutFrame() : QDialog(0){
     label_img->setPixmap(*pixmap_img);
     layoutPrinc->addWidget(label_img);
 
-    QLabel *info=new QLabel(tr("<center><b>QFacturation</b></center><br/>\
-                               Développé par <b>David Ducatel</b><br/>\
+    QLabel *info=new QLabel(trUtf8("<center><b>QFacturation</b></center><br/>\
+                               DÃ©veloppÃ© par <b>David Ducatel</b><br/>\
                                Version: <b>1.0</b><br/>\
                                Sous licence: <a href='http://www.gnu.org/licenses/gpl.html'>GNU General Public License (GPL) version 3</a><br/>\
                                Site: <a href='http://ducatel.github.com'>ducatel.github.com</a>","Contenue de la fenetre a propos"));
@@ -34,5 +34,5 @@ AboutFrame::AboutFrame() : QDialog(0){
     layoutPrinc->addWidget(info);
     setLayout(layoutPrinc);
     setModal(true);
-    setWindowTitle(tr("Information sur le développeur"));
+    setWindowTitle(trUtf8("Information sur le dÃ©veloppeur"));
 }

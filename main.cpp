@@ -17,7 +17,7 @@
 
 
 /**
- * Fonction qui verifie si la configuration de base est présente
+ * Fonction qui verifie si la configuration de base est prÃ©sente
  * @return true si la conf est presente, false sinon
  */
 bool configExist(){

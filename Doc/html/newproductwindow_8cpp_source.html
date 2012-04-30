@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>QFacturation:  Fichier source de newproductwindow.cpp</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  <td id="projectlogo"><img alt="Logo" src="icon.png"/></td>
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">QFacturation
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">Logiciel de facturation pour les PME</div>
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Généré par Doxygen 1.8.0 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('newproductwindow_8cpp.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">newproductwindow.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;newproductwindow.h&quot;</span>
+<a name="l00017"></a>00017 
+<a name="l00022"></a><a class="code" href="class_new_product_window.html#a5deeb88b0ffe91aae2d2bdceba2fbeb5">00022</a> <a class="code" href="class_new_product_window.html#a5deeb88b0ffe91aae2d2bdceba2fbeb5" title="This program is free software: you can redistribute it and/or modify it under the terms of the GNU Ge...">NewProductWindow::NewProductWindow</a>(QMainWindow *parent) :QWidget(parent)
+<a name="l00023"></a>00023 {
+<a name="l00024"></a>00024     idProduct=-1;
+<a name="l00025"></a>00025     this-&gt;parent=parent;
+<a name="l00026"></a>00026     createInterface();
+<a name="l00027"></a>00027 }
+<a name="l00028"></a>00028 
+<a name="l00035"></a><a class="code" href="class_new_product_window.html#a9feee417808ff27c0fcfa15f2af0b35c">00035</a> <a class="code" href="class_new_product_window.html#a5deeb88b0ffe91aae2d2bdceba2fbeb5" title="This program is free software: you can redistribute it and/or modify it under the terms of the GNU Ge...">NewProductWindow::NewProductWindow</a>(QMainWindow *parent,<span class="keywordtype">int</span> <span class="keywordtype">id</span>) :QWidget(parent)
+<a name="l00036"></a>00036 {
+<a name="l00037"></a>00037     idProduct=id;
+<a name="l00038"></a>00038     this-&gt;parent=parent;
+<a name="l00039"></a>00039     createInterface();
+<a name="l00040"></a>00040     initByBDD();
+<a name="l00041"></a>00041 }
+<a name="l00042"></a>00042 
+<a name="l00046"></a>00046 <span class="keywordtype">void</span> NewProductWindow::createInterface(){
+<a name="l00047"></a>00047 
+<a name="l00048"></a>00048     QVBoxLayout *layoutPrinc=<span class="keyword">new</span> QVBoxLayout;
+<a name="l00049"></a>00049 
+<a name="l00054"></a>00054     QFormLayout *layoutForm = <span class="keyword">new</span> QFormLayout;
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056     name=<span class="keyword">new</span> QLineEdit();
+<a name="l00057"></a>00057     name-&gt;setMinimumWidth(250);
+<a name="l00058"></a>00058     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Nom du produit: &quot;</span>),name);
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     description=<span class="keyword">new</span> QLineEdit();
+<a name="l00061"></a>00061     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Description du produit: &quot;</span>),description);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     price=<span class="keyword">new</span> QDoubleSpinBox ();
+<a name="l00064"></a>00064     price-&gt;setMaximum(9999999.9);
+<a name="l00065"></a>00065     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Prix unitaire HT: &quot;</span>),price);
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068     layoutPrinc-&gt;addLayout(layoutForm);
+<a name="l00069"></a>00069 
+<a name="l00074"></a>00074     QFormLayout *layoutBouton = <span class="keyword">new</span> QFormLayout;
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076     validate=<span class="keyword">new</span> QPushButton(tr(<span class="stringliteral">&quot;Valider&quot;</span>));
+<a name="l00077"></a>00077     layoutBouton-&gt;addWidget(validate);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079     layoutPrinc-&gt;addLayout(layoutBouton);
+<a name="l00080"></a>00080     setLayout(layoutPrinc);
+<a name="l00081"></a>00081 
+<a name="l00086"></a>00086     connect(validate, SIGNAL(clicked()), <span class="keyword">this</span>, SLOT(validateProduct()));
+<a name="l00087"></a>00087 
+<a name="l00088"></a>00088 }
+<a name="l00089"></a>00089 
+<a name="l00094"></a>00094 <span class="keywordtype">void</span> NewProductWindow::validateProduct(){
+<a name="l00095"></a>00095     <span class="keywordflow">if</span>(idProduct==-1){
+<a name="l00096"></a>00096         <span class="comment">// creation d&#39;un nouveau produit</span>
+<a name="l00097"></a>00097         <a class="code" href="class_product.html" title="Class qui permet de gerer un produit.">Product</a> p;
+<a name="l00098"></a>00098         p.name=name-&gt;text();
+<a name="l00099"></a>00099         p.description=description-&gt;text();
+<a name="l00100"></a>00100         p.price=price-&gt;value();
+<a name="l00101"></a>00101         p.<a class="code" href="class_product.html#a1f2db6bc4571e283ee22fe991eb18b2f" title="Methode qui sauvegarde un produit dans la base de donn�es">save</a>();
+<a name="l00102"></a>00102     }
+<a name="l00103"></a>00103     <span class="keywordflow">else</span>{
+<a name="l00104"></a>00104         <span class="comment">// mise a jour d&#39;un produit</span>
+<a name="l00105"></a>00105         <a class="code" href="class_product.html" title="Class qui permet de gerer un produit.">Product</a> p(idProduct);
+<a name="l00106"></a>00106         p.name=name-&gt;text();
+<a name="l00107"></a>00107         p.description=description-&gt;text();
+<a name="l00108"></a>00108         p.price=price-&gt;value();
+<a name="l00109"></a>00109         p.<a class="code" href="class_product.html#a1f2db6bc4571e283ee22fe991eb18b2f" title="Methode qui sauvegarde un produit dans la base de donn�es">save</a>();
+<a name="l00110"></a>00110         p.<a class="code" href="class_product.html#a20124814690d5da0990896a8d757f72b" title="Methode qui met a jour le prix total des documents qui utilise le produit courant.">updateDocumentPrice</a>();
+<a name="l00111"></a>00111     }
+<a name="l00112"></a>00112 
+<a name="l00113"></a>00113     QStatusBar *statBar = parent-&gt;statusBar();
+<a name="l00114"></a>00114     statBar-&gt;showMessage(tr(<span class="stringliteral">&quot;Informations produit sauvegard�&quot;</span>), 4000);
+<a name="l00115"></a>00115     clean();
+<a name="l00116"></a>00116 }
+<a name="l00117"></a>00117 
+<a name="l00121"></a>00121 <span class="keywordtype">void</span> NewProductWindow::initByBDD(){
+<a name="l00122"></a>00122     <a class="code" href="class_product.html" title="Class qui permet de gerer un produit.">Product</a> p(idProduct);
+<a name="l00123"></a>00123     name-&gt;setText(p.name);
+<a name="l00124"></a>00124     description-&gt;setText(p.description);
+<a name="l00125"></a>00125     price-&gt;setValue(p.price);
+<a name="l00126"></a>00126 }
+<a name="l00127"></a>00127 
+<a name="l00132"></a>00132 <span class="keywordtype">void</span> NewProductWindow::clean(){
+<a name="l00133"></a>00133     idProduct=-1;
+<a name="l00134"></a>00134     name-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00135"></a>00135     description-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00136"></a>00136     price-&gt;setValue(0.0);
+<a name="l00137"></a>00137 }
+</pre></div></div><!-- contents -->
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>newproductwindow.cpp</b>      </li>
+
+    <li class="footer">Généré le Dimanche Avril 29 2012 18:46:34 pour QFacturation par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

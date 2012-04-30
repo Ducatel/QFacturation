@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>QFacturation:  Fichier source de newcustomerwindow.cpp</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  <td id="projectlogo"><img alt="Logo" src="icon.png"/></td>
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">QFacturation
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">Logiciel de facturation pour les PME</div>
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- GÃ©nÃ©rÃ© par Doxygen 1.8.0 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('newcustomerwindow_8cpp.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">newcustomerwindow.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;newcustomerwindow.h&quot;</span>
+<a name="l00017"></a>00017 
+<a name="l00022"></a><a class="code" href="class_new_customer_window.html#a3bcdf098c566b176ad4b0a21a57207d1">00022</a> <a class="code" href="class_new_customer_window.html#a3bcdf098c566b176ad4b0a21a57207d1" title="This program is free software: you can redistribute it and/or modify it under the terms of the GNU Ge...">NewCustomerWindow::NewCustomerWindow</a>(QMainWindow *parent) :QWidget(parent){
+<a name="l00023"></a>00023     idCustomer=-1;
+<a name="l00024"></a>00024     this-&gt;parent=parent;
+<a name="l00025"></a>00025     createInterface();
+<a name="l00026"></a>00026 }
+<a name="l00027"></a>00027 
+<a name="l00034"></a><a class="code" href="class_new_customer_window.html#ae260c24af68ec524d424b45d269260b5">00034</a> <a class="code" href="class_new_customer_window.html#a3bcdf098c566b176ad4b0a21a57207d1" title="This program is free software: you can redistribute it and/or modify it under the terms of the GNU Ge...">NewCustomerWindow::NewCustomerWindow</a>(QMainWindow *parent,<span class="keywordtype">int</span> <span class="keywordtype">id</span>) :QWidget(parent){
+<a name="l00035"></a>00035     idCustomer=id;
+<a name="l00036"></a>00036     this-&gt;parent=parent;
+<a name="l00037"></a>00037     createInterface();
+<a name="l00038"></a>00038     initByBDD();
+<a name="l00039"></a>00039 }
+<a name="l00040"></a>00040 
+<a name="l00044"></a>00044 <span class="keywordtype">void</span> NewCustomerWindow::createInterface(){
+<a name="l00045"></a>00045     QVBoxLayout *layoutPrinc=<span class="keyword">new</span> QVBoxLayout;
+<a name="l00046"></a>00046 
+<a name="l00051"></a>00051     QFormLayout *layoutForm = <span class="keyword">new</span> QFormLayout;
+<a name="l00052"></a>00052 
+<a name="l00053"></a>00053     name=<span class="keyword">new</span> QLineEdit();
+<a name="l00054"></a>00054     name-&gt;setMinimumWidth(250);
+<a name="l00055"></a>00055     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Nom du client: &quot;</span>),name);
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057     adress=<span class="keyword">new</span> QLineEdit();
+<a name="l00058"></a>00058     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Adresse du client: &quot;</span>),adress);
+<a name="l00059"></a>00059 
+<a name="l00060"></a>00060     adress2=<span class="keyword">new</span> QLineEdit();
+<a name="l00061"></a>00061     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Complement d&#39;adresse: &quot;</span>),adress2);
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063     postalCode=<span class="keyword">new</span> QSpinBox();
+<a name="l00064"></a>00064     postalCode-&gt;setMaximum(9999999);
+<a name="l00065"></a>00065     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Code Postal: &quot;</span>),postalCode);
+<a name="l00066"></a>00066 
+<a name="l00067"></a>00067     city=<span class="keyword">new</span> QLineEdit();
+<a name="l00068"></a>00068     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Ville: &quot;</span>),city);
+<a name="l00069"></a>00069 
+<a name="l00070"></a>00070     country=<span class="keyword">new</span> QLineEdit();
+<a name="l00071"></a>00071     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Pays: &quot;</span>),country);
+<a name="l00072"></a>00072 
+<a name="l00073"></a>00073     email=<span class="keyword">new</span> QLineEdit();
+<a name="l00074"></a>00074     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Email: &quot;</span>),email);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076     phone=<span class="keyword">new</span> QLineEdit();
+<a name="l00077"></a>00077     layoutForm-&gt;addRow(tr(<span class="stringliteral">&quot;Numero de téléphone: &quot;</span>),phone);
+<a name="l00078"></a>00078 
+<a name="l00079"></a>00079     layoutPrinc-&gt;addLayout(layoutForm);
+<a name="l00080"></a>00080 
+<a name="l00085"></a>00085     QFormLayout *layoutBouton = <span class="keyword">new</span> QFormLayout;
+<a name="l00086"></a>00086 
+<a name="l00087"></a>00087     validate=<span class="keyword">new</span> QPushButton(tr(<span class="stringliteral">&quot;Valider&quot;</span>));
+<a name="l00088"></a>00088     layoutBouton-&gt;addWidget(validate);
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090     layoutPrinc-&gt;addLayout(layoutBouton);
+<a name="l00091"></a>00091     setLayout(layoutPrinc);
+<a name="l00092"></a>00092 
+<a name="l00097"></a>00097     connect(validate, SIGNAL(clicked()), <span class="keyword">this</span>, SLOT(validateCustomer()));
+<a name="l00098"></a>00098 }
+<a name="l00099"></a>00099 
+<a name="l00103"></a>00103 <span class="keywordtype">void</span> NewCustomerWindow::initByBDD(){
+<a name="l00104"></a>00104     <a class="code" href="class_customer.html" title="Class qui permet de gerer un client.">Customer</a> c(idCustomer);
+<a name="l00105"></a>00105     name-&gt;setText(c.m_name);
+<a name="l00106"></a>00106     adress-&gt;setText(c.m_adress);
+<a name="l00107"></a>00107     adress2-&gt;setText(c.m_adress2);
+<a name="l00108"></a>00108     city-&gt;setText(c.m_city);
+<a name="l00109"></a>00109     country-&gt;setText(c.m_country);
+<a name="l00110"></a>00110     email-&gt;setText(c.m_email);
+<a name="l00111"></a>00111     phone-&gt;setText(c.m_phone);
+<a name="l00112"></a>00112     postalCode-&gt;setValue(c.m_postalCode);
+<a name="l00113"></a>00113 }
+<a name="l00114"></a>00114 
+<a name="l00119"></a>00119 <span class="keywordtype">void</span> NewCustomerWindow::validateCustomer(){
+<a name="l00120"></a>00120 
+<a name="l00121"></a>00121     <span class="keywordflow">if</span>(idCustomer==-1){
+<a name="l00122"></a>00122         <span class="comment">//creation d&#39;un nouveau client</span>
+<a name="l00123"></a>00123         <a class="code" href="class_customer.html" title="Class qui permet de gerer un client.">Customer</a> c;
+<a name="l00124"></a>00124         c.m_name=name-&gt;text();
+<a name="l00125"></a>00125         c.m_adress=adress-&gt;text();
+<a name="l00126"></a>00126         c.m_adress2=adress2-&gt;text();
+<a name="l00127"></a>00127         c.m_city=city-&gt;text();
+<a name="l00128"></a>00128         c.m_country=country-&gt;text();
+<a name="l00129"></a>00129         c.m_email=email-&gt;text();
+<a name="l00130"></a>00130         c.m_phone=phone-&gt;text();
+<a name="l00131"></a>00131         c.m_postalCode=postalCode-&gt;value();
+<a name="l00132"></a>00132         c.<a class="code" href="class_customer.html#a97dda35bbffeffbd8bfa9f07494f0c83" title="Methode qui sauvegarde l&#39;utilisateur dans la base de données">save</a>();
+<a name="l00133"></a>00133     }
+<a name="l00134"></a>00134     <span class="keywordflow">else</span>{
+<a name="l00135"></a>00135         <span class="comment">//Mise a jour d&#39;un client</span>
+<a name="l00136"></a>00136         <a class="code" href="class_customer.html" title="Class qui permet de gerer un client.">Customer</a> c(idCustomer);
+<a name="l00137"></a>00137         c.m_name=name-&gt;text();
+<a name="l00138"></a>00138         c.m_adress=adress-&gt;text();
+<a name="l00139"></a>00139         c.m_adress2=adress2-&gt;text();
+<a name="l00140"></a>00140         c.m_city=city-&gt;text();
+<a name="l00141"></a>00141         c.m_country=country-&gt;text();
+<a name="l00142"></a>00142         c.m_email=email-&gt;text();
+<a name="l00143"></a>00143         c.m_phone=phone-&gt;text();
+<a name="l00144"></a>00144         c.m_postalCode=postalCode-&gt;value();
+<a name="l00145"></a>00145         c.<a class="code" href="class_customer.html#a97dda35bbffeffbd8bfa9f07494f0c83" title="Methode qui sauvegarde l&#39;utilisateur dans la base de données">save</a>();
+<a name="l00146"></a>00146     }
+<a name="l00147"></a>00147 
+<a name="l00148"></a>00148     QStatusBar *statBar = parent-&gt;statusBar();
+<a name="l00149"></a>00149     statBar-&gt;showMessage(tr(<span class="stringliteral">&quot;Informations client sauvegardé&quot;</span>), 4000);
+<a name="l00150"></a>00150     clean();
+<a name="l00151"></a>00151 
+<a name="l00152"></a>00152 }
+<a name="l00153"></a>00153 
+<a name="l00158"></a>00158 <span class="keywordtype">void</span> NewCustomerWindow::clean(){
+<a name="l00159"></a>00159     idCustomer=-1;
+<a name="l00160"></a>00160     name-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00161"></a>00161     adress-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00162"></a>00162     adress2-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00163"></a>00163     city-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00164"></a>00164     country-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00165"></a>00165     email-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00166"></a>00166     phone-&gt;setText(<span class="stringliteral">&quot;&quot;</span>);
+<a name="l00167"></a>00167     postalCode-&gt;setValue(0);
+<a name="l00168"></a>00168 }
+<a name="l00169"></a>00169 
+</pre></div></div><!-- contents -->
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>newcustomerwindow.cpp</b>      </li>
+
+    <li class="footer">GÃ©nÃ©rÃ© le Dimanche Avril 29 2012 18:46:34 pour QFacturation par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

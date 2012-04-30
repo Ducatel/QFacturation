@@ -16,7 +16,13 @@
 #ifndef ABOUTFRAME_H
 #define ABOUTFRAME_H
 
-#include <QtGui>
+#include <QDir>
+#include <QCoreApplication>
+
+#include <QLabel>
+#include <QPixmap>
+#include <QHBoxLayout>
+#include <QDialog>
 
 #define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
 
@@ -28,7 +34,7 @@
 class AboutFrame: public QDialog
 {
     public:
-        AboutFrame();
+        explicit AboutFrame();
 };
 
 #endif // ABOUTFRAME_H

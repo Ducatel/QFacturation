@@ -55,7 +55,7 @@ class ValidDocument
         void print();
         bool transform(Document::PaymentEnum typePayment);
 
-        QDate date;
+        QDate mdate;
         double price;
         Document::DocTypeEnum docType;
         Document::PaymentEnum payment;

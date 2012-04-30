@@ -34,49 +34,49 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     setWindowTitle(QString("QFacturation"));
 
     QStatusBar *statBar = statusBar();
-    statBar->showMessage(tr("Prêt"));
+    statBar->showMessage(trUtf8("PrÃªt"));
 
     /** *************************** **/
     /**             Menu            **/
     /** *************************** **/
 
-    QMenu *fileMenu = menuBar()->addMenu(tr("&Fichier"));
+    QMenu *fileMenu = menuBar()->addMenu(trUtf8("&Fichier"));
 
-    QAction *newCustomerAction = fileMenu->addAction(tr("Nouveau client"));
+    QAction *newCustomerAction = fileMenu->addAction(trUtf8("Nouveau client"));
     newCustomerAction->setIcon(QIcon(imgDirPath+"add-user.png"));
     newCustomerAction->setShortcut(QKeySequence(Qt::CTRL +Qt::SHIFT + Qt::Key_N));
-    newCustomerAction->setStatusTip(tr("Créer un nouveau client"));
+    newCustomerAction->setStatusTip(trUtf8("CrÃ©er un nouveau client"));
 
-    QAction *newProductAction = fileMenu->addAction(tr("Nouveau produit"));
+    QAction *newProductAction = fileMenu->addAction(trUtf8("Nouveau produit"));
     newProductAction->setIcon(QIcon(imgDirPath+"product.png"));
     newProductAction->setShortcut(QKeySequence(Qt::CTRL +Qt::ALT + Qt::Key_N));
-    newProductAction->setStatusTip(tr("Créer un nouveau produit"));
+    newProductAction->setStatusTip(trUtf8("CrÃ©er un nouveau produit"));
 
-    QAction *newDocAction = fileMenu->addAction(tr("Nouveau document"));
+    QAction *newDocAction = fileMenu->addAction(trUtf8("Nouveau document"));
     newDocAction->setIcon(QIcon(imgDirPath+"add-doc.png"));
     newDocAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_N));
-    newDocAction->setStatusTip(tr("Créer un nouveau document (devis ou facture)"));
+    newDocAction->setStatusTip(trUtf8("CrÃ©er un nouveau document (devis ou facture)"));
 
-    QAction *searchAction = fileMenu->addAction(tr("Rechercher"));
+    QAction *searchAction = fileMenu->addAction(trUtf8("Rechercher"));
     searchAction->setIcon(QIcon(imgDirPath+"search.png"));
     searchAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_F));
-    searchAction->setStatusTip(tr("Rechercher un client, un produit ou un document"));
+    searchAction->setStatusTip(trUtf8("Rechercher un client, un produit ou un document"));
 
-    QAction *editConfAction = fileMenu->addAction(tr("Modifier les informations de la société"));
+    QAction *editConfAction = fileMenu->addAction(trUtf8("Modifier les informations de la sociÃ©tÃ©"));
     editConfAction->setIcon(QIcon(imgDirPath+"edit.png"));
-    editConfAction->setStatusTip(tr("Modifier les informations de la société"));
+    editConfAction->setStatusTip(trUtf8("Modifier les informations de la sociÃ©tÃ©"));
 
-    QAction *editTemplateAction = fileMenu->addAction(tr("Modifier le template"));
+    QAction *editTemplateAction = fileMenu->addAction(trUtf8("Modifier le template"));
     editTemplateAction->setIcon(QIcon(imgDirPath+"icon.png"));
-    editTemplateAction->setStatusTip(tr("Modifier le template des documents"));
+    editTemplateAction->setStatusTip(trUtf8("Modifier le template des documents"));
 
-    QAction *quitAction = fileMenu->addAction(tr("Quitter"));
+    QAction *quitAction = fileMenu->addAction(trUtf8("Quitter"));
     quitAction->setIcon(QIcon(imgDirPath+"exit.png"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
-    quitAction->setStatusTip(tr("Quitte le programme"));
+    quitAction->setStatusTip(trUtf8("Quitte le programme"));
 
-    QMenu *helpMenu = menuBar()->addMenu(tr("&Aide"));
-    QAction *aboutAction = helpMenu->addAction(tr("A propos"));
+    QMenu *helpMenu = menuBar()->addMenu(trUtf8("&Aide"));
+    QAction *aboutAction = helpMenu->addAction(trUtf8("A propos"));
 
     /** *************************** **/
     /**        Barre Outils         **/
@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
     /**            Slots            **/
     /** *************************** **/
 
-    connect(quitAction, SIGNAL(triggered()), this, SLOT(quitSlot())); //TODO faire comme la méthode closeEvent
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(quitSlot())); //TODO faire comme la mÃ©thode closeEvent
     connect(newCustomerAction, SIGNAL(triggered()), this, SLOT(createNewCustomer()));
     connect(newProductAction, SIGNAL(triggered()), this, SLOT(createNewProduct()));
     connect(newDocAction, SIGNAL(triggered()), this, SLOT(createNewDocument()));
@@ -109,7 +109,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent)
 
 
 bool MainWindow::quit(){
-    int ret = QMessageBox::question(this,tr("Quitter?"),tr("Voulez-vous vraiment quitter?"),QMessageBox::Yes | QMessageBox::No);
+    int ret = QMessageBox::question(this,trUtf8("Quitter?"),trUtf8("Voulez-vous vraiment quitter?"),QMessageBox::Yes | QMessageBox::No);
     if (ret == QMessageBox::Yes){
         QSqlDatabase base = QSqlDatabase::database();
         base.commit();
@@ -139,7 +139,7 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 }
 
 /**
- * Methode qui créer l'interface d'edition du template
+ * Methode qui crÃ©er l'interface d'edition du template
  * de document
  */
 void MainWindow::editTemplate(){
@@ -147,7 +147,7 @@ void MainWindow::editTemplate(){
 }
 
 /**
- * Methode qui créer l'interface d'ajout/edition de client
+ * Methode qui crÃ©er l'interface d'ajout/edition de client
  * et la place au centre de cette fenetre
  */
 void MainWindow::createNewCustomer(){
@@ -155,7 +155,7 @@ void MainWindow::createNewCustomer(){
 }
 
 /**
- * Methode qui créer l'interface d'ajout/edition de produit
+ * Methode qui crÃ©er l'interface d'ajout/edition de produit
  * et la place au centre de cette fenetre
  */
 void MainWindow::createNewProduct(){
@@ -163,7 +163,7 @@ void MainWindow::createNewProduct(){
 }
 
 /**
- * Methode qui créer l'interface d'ajout/edition de document
+ * Methode qui crÃ©er l'interface d'ajout/edition de document
  * et la place au centre de cette fenetre
  */
 void MainWindow::createNewDocument(){
@@ -171,7 +171,7 @@ void MainWindow::createNewDocument(){
 }
 
 /**
- * Methode qui créer l'interface de recherche
+ * Methode qui crÃ©er l'interface de recherche
  * et la place au centre de cette fenetre
  */
 void MainWindow::search(){
@@ -179,7 +179,7 @@ void MainWindow::search(){
 }
 
 /**
- * Methode qui affiche la fenetre d'edition des info de la société
+ * Methode qui affiche la fenetre d'edition des info de la sociÃ©tÃ©
  */
 void MainWindow::editConfFile(){
     confWin->show();

@@ -29,11 +29,15 @@
 /**
  * Class qui gere la fenetre d'affichage des
  * balise exploitable sur le template
+ * @author David Ducatel
  */
 class BaliseTemplateFrame : public QDialog
 {
     public:
         explicit BaliseTemplateFrame(QWidget *parent);
+
+
+
 };
 
 #endif // BALISETEMPLATEFRAME_H

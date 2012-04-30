@@ -55,14 +55,14 @@ void NewProductWindow::createInterface(){
 
     name=new QLineEdit();
     name->setMinimumWidth(250);
-    layoutForm->addRow(tr("Nom du produit: "),name);
+    layoutForm->addRow(trUtf8("Nom du produit: "),name);
 
     description=new QLineEdit();
-    layoutForm->addRow(tr("Description du produit: "),description);
+    layoutForm->addRow(trUtf8("Description du produit: "),description);
 
     price=new QDoubleSpinBox ();
     price->setMaximum(9999999.9);
-    layoutForm->addRow(tr("Prix unitaire HT: "),price);
+    layoutForm->addRow(trUtf8("Prix unitaire HT: "),price);
 
 
     layoutPrinc->addLayout(layoutForm);
@@ -73,7 +73,7 @@ void NewProductWindow::createInterface(){
 
     QFormLayout *layoutBouton = new QFormLayout;
 
-    validate=new QPushButton(tr("Valider"));
+    validate=new QPushButton(trUtf8("Valider"));
     layoutBouton->addWidget(validate);
 
     layoutPrinc->addLayout(layoutBouton);
@@ -111,7 +111,7 @@ void NewProductWindow::validateProduct(){
     }
 
     QStatusBar *statBar = parent->statusBar();
-    statBar->showMessage(tr("Informations produit sauvegardÈ"), 4000);
+    statBar->showMessage(trUtf8("Informations produit sauvegard√©"), 4000);
     clean();
 }
 

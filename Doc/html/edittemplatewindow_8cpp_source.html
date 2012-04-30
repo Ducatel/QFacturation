@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<title>QFacturation:  Fichier source de edittemplatewindow.cpp</title>
+
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+</script>
+
+
+</head>
+<body>
+<div id="top"><!-- do not remove this div! -->
+
+
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  
+  <td id="projectlogo"><img alt="Logo" src="icon.png"/></td>
+  
+  
+  <td style="padding-left: 0.5em;">
+   <div id="projectname">QFacturation
+   &#160;<span id="projectnumber">1.0</span>
+   </div>
+   <div id="projectbrief">Logiciel de facturation pour les PME</div>
+  </td>
+  
+  
+  
+ </tr>
+ </tbody>
+</table>
+</div>
+
+<!-- Généré par Doxygen 1.8.0 -->
+  <div id="navrow1" class="tabs">
+    <ul class="tablist">
+      <li><a href="index.html"><span>Page&#160;principale</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Fichiers</span></a></li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="files.html"><span>Liste&#160;des&#160;fichiers</span></a></li>
+    </ul>
+  </div>
+</div>
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+  initNavTree('edittemplatewindow_8cpp.html','');
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="headertitle">
+<div class="title">edittemplatewindow.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 
+<a name="l00016"></a>00016 <span class="preprocessor">#include &quot;edittemplatewindow.h&quot;</span>
+<a name="l00017"></a>00017 
+<a name="l00021"></a><a class="code" href="class_edit_template_window.html#a54bef59017025f7c8ac61a4b1d5fcb69">00021</a> <a class="code" href="class_edit_template_window.html#a54bef59017025f7c8ac61a4b1d5fcb69" title="This program is free software: you can redistribute it and/or modify it under the terms of the GNU Ge...">EditTemplateWindow::EditTemplateWindow</a>(QMainWindow *parent) :QWidget(parent){
+<a name="l00022"></a>00022     this-&gt;parent=parent;
+<a name="l00023"></a>00023     QVBoxLayout *layoutPrinc=<span class="keyword">new</span> QVBoxLayout(<span class="keyword">this</span>);
+<a name="l00024"></a>00024 
+<a name="l00029"></a>00029     templateEdit=<span class="keyword">new</span> QTextEdit;
+<a name="l00030"></a>00030     templateEdit-&gt;setAcceptRichText(<span class="keyword">false</span>);
+<a name="l00031"></a>00031     templateEdit-&gt;setPlainText(loadTemplate());
+<a name="l00032"></a>00032     layoutPrinc-&gt;addWidget(templateEdit);
+<a name="l00033"></a>00033 
+<a name="l00038"></a>00038     QHBoxLayout *layoutBouton = <span class="keyword">new</span> QHBoxLayout;
+<a name="l00039"></a>00039 
+<a name="l00040"></a>00040     validate=<span class="keyword">new</span> QPushButton(tr(<span class="stringliteral">&quot;Valider&quot;</span>));
+<a name="l00041"></a>00041     layoutBouton-&gt;addWidget(validate);
+<a name="l00042"></a>00042 
+<a name="l00043"></a>00043     help=<span class="keyword">new</span> QPushButton(tr(<span class="stringliteral">&quot;Voir les balises disponibles&quot;</span>));
+<a name="l00044"></a>00044     layoutBouton-&gt;addWidget(help);
+<a name="l00045"></a>00045 
+<a name="l00046"></a>00046     layoutPrinc-&gt;addLayout(layoutBouton);
+<a name="l00047"></a>00047     setLayout(layoutPrinc);
+<a name="l00048"></a>00048 
+<a name="l00053"></a>00053     connect(validate, SIGNAL(clicked()), <span class="keyword">this</span>, SLOT(save()));
+<a name="l00054"></a>00054     connect(help, SIGNAL(clicked()), <span class="keyword">this</span>, SLOT(showBalise()));
+<a name="l00055"></a>00055 
+<a name="l00056"></a>00056 
+<a name="l00057"></a>00057 }
+<a name="l00058"></a>00058 
+<a name="l00063"></a>00063 QString EditTemplateWindow::loadTemplate(){
+<a name="l00064"></a>00064     QString templateContent;
+<a name="l00065"></a>00065     QFile file(QDir::fromNativeSeparators(QDir::homePath()+<span class="stringliteral">&quot;/.QFacturation/template.html&quot;</span>));
+<a name="l00066"></a>00066     <span class="keywordflow">if</span> (file.open(QFile::ReadOnly))
+<a name="l00067"></a>00067         templateContent= QString(file.readAll());
+<a name="l00068"></a>00068     <span class="keywordflow">else</span>
+<a name="l00069"></a>00069         templateContent=<span class="stringliteral">&quot;&quot;</span>;
+<a name="l00070"></a>00070 
+<a name="l00071"></a>00071     file.close();
+<a name="l00072"></a>00072     <span class="keywordflow">return</span> templateContent;
+<a name="l00073"></a>00073 }
+<a name="l00074"></a>00074 
+<a name="l00075"></a>00075 
+<a name="l00079"></a>00079 <span class="keywordtype">void</span> EditTemplateWindow::save(){
+<a name="l00080"></a>00080     QFile file(QDir::fromNativeSeparators(QDir::homePath()+<span class="stringliteral">&quot;/.QFacturation/template.html&quot;</span>));
+<a name="l00081"></a>00081     <span class="keywordflow">if</span> (file.open(QFile::WriteOnly)){
+<a name="l00082"></a>00082         file.write(templateEdit-&gt;toPlainText().toUtf8());
+<a name="l00083"></a>00083         file.flush();
+<a name="l00084"></a>00084         file.close();
+<a name="l00085"></a>00085         QStatusBar *statBar = parent-&gt;statusBar();
+<a name="l00086"></a>00086         statBar-&gt;showMessage(tr(<span class="stringliteral">&quot;Template sauvegard�&quot;</span>), 4000);
+<a name="l00087"></a>00087     }
+<a name="l00088"></a>00088     <span class="keywordflow">else</span>
+<a name="l00089"></a>00089         QMessageBox::critical(<span class="keyword">this</span>,tr(<span class="stringliteral">&quot;Erreur d&#39;�criture&quot;</span>),tr(<span class="stringliteral">&quot;Ecriture du template impossible&quot;</span>));
+<a name="l00090"></a>00090 }
+<a name="l00091"></a>00091 
+<a name="l00092"></a>00092 <span class="keywordtype">void</span> EditTemplateWindow::showBalise(){
+<a name="l00093"></a>00093     <span class="keyword">new</span> <a class="code" href="class_balise_template_frame.html" title="Class qui gere la fenetre d&#39;affichage des balise exploitable sur le template.">BaliseTemplateFrame</a>(<span class="keyword">this</span>);
+<a name="l00094"></a>00094 }
+</pre></div></div><!-- contents -->
+</div>
+  <div id="nav-path" class="navpath">
+    <ul>
+      <li class="navelem"><b>edittemplatewindow.cpp</b>      </li>
+
+    <li class="footer">Généré le Dimanche Avril 29 2012 18:46:33 pour QFacturation par
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.0 </li>
+   </ul>
+ </div>
+
+
+</body>
+</html>

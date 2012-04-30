@@ -15,19 +15,23 @@
 
 #include "paymenttypewindow.h"
 
+/**
+ * Constructeur de l'interface de choix du type de paiement
+ * lors d'une transformation devis --> facture
+ */
 PaymentTypeWindow::PaymentTypeWindow(QWidget *parent) :QDialog(parent){
     QVBoxLayout *layoutPrinc=new QVBoxLayout;
 
     QFormLayout *layoutForm=new QFormLayout;
     payment=new QComboBox(this);
-    payment->addItem(tr("Cheque"));
-    payment->addItem(tr("Virement"));
-    payment->addItem(tr("Espece"));
-    layoutForm->addRow(tr("Moyen de paiement: "),payment);
+    payment->addItem(trUtf8("Cheque"));
+    payment->addItem(trUtf8("Virement"));
+    payment->addItem(trUtf8("Espece"));
+    layoutForm->addRow(trUtf8("Moyen de paiement: "),payment);
 
     layoutPrinc->addLayout(layoutForm);
 
-    valideButton=new QPushButton(tr("Valider"),this);
+    valideButton=new QPushButton(trUtf8("Valider"),this);
     layoutPrinc->addWidget(valideButton);
 
 
@@ -36,7 +40,7 @@ PaymentTypeWindow::PaymentTypeWindow(QWidget *parent) :QDialog(parent){
     setLayout(layoutPrinc);
     setWindowIcon(QIcon(QCoreApplication::applicationDirPath()+QDir::separator()+"img"+QDir::separator()+"icon.png"));
     setModal(true);
-    setWindowTitle(tr("Transformation Devis --> Facture"));
+    setWindowTitle(trUtf8("Transformation Devis --> Facture"));
 
 }
 
@@ -56,7 +60,7 @@ void PaymentTypeWindow::valide(){
 }
 
 void PaymentTypeWindow::closeEvent(QCloseEvent* event){
-    QMessageBox::information(this, tr("Fermeture impossible"), tr("Vous ne pouvez fermer cette fenetre. Veuillez valider votre saisie"));
+    QMessageBox::information(this, trUtf8("Fermeture impossible"), trUtf8("Vous ne pouvez fermer cette fenetre. Veuillez valider votre saisie"));
 
     event->ignore();
 }

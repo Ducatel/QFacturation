@@ -17,12 +17,16 @@
 #define PAYMENTTYPEWINDOW_H
 
 #include <QtGui>
+
+#define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
+
 #include "document.h"
 
 
 /**
  * Class qui permet de gerer la fenetre de choix du type de moyen
  * de paiement pour la transformation de devis en facture
+ * @author David Ducatel
  */
 class PaymentTypeWindow : public QDialog
 {

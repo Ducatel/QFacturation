@@ -50,7 +50,7 @@ Product::Product(int identifiant){
 }
 
 /**
- * Methode qui sauvegarde un produit dans la base de données
+ * Methode qui sauvegarde un produit dans la base de donnÃ©es
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool Product::save(){

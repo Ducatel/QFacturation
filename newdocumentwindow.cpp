@@ -37,21 +37,21 @@ NewDocumentWindow::NewDocumentWindow(QMainWindow *parent,int identifiant){
 void NewDocumentWindow::initByBDD(){
 
     Document d(idDocument);
-    customerName->setCurrentIndex(d.idCustomer-1);
+    customerName->setCurrentIndex(d.m_idCustomer-1);
 
-    if(d.docType==Document::Facture)
+    if(d.m_docType==Document::Facture)
         documentType->setCurrentIndex(0);
     else
         documentType->setCurrentIndex(1);
 
-    if(d.payment==Document::Cheque)
+    if(d.m_payment==Document::Cheque)
         reglementMode->setCurrentIndex(0);
-    else if(d.payment==Document::Especes)
+    else if(d.m_payment==Document::Especes)
         reglementMode->setCurrentIndex(1);
     else
         reglementMode->setCurrentIndex(2);
 
-    documentTva->setValue(d.tva);
+    documentTva->setValue(d.m_tva);
 
     QList<ProductDocument> list=ProductDocument::getAllByIdDocument(idDocument);
     for(int i=0;i<list.size();i++){
@@ -112,10 +112,10 @@ void NewDocumentWindow::createInterface(){
 
     QHBoxLayout *layoutBouton=new QHBoxLayout;
 
-    saveButton=new QPushButton(tr("Enregistrer le document"),this);
+    saveButton=new QPushButton(trUtf8("Enregistrer le document"),this);
     layoutBouton->addWidget(saveButton);
 
-    validateButton=new QPushButton(tr("Valider le document"),this);
+    validateButton=new QPushButton(trUtf8("Valider le document"),this);
     layoutBouton->addWidget(validateButton);
 
     layoutPrinc->addLayout(layoutBouton);
@@ -133,11 +133,11 @@ void NewDocumentWindow::createInterface(){
  */
 QGroupBox* NewDocumentWindow::createBasicInfoInterface(){
 
-    QGroupBox *groupBase = new QGroupBox(tr("Informations de base"), this);
+    QGroupBox *groupBase = new QGroupBox(trUtf8("Informations de base"), this);
     QFormLayout *layoutFormBase=new QFormLayout;
 
     customerName=new QComboBox(this);
-    customerName->setToolTip(tr("Nom du client, ville"));
+    customerName->setToolTip(trUtf8("Nom du client, ville"));
     QList<Customer> listCustomer= Customer::getAllCustomer();
 
     if(listCustomer.size()==0){
@@ -145,27 +145,27 @@ QGroupBox* NewDocumentWindow::createBasicInfoInterface(){
     }
 
     for(int i=0;i<listCustomer.size();i++)
-        customerName->addItem(listCustomer.at(i).name+", "+listCustomer.at(i).city);
+        customerName->addItem(listCustomer.at(i).m_name+", "+listCustomer.at(i).m_city);
 
-    layoutFormBase->addRow(tr("Client: "),customerName);
+    layoutFormBase->addRow(trUtf8("Client: "),customerName);
 
 
     documentType=new QComboBox(this);
-    documentType->addItem(tr("Facture"));
-    documentType->addItem(tr("Devis"));
-    layoutFormBase->addRow(tr("Type de document: "),documentType);
+    documentType->addItem(trUtf8("Facture"));
+    documentType->addItem(trUtf8("Devis"));
+    layoutFormBase->addRow(trUtf8("Type de document: "),documentType);
 
 
     reglementMode=new QComboBox(this);
-    reglementMode->addItem(tr("Cheque"));
-    reglementMode->addItem(tr("Espece"));
-    reglementMode->addItem(tr("Virement"));
-    layoutFormBase->addRow(tr("Mode de paiement: "),reglementMode);
+    reglementMode->addItem(trUtf8("Cheque"));
+    reglementMode->addItem(trUtf8("Espece"));
+    reglementMode->addItem(trUtf8("Virement"));
+    layoutFormBase->addRow(trUtf8("Mode de paiement: "),reglementMode);
 
     documentTva=new QDoubleSpinBox(this);
     documentTva->setMinimum(0.0);
     documentTva->setMaximum(100.0);
-    layoutFormBase->addRow(tr("TVA du document: "),documentTva);
+    layoutFormBase->addRow(trUtf8("TVA du document: "),documentTva);
 
 
     groupBase->setLayout(layoutFormBase);
@@ -187,11 +187,11 @@ QGroupBox* NewDocumentWindow::createBasicInfoInterface(){
  */
 QGroupBox* NewDocumentWindow::createAddProductInterface(){
 
-    QGroupBox *groupAddProduct = new QGroupBox(tr("Ajout de produit"), this);
+    QGroupBox *groupAddProduct = new QGroupBox(trUtf8("Ajout de produit"), this);
     QFormLayout *layoutFormAddProduct=new QFormLayout;
 
     productName=new QComboBox(this);
-    productName->setToolTip(tr("Nom du produit, description, prix"));
+    productName->setToolTip(trUtf8("Nom du produit, description, prix"));
     QList<Product> listProduct= Product::getAllProduct();
 
     if(listProduct.size()==0){
@@ -201,24 +201,24 @@ QGroupBox* NewDocumentWindow::createAddProductInterface(){
     for(int i=0;i<listProduct.size();i++)
         productName->addItem(listProduct.at(i).name+", "+listProduct.at(i).description+", "+QVariant(listProduct.at(i).price).toString()+QString(8364));
 
-    layoutFormAddProduct->addRow(tr("Produit: "),productName);
+    layoutFormAddProduct->addRow(trUtf8("Produit: "),productName);
 
 
     productQuantity=new QSpinBox(this);
     productQuantity->setMinimum(1);
     productQuantity->setMaximum(99999);
-    layoutFormAddProduct->addRow(tr("Quantité: "),productQuantity);
+    layoutFormAddProduct->addRow(trUtf8("QuantitÃ©: "),productQuantity);
 
     productReduction=new QDoubleSpinBox(this);
     productQuantity->setMinimum(0);
     productQuantity->setMaximum(99999);
-    layoutFormAddProduct->addRow(tr("Remise: "),productReduction);
+    layoutFormAddProduct->addRow(trUtf8("Remise: "),productReduction);
 
     QGroupBox *groupTypeReduction = new QGroupBox(this);
 
-    fixedValue=new QRadioButton(tr("Valeur fixe"),this);
+    fixedValue=new QRadioButton(trUtf8("Valeur fixe"),this);
     fixedValue->setChecked(true);
-    percentage=new QRadioButton(tr("Pourcentage"),this);
+    percentage=new QRadioButton(trUtf8("Pourcentage"),this);
 
     QHBoxLayout *layoutRadioButton = new QHBoxLayout;
     layoutRadioButton->addWidget(fixedValue);
@@ -226,18 +226,18 @@ QGroupBox* NewDocumentWindow::createAddProductInterface(){
 
     groupTypeReduction->setLayout(layoutRadioButton);
 
-    layoutFormAddProduct->addRow(tr("Type de reduction"),groupTypeReduction);
+    layoutFormAddProduct->addRow(trUtf8("Type de reduction"),groupTypeReduction);
 
 
     QHBoxLayout *layoutButtonProduct=new QHBoxLayout;
 
-    buttonAddProduct=new QPushButton(tr("Ajouter le produit"),this);
+    buttonAddProduct=new QPushButton(trUtf8("Ajouter le produit"),this);
     layoutButtonProduct->addWidget(buttonAddProduct);
 
-    buttonRemoveProduct=new QPushButton(tr("Supprimer le produit sélectionné"),this);
+    buttonRemoveProduct=new QPushButton(trUtf8("Supprimer le produit sÃ©lectionnÃ©"),this);
     layoutButtonProduct->addWidget(buttonRemoveProduct);
 
-    layoutFormAddProduct->addRow(tr("Actions: "),layoutButtonProduct);
+    layoutFormAddProduct->addRow(trUtf8("Actions: "),layoutButtonProduct);
 
     groupAddProduct->setLayout(layoutFormAddProduct);
 
@@ -259,17 +259,17 @@ QGroupBox* NewDocumentWindow::createAddProductInterface(){
  */
 QGroupBox* NewDocumentWindow::createProductViewInterface(){
     QHBoxLayout *layoutProductView=new QHBoxLayout;
-    QGroupBox *groupProduct = new QGroupBox(tr("Produit dans le document"), this);
+    QGroupBox *groupProduct = new QGroupBox(trUtf8("Produit dans le document"), this);
 
 
     productModel = new QStandardItemModel(0, 7);
     productModel->setHeaderData(0,Qt::Horizontal,"id");
-    productModel->setHeaderData(1,Qt::Horizontal,tr("Nom"));
-    productModel->setHeaderData(2,Qt::Horizontal,tr("Quantité"));
-    productModel->setHeaderData(3,Qt::Horizontal,tr("Prix unitaire"));
-    productModel->setHeaderData(4,Qt::Horizontal,tr("Prix de base"));
-    productModel->setHeaderData(5,Qt::Horizontal,tr("Remise"));
-    productModel->setHeaderData(6,Qt::Horizontal,tr("Prix final"));
+    productModel->setHeaderData(1,Qt::Horizontal,trUtf8("Nom"));
+    productModel->setHeaderData(2,Qt::Horizontal,trUtf8("QuantitÃ©"));
+    productModel->setHeaderData(3,Qt::Horizontal,trUtf8("Prix unitaire"));
+    productModel->setHeaderData(4,Qt::Horizontal,trUtf8("Prix de base"));
+    productModel->setHeaderData(5,Qt::Horizontal,trUtf8("Remise"));
+    productModel->setHeaderData(6,Qt::Horizontal,trUtf8("Prix final"));
 
 
     productView = new QTableView(this);
@@ -285,7 +285,7 @@ QGroupBox* NewDocumentWindow::createProductViewInterface(){
 }
 
 /**
- * Methode qui permet d'activé ou de desactivé le choix du type
+ * Methode qui permet d'activÃ© ou de desactivÃ© le choix du type
  * de reglement (SLOT).
  * @param currentIndex index qui viens d'etre selectionner
  */
@@ -347,7 +347,7 @@ void NewDocumentWindow::removeProduct(){
         productModel->removeRow(row.row());
     }
     else
-        QMessageBox::information(this, tr("Suppression impossible"), tr("Suppression impossible, aucun produit sélectionné"));
+        QMessageBox::information(this, trUtf8("Suppression impossible"), trUtf8("Suppression impossible, aucun produit sÃ©lectionnÃ©"));
 
 }
 
@@ -361,21 +361,21 @@ void NewDocumentWindow::save(){
     else
         d=Document(idDocument);
 
-    d.idCustomer=customerName->currentIndex()+1;
+    d.m_idCustomer=customerName->currentIndex()+1;
 
-    if(reglementMode->currentText()==tr("Cheque"))
-        d.payment=Document::Cheque;
-    else if(reglementMode->currentText()==tr("Espece"))
-        d.payment=Document::Especes;
+    if(reglementMode->currentText()==trUtf8("Cheque"))
+        d.m_payment=Document::Cheque;
+    else if(reglementMode->currentText()==trUtf8("Espece"))
+        d.m_payment=Document::Especes;
     else
-        d.payment=Document::Virement;
+        d.m_payment=Document::Virement;
 
-    if(documentType->currentText()==tr("Facture"))
-        d.docType=Document::Facture;
+    if(documentType->currentText()==trUtf8("Facture"))
+        d.m_docType=Document::Facture;
     else
-         d.docType=Document::Devis;
+         d.m_docType=Document::Devis;
 
-    d.tva=documentTva->value();
+    d.m_tva=documentTva->value();
 
     d.save();
     idDocument=d.getId();
@@ -392,7 +392,7 @@ void NewDocumentWindow::save(){
 
     d.save();
     QStatusBar *statBar = parent->statusBar();
-    statBar->showMessage(tr("Informations du document sauvegardé"), 4000);
+    statBar->showMessage(trUtf8("Informations du document sauvegardÃ©"), 4000);
     parent->setCentralWidget(new SearchWindow(parent));
 
 }
@@ -402,7 +402,7 @@ void NewDocumentWindow::save(){
  * (redirige vers la page de recherche)
  */
 void NewDocumentWindow::validate(){
-    int ret = QMessageBox::question(this,tr("Valider le document ?"),tr("La validation d'un document empeche toutes modification ultérieure.<br/>Voulez-vous vraiment valider le document?"),QMessageBox::Yes | QMessageBox::No);
+    int ret = QMessageBox::question(this,trUtf8("Valider le document ?"),trUtf8("La validation d'un document empeche toutes modification ultÃ©rieure.<br/>Voulez-vous vraiment valider le document?"),QMessageBox::Yes | QMessageBox::No);
 
     if (ret == QMessageBox::Yes){
         save();
@@ -410,7 +410,7 @@ void NewDocumentWindow::validate(){
         ValidDocument vd(d);
         vd.save();
         QStatusBar *statBar = parent->statusBar();
-        statBar->showMessage(tr("Informations du document sauvegardé et valider"), 4000);
+        statBar->showMessage(trUtf8("Informations du document sauvegardÃ© et valider"), 4000);
         parent->setCentralWidget(new SearchWindow(parent));
     }
 }

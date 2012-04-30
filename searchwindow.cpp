@@ -65,32 +65,32 @@ SearchWindow::SearchWindow(QMainWindow *parent) :QWidget(parent){
  */
 QGroupBox* SearchWindow::createCustomerSearchInterface(){
 
-    QGroupBox *groupClient = new QGroupBox(tr("Rechercher un client"), this);
+    QGroupBox *groupClient = new QGroupBox(trUtf8("Rechercher un client"), this);
     QVBoxLayout *layoutClient= new QVBoxLayout;
 
 
     QFormLayout *layoutFormClient=new QFormLayout;
 
     typeSearchClient= new QComboBox(this);
-    typeSearchClient->addItem(tr("Nom"));
-    typeSearchClient->addItem(tr("Ville"));
-    typeSearchClient->addItem(tr("Code postal"));
-    typeSearchClient->addItem(tr("NumÈro de tÈlÈphone"));
-    layoutFormClient->addRow(tr("Rechercher par: "),typeSearchClient);
+    typeSearchClient->addItem(trUtf8("Nom"));
+    typeSearchClient->addItem(trUtf8("Ville"));
+    typeSearchClient->addItem(trUtf8("Code postal"));
+    typeSearchClient->addItem(trUtf8("Num√©ro de t√©l√©phone"));
+    layoutFormClient->addRow(trUtf8("Rechercher par: "),typeSearchClient);
 
     lineSearchClient=new QLineEdit(this);
-    layoutFormClient->addRow(tr("Mots clÈs: "),lineSearchClient);
+    layoutFormClient->addRow(trUtf8("Mots cl√©s: "),lineSearchClient);
 
 
     QHBoxLayout *layoutButtonCustomer=new QHBoxLayout;
 
-    searchButtonCustomer=new QPushButton(tr("Rechercher"),this);
+    searchButtonCustomer=new QPushButton(trUtf8("Rechercher"),this);
     layoutButtonCustomer->addWidget(searchButtonCustomer);
 
-    editButtonCustomer=new QPushButton(tr("Editer le client sÈlectionnÈ"),this);
+    editButtonCustomer=new QPushButton(trUtf8("Editer le client s√©lectionn√©"),this);
     layoutButtonCustomer->addWidget(editButtonCustomer);
 
-    layoutFormClient->addRow(tr("Action: "),layoutButtonCustomer);
+    layoutFormClient->addRow(trUtf8("Action: "),layoutButtonCustomer);
 
 
     layoutClient->addLayout(layoutFormClient);
@@ -100,14 +100,14 @@ QGroupBox* SearchWindow::createCustomerSearchInterface(){
     QHBoxLayout *layoutTabClient= new QHBoxLayout;
     customerModel = new QStandardItemModel(0, 9);
     customerModel->setHeaderData(0,Qt::Horizontal,"id");
-    customerModel->setHeaderData(1,Qt::Horizontal,tr("Nom"));
-    customerModel->setHeaderData(2,Qt::Horizontal,tr("Adresse"));
-    customerModel->setHeaderData(3,Qt::Horizontal,tr("ComplÈment"));
-    customerModel->setHeaderData(4,Qt::Horizontal,tr("Code postal"));
-    customerModel->setHeaderData(5,Qt::Horizontal,tr("Ville"));
-    customerModel->setHeaderData(6,Qt::Horizontal,tr("Pays"));
-    customerModel->setHeaderData(7,Qt::Horizontal,tr("Email"));
-    customerModel->setHeaderData(8,Qt::Horizontal,tr("TÈlÈphone"));
+    customerModel->setHeaderData(1,Qt::Horizontal,trUtf8("Nom"));
+    customerModel->setHeaderData(2,Qt::Horizontal,trUtf8("Adresse"));
+    customerModel->setHeaderData(3,Qt::Horizontal,trUtf8("Compl√©ment"));
+    customerModel->setHeaderData(4,Qt::Horizontal,trUtf8("Code postal"));
+    customerModel->setHeaderData(5,Qt::Horizontal,trUtf8("Ville"));
+    customerModel->setHeaderData(6,Qt::Horizontal,trUtf8("Pays"));
+    customerModel->setHeaderData(7,Qt::Horizontal,trUtf8("Email"));
+    customerModel->setHeaderData(8,Qt::Horizontal,trUtf8("T√©l√©phone"));
 
 
     customerView = new QTableView(this);
@@ -140,29 +140,29 @@ QGroupBox* SearchWindow::createCustomerSearchInterface(){
  */
 QGroupBox* SearchWindow::createProductSearchInterface(){
     QVBoxLayout *layoutProduct= new QVBoxLayout;
-    QGroupBox *groupProduct = new QGroupBox(tr("Rechercher un Produit"), this);
+    QGroupBox *groupProduct = new QGroupBox(trUtf8("Rechercher un Produit"), this);
 
     QFormLayout *layoutFormProduct=new QFormLayout;
 
     typeSearchProduct= new QComboBox(this);
-    typeSearchProduct->addItem(tr("Nom"));
-    typeSearchProduct->addItem(tr("Prix HT"));
+    typeSearchProduct->addItem(trUtf8("Nom"));
+    typeSearchProduct->addItem(trUtf8("Prix HT"));
 
-    layoutFormProduct->addRow(tr("Rechercher par: "),typeSearchProduct);
+    layoutFormProduct->addRow(trUtf8("Rechercher par: "),typeSearchProduct);
 
     lineSearchProduct=new QLineEdit(this);
-    layoutFormProduct->addRow(tr("Mots clÈs: "),lineSearchProduct);
+    layoutFormProduct->addRow(trUtf8("Mots cl√©s: "),lineSearchProduct);
 
 
     QHBoxLayout *layoutButtonProduct=new QHBoxLayout;
 
-    searchButtonProduct=new QPushButton(tr("Rechercher"),this);
+    searchButtonProduct=new QPushButton(trUtf8("Rechercher"),this);
     layoutButtonProduct->addWidget(searchButtonProduct);
 
-    editButtonProduct=new QPushButton(tr("Editer le produit sÈlectionnÈ"),this);
+    editButtonProduct=new QPushButton(trUtf8("Editer le produit s√©lectionn√©"),this);
     layoutButtonProduct->addWidget(editButtonProduct);
 
-    layoutFormProduct->addRow(tr("Action: "),layoutButtonProduct);
+    layoutFormProduct->addRow(trUtf8("Action: "),layoutButtonProduct);
 
 
     layoutProduct->addLayout(layoutFormProduct);
@@ -172,9 +172,9 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
     QHBoxLayout *layoutTabProduct= new QHBoxLayout;
     productModel = new QStandardItemModel(0, 4);
     productModel->setHeaderData(0,Qt::Horizontal,"id");
-    productModel->setHeaderData(1,Qt::Horizontal,tr("Nom"));
-    productModel->setHeaderData(2,Qt::Horizontal,tr("Prix HT"));
-    productModel->setHeaderData(3,Qt::Horizontal,tr("Description"));
+    productModel->setHeaderData(1,Qt::Horizontal,trUtf8("Nom"));
+    productModel->setHeaderData(2,Qt::Horizontal,trUtf8("Prix HT"));
+    productModel->setHeaderData(3,Qt::Horizontal,trUtf8("Description"));
 
     productView = new QTableView(this);
     productView->verticalHeader()->hide();
@@ -203,56 +203,56 @@ QGroupBox* SearchWindow::createProductSearchInterface(){
 
 /**
  * Methode permettant de construire la partie interface
- * de recherche d'un document non validÈ
+ * de recherche d'un document non valid√©
  * @return le QGroupBox contenant l'interface
  */
 QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
 
     QVBoxLayout *layoutDoc= new QVBoxLayout;
-    QGroupBox *groupDoc = new QGroupBox(tr("Rechercher un document non validÈ"), this);
+    QGroupBox *groupDoc = new QGroupBox(trUtf8("Rechercher un document non valid√©"), this);
     QFormLayout *layoutFormDoc=new QFormLayout;
 
     typeSearchDocumentNotValidate=new QComboBox(this);
-    typeSearchDocumentNotValidate->addItem(tr("Nom de client"));
-    typeSearchDocumentNotValidate->addItem(tr("Date"));
-    typeSearchDocumentNotValidate->addItem(tr("Prix HT"));
+    typeSearchDocumentNotValidate->addItem(trUtf8("Nom de client"));
+    typeSearchDocumentNotValidate->addItem(trUtf8("Date"));
+    typeSearchDocumentNotValidate->addItem(trUtf8("Prix HT"));
 
-    layoutFormDoc->addRow(tr("Rechercher par: "),typeSearchDocumentNotValidate);
+    layoutFormDoc->addRow(trUtf8("Rechercher par: "),typeSearchDocumentNotValidate);
 
     typeDocumentNotValidate=new QComboBox(this);
-    typeDocumentNotValidate->addItem(tr("Tout"));
-    typeDocumentNotValidate->addItem(tr("Facture"));
-    typeDocumentNotValidate->addItem(tr("Devis"));
+    typeDocumentNotValidate->addItem(trUtf8("Tout"));
+    typeDocumentNotValidate->addItem(trUtf8("Facture"));
+    typeDocumentNotValidate->addItem(trUtf8("Devis"));
 
-    layoutFormDoc->addRow(tr("Type de document: "),typeDocumentNotValidate);
+    layoutFormDoc->addRow(trUtf8("Type de document: "),typeDocumentNotValidate);
 
     paymentDocumentNotValidate=new QComboBox(this);
-    paymentDocumentNotValidate->addItem(tr("Tout"));
-    paymentDocumentNotValidate->addItem(tr("Cheque"));
-    paymentDocumentNotValidate->addItem(tr("Virement"));
-    paymentDocumentNotValidate->addItem(tr("Espece"));
+    paymentDocumentNotValidate->addItem(trUtf8("Tout"));
+    paymentDocumentNotValidate->addItem(trUtf8("Cheque"));
+    paymentDocumentNotValidate->addItem(trUtf8("Virement"));
+    paymentDocumentNotValidate->addItem(trUtf8("Espece"));
 
-    layoutFormDoc->addRow(tr("Moyen de paiement: "),paymentDocumentNotValidate);
+    layoutFormDoc->addRow(trUtf8("Moyen de paiement: "),paymentDocumentNotValidate);
 
 
     lineSearchDocumentNotValidate=new QLineEdit(this);
-    layoutFormDoc->addRow(tr("Mots clÈs: "),lineSearchDocumentNotValidate);
+    layoutFormDoc->addRow(trUtf8("Mots cl√©s: "),lineSearchDocumentNotValidate);
 
     QGridLayout *layoutButtonDoc=new QGridLayout;
 
-    searchButtonDocumentNotValidate=new QPushButton(tr("Rechercher"),this);
+    searchButtonDocumentNotValidate=new QPushButton(trUtf8("Rechercher"),this);
     layoutButtonDoc->addWidget(searchButtonDocumentNotValidate,0,0);
 
-    editButtonDocumentNotValidate=new QPushButton(tr("Editer le document sÈlectionnÈ"),this);
+    editButtonDocumentNotValidate=new QPushButton(trUtf8("Editer le document s√©lectionn√©"),this);
     layoutButtonDoc->addWidget(editButtonDocumentNotValidate,0,1);
 
-    validateDocumentButton=new QPushButton(tr("Valider le document sÈlectionnÈ"),this);
+    validateDocumentButton=new QPushButton(trUtf8("Valider le document s√©lectionn√©"),this);
     layoutButtonDoc->addWidget(validateDocumentButton,1,0);
 
-    deleteButtonDocumentNotValidate=new QPushButton(tr("Supprimer le document sÈlectionnÈ"),this);
+    deleteButtonDocumentNotValidate=new QPushButton(trUtf8("Supprimer le document s√©lectionn√©"),this);
     layoutButtonDoc->addWidget(deleteButtonDocumentNotValidate,1,1);
 
-    layoutFormDoc->addRow(tr("Action: "),layoutButtonDoc);
+    layoutFormDoc->addRow(trUtf8("Action: "),layoutButtonDoc);
 
     layoutDoc->addLayout(layoutFormDoc);
 
@@ -261,12 +261,12 @@ QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
     QHBoxLayout *layoutTabDoc= new QHBoxLayout;
     documentNotValidateModel = new QStandardItemModel(0, 7);
     documentNotValidateModel->setHeaderData(0,Qt::Horizontal,"id");
-    documentNotValidateModel->setHeaderData(1,Qt::Horizontal,tr("Nom du client"));
-    documentNotValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix HT"));
-    documentNotValidateModel->setHeaderData(3,Qt::Horizontal,tr("Date"));
-    documentNotValidateModel->setHeaderData(4,Qt::Horizontal,tr("Type de document"));
-    documentNotValidateModel->setHeaderData(5,Qt::Horizontal,tr("Moyen de paiement"));
-    documentNotValidateModel->setHeaderData(6,Qt::Horizontal,tr("TVA"));
+    documentNotValidateModel->setHeaderData(1,Qt::Horizontal,trUtf8("Nom du client"));
+    documentNotValidateModel->setHeaderData(2,Qt::Horizontal,trUtf8("Prix HT"));
+    documentNotValidateModel->setHeaderData(3,Qt::Horizontal,trUtf8("Date"));
+    documentNotValidateModel->setHeaderData(4,Qt::Horizontal,trUtf8("Type de document"));
+    documentNotValidateModel->setHeaderData(5,Qt::Horizontal,trUtf8("Moyen de paiement"));
+    documentNotValidateModel->setHeaderData(6,Qt::Horizontal,trUtf8("TVA"));
 
     documentNotValidateView = new QTableView(this);
     documentNotValidateView->verticalHeader()->hide();
@@ -299,54 +299,54 @@ QGroupBox* SearchWindow::createNotValidateDocumentSearchInterface(){
 
 /**
  * Methode permettant de construire la partie interface
- * de recherche d'un document validÈ
+ * de recherche d'un document valid√©
  * @return le QGroupBox contenant l'interface
  */
 QGroupBox* SearchWindow::createValidateDocumentSearchInterface(){
 
     QVBoxLayout *layoutDoc= new QVBoxLayout;
-    QGroupBox *groupDoc = new QGroupBox(tr("Rechercher un document validÈ"), this);
+    QGroupBox *groupDoc = new QGroupBox(trUtf8("Rechercher un document valid√©"), this);
     QFormLayout *layoutFormDoc=new QFormLayout;
 
     typeSearchDocumentValidate=new QComboBox(this);
-    typeSearchDocumentValidate->addItem(tr("Nom de client"));
-    typeSearchDocumentValidate->addItem(tr("Date"));
-    typeSearchDocumentValidate->addItem(tr("Prix HT"));
+    typeSearchDocumentValidate->addItem(trUtf8("Nom de client"));
+    typeSearchDocumentValidate->addItem(trUtf8("Date"));
+    typeSearchDocumentValidate->addItem(trUtf8("Prix HT"));
 
-    layoutFormDoc->addRow(tr("Rechercher par: "),typeSearchDocumentValidate);
+    layoutFormDoc->addRow(trUtf8("Rechercher par: "),typeSearchDocumentValidate);
 
     typeDocumentValidate=new QComboBox(this);
-    typeDocumentValidate->addItem(tr("Tout"));
-    typeDocumentValidate->addItem(tr("Facture"));
-    typeDocumentValidate->addItem(tr("Devis"));
+    typeDocumentValidate->addItem(trUtf8("Tout"));
+    typeDocumentValidate->addItem(trUtf8("Facture"));
+    typeDocumentValidate->addItem(trUtf8("Devis"));
 
-    layoutFormDoc->addRow(tr("Type de document: "),typeDocumentValidate);
+    layoutFormDoc->addRow(trUtf8("Type de document: "),typeDocumentValidate);
 
     paymentDocumentValidate=new QComboBox(this);
-    paymentDocumentValidate->addItem(tr("Tout"));
-    paymentDocumentValidate->addItem(tr("Cheque"));
-    paymentDocumentValidate->addItem(tr("Virement"));
-    paymentDocumentValidate->addItem(tr("Espece"));
+    paymentDocumentValidate->addItem(trUtf8("Tout"));
+    paymentDocumentValidate->addItem(trUtf8("Cheque"));
+    paymentDocumentValidate->addItem(trUtf8("Virement"));
+    paymentDocumentValidate->addItem(trUtf8("Espece"));
 
-    layoutFormDoc->addRow(tr("Moyen de paiement: "),paymentDocumentValidate);
+    layoutFormDoc->addRow(trUtf8("Moyen de paiement: "),paymentDocumentValidate);
 
 
     lineSearchDocumentValidate=new QLineEdit(this);
-    layoutFormDoc->addRow(tr("Mots clÈs: "),lineSearchDocumentValidate);
+    layoutFormDoc->addRow(trUtf8("Mots cl√©s: "),lineSearchDocumentValidate);
 
     QGridLayout *layoutButtonDoc = new QGridLayout;
 
-    searchButtonDocumentValidate=new QPushButton(tr("Rechercher"),this);
+    searchButtonDocumentValidate=new QPushButton(trUtf8("Rechercher"),this);
     layoutButtonDoc->addWidget(searchButtonDocumentValidate,0,0,1,2);
 
-    printButtonDocumentValidate=new QPushButton(tr("Imprimer le document sÈlectionnÈ"),this);
+    printButtonDocumentValidate=new QPushButton(trUtf8("Imprimer le document s√©lectionn√©"),this);
     layoutButtonDoc->addWidget(printButtonDocumentValidate,1,0);
 
-    transformDocumentButton=new QPushButton(tr("Transformer un devis en facture"),this);
+    transformDocumentButton=new QPushButton(trUtf8("Transformer un devis en facture"),this);
     layoutButtonDoc->addWidget(transformDocumentButton,1,1);
 
 
-    layoutFormDoc->addRow(tr("Action: "),layoutButtonDoc);
+    layoutFormDoc->addRow(trUtf8("Action: "),layoutButtonDoc);
 
     layoutDoc->addLayout(layoutFormDoc);
 
@@ -355,12 +355,12 @@ QGroupBox* SearchWindow::createValidateDocumentSearchInterface(){
     QHBoxLayout *layoutTabDoc= new QHBoxLayout;
     documentValidateModel = new QStandardItemModel(0, 7);
     documentValidateModel->setHeaderData(0,Qt::Horizontal,"id");
-    documentValidateModel->setHeaderData(1,Qt::Horizontal,tr("Nom du client"));
-    documentValidateModel->setHeaderData(2,Qt::Horizontal,tr("Prix HT"));
-    documentValidateModel->setHeaderData(3,Qt::Horizontal,tr("Date"));
-    documentValidateModel->setHeaderData(4,Qt::Horizontal,tr("Type de document"));
-    documentValidateModel->setHeaderData(5,Qt::Horizontal,tr("Moyen de paiement"));
-    documentValidateModel->setHeaderData(6,Qt::Horizontal,tr("TVA"));
+    documentValidateModel->setHeaderData(1,Qt::Horizontal,trUtf8("Nom du client"));
+    documentValidateModel->setHeaderData(2,Qt::Horizontal,trUtf8("Prix HT"));
+    documentValidateModel->setHeaderData(3,Qt::Horizontal,trUtf8("Date"));
+    documentValidateModel->setHeaderData(4,Qt::Horizontal,trUtf8("Type de document"));
+    documentValidateModel->setHeaderData(5,Qt::Horizontal,trUtf8("Moyen de paiement"));
+    documentValidateModel->setHeaderData(6,Qt::Horizontal,trUtf8("TVA"));
 
 
     documentValidateView = new QTableView(this);
@@ -474,17 +474,17 @@ void SearchWindow::loadDocumentNotValidate(){
         documentNotValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
 
         int docType=rec.value("type").toInt();
-        QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+        QString type=(docType==Document::Facture)?trUtf8("Facture"):trUtf8("Devis");
         documentNotValidateModel->setItem(i, 4, new QStandardItem(type));
 
         int paymentType=rec.value("payment").toInt();
         QString payment="";
         if(paymentType==Document::Cheque)
-            payment=tr("Cheque");
+            payment=trUtf8("Cheque");
         else if(paymentType==Document::Virement)
-            payment=tr("Virement");
+            payment=trUtf8("Virement");
         else
-            payment=tr("Espece");
+            payment=trUtf8("Espece");
 
         documentNotValidateModel->setItem(i, 5, new QStandardItem(payment));
         documentNotValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
@@ -521,17 +521,17 @@ void SearchWindow::loadDocumentValidate(){
         documentValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
 
         int docType=rec.value("type").toInt();
-        QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+        QString type=(docType==Document::Facture)?trUtf8("Facture"):trUtf8("Devis");
         documentValidateModel->setItem(i, 4, new QStandardItem(type));
 
         int paymentType=rec.value("payment").toInt();
         QString payment="";
         if(paymentType==Document::Cheque)
-            payment=tr("Cheque");
+            payment=trUtf8("Cheque");
         else if(paymentType==Document::Virement)
-            payment=tr("Virement");
+            payment=trUtf8("Virement");
         else
-            payment=tr("Espece");
+            payment=trUtf8("Espece");
 
         documentValidateModel->setItem(i, 5, new QStandardItem(payment));
         documentValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
@@ -583,7 +583,7 @@ void SearchWindow::showCustomerResult(){
     int nbResult=queryModel.rowCount();
 
     if(nbResult==0){
-        QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retournÈ aucun resultat."));
+        QMessageBox::information(this, trUtf8("Aucun Resultat"), trUtf8("Votre recherche n'a retourn√© aucun resultat."));
     }
     else{
         while(customerModel->rowCount()>0)
@@ -640,7 +640,7 @@ void SearchWindow::showProductResult(){
     int nbResult=queryModel.rowCount();
 
     if(nbResult==0){
-        QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retournÈ aucun resultat."));
+        QMessageBox::information(this, trUtf8("Aucun Resultat"), trUtf8("Votre recherche n'a retourn√© aucun resultat."));
     }
     else{
         while(productModel->rowCount()>0)
@@ -675,7 +675,7 @@ void SearchWindow::editCustomer(){
         parent->setCentralWidget(new NewCustomerWindow(parent,row.data(0).toInt()));
     }
     else
-        QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun client sÈlectionnÈ"));
+        QMessageBox::information(this, trUtf8("Edition impossible"), trUtf8("Edition impossible, aucun client s√©lectionn√©"));
 }
 
 /**
@@ -689,7 +689,7 @@ void SearchWindow::editProduct(){
         parent->setCentralWidget(new NewProductWindow(parent,row.data(0).toInt()));
     }
     else
-        QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun produit sÈlectionnÈ"));
+        QMessageBox::information(this, trUtf8("Edition impossible"), trUtf8("Edition impossible, aucun produit s√©lectionn√©"));
 }
 
 /**
@@ -755,7 +755,7 @@ void SearchWindow::showDocumentNotValideResult(){
 
     int nbResult=queryModel.rowCount();
     if(nbResult==0){
-        QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retournÈ aucun resultat."));
+        QMessageBox::information(this, trUtf8("Aucun Resultat"), trUtf8("Votre recherche n'a retourn√© aucun resultat."));
     }
     else{
         // ici on affiche les resultat;
@@ -774,17 +774,17 @@ void SearchWindow::showDocumentNotValideResult(){
             documentNotValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
 
             int docType=rec.value("type").toInt();
-            QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+            QString type=(docType==Document::Facture)?trUtf8("Facture"):trUtf8("Devis");
             documentNotValidateModel->setItem(i, 4, new QStandardItem(type));
 
             int paymentType=rec.value("payment").toInt();
             QString payment="";
             if(paymentType==Document::Cheque)
-                payment=tr("Cheque");
+                payment=trUtf8("Cheque");
             else if(paymentType==Document::Virement)
-                payment=tr("Virement");
+                payment=trUtf8("Virement");
             else
-                payment=tr("Espece");
+                payment=trUtf8("Espece");
 
             documentNotValidateModel->setItem(i, 5, new QStandardItem(payment));
             documentNotValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
@@ -808,7 +808,7 @@ void SearchWindow::editDocument(){
         parent->setCentralWidget(new NewDocumentWindow(parent,row.data(0).toInt()));
     }
     else
-        QMessageBox::information(this, tr("Edition impossible"), tr("Edition impossible, aucun document sÈlectionnÈ"));
+        QMessageBox::information(this, trUtf8("Edition impossible"), trUtf8("Edition impossible, aucun document s√©lectionn√©"));
 
 }
 
@@ -818,7 +818,7 @@ void SearchWindow::editDocument(){
 void SearchWindow::valideDocument(){
     QItemSelectionModel *select = documentNotValidateView->selectionModel();
     if(select->hasSelection()){
-        int ret = QMessageBox::question(this,tr("Valider le document ?"),tr("La validation d'un document empeche toutes modification ultÈrieure.<br/>Voulez-vous vraiment valider le document?"),QMessageBox::Yes | QMessageBox::No);
+        int ret = QMessageBox::question(this,trUtf8("Valider le document ?"),trUtf8("La validation d'un document empeche toutes modification ult√©rieure.<br/>Voulez-vous vraiment valider le document?"),QMessageBox::Yes | QMessageBox::No);
 
         if (ret == QMessageBox::Yes){
             QModelIndexList rows=select->selectedRows(0);
@@ -832,11 +832,11 @@ void SearchWindow::valideDocument(){
             loadDocumentValidate();
 
             QStatusBar *statBar = parent->statusBar();
-            statBar->showMessage(tr("Document validÈ"), 4000);
+            statBar->showMessage(trUtf8("Document valid√©"), 4000);
         }
     }
     else
-        QMessageBox::information(this, tr("Validation impossible"), tr("Validation impossible, aucun document sÈlectionnÈ"));
+        QMessageBox::information(this, trUtf8("Validation impossible"), trUtf8("Validation impossible, aucun document s√©lectionn√©"));
 
 
 }
@@ -856,10 +856,10 @@ void SearchWindow::deleteDocument(){
 
         documentNotValidateModel->removeRow(row.row());
         QStatusBar *statBar = parent->statusBar();
-        statBar->showMessage(tr("Document supprimÈ"), 4000);
+        statBar->showMessage(trUtf8("Document supprim√©"), 4000);
     }
     else
-        QMessageBox::information(this, tr("Suppression impossible"), tr("Suppression impossible, aucun document sÈlectionnÈ"));
+        QMessageBox::information(this, trUtf8("Suppression impossible"), trUtf8("Suppression impossible, aucun document s√©lectionn√©"));
 }
 
 /**
@@ -925,7 +925,7 @@ void SearchWindow::showDocumentValideResult(){
 
     int nbResult=queryModel.rowCount();
     if(nbResult==0){
-        QMessageBox::information(this, tr("Aucun Resultat"), tr("Votre recherche n'a retournÈ aucun resultat."));
+        QMessageBox::information(this, trUtf8("Aucun Resultat"), trUtf8("Votre recherche n'a retourn√© aucun resultat."));
     }
     else{
         // ici on affiche les resultat;
@@ -944,17 +944,17 @@ void SearchWindow::showDocumentValideResult(){
             documentValidateModel->setItem(i, 3, new QStandardItem(date.toString("dd-MM-yyyy")));
 
             int docType=rec.value("type").toInt();
-            QString type=(docType==Document::Facture)?tr("Facture"):tr("Devis");
+            QString type=(docType==Document::Facture)?trUtf8("Facture"):trUtf8("Devis");
             documentValidateModel->setItem(i, 4, new QStandardItem(type));
 
             int paymentType=rec.value("payment").toInt();
             QString payment="";
             if(paymentType==Document::Cheque)
-                payment=tr("Cheque");
+                payment=trUtf8("Cheque");
             else if(paymentType==Document::Virement)
-                payment=tr("Virement");
+                payment=trUtf8("Virement");
             else
-                payment=tr("Espece");
+                payment=trUtf8("Espece");
 
             documentValidateModel->setItem(i, 5, new QStandardItem(payment));
             documentValidateModel->setItem(i, 6, new QStandardItem(rec.value("tva").toString()));
@@ -980,10 +980,10 @@ void SearchWindow::printDocument(){
         ValidDocument vd(idDoc);
         vd.print();
         QStatusBar *statBar = parent->statusBar();
-        statBar->showMessage(tr("Document en cour d'impression"), 4000);
+        statBar->showMessage(trUtf8("Document en cour d'impression"), 4000);
     }
     else
-        QMessageBox::information(this, tr("Impression impossible"), tr("Impression impossible, aucun document sÈlectionnÈ"));
+        QMessageBox::information(this, trUtf8("Impression impossible"), trUtf8("Impression impossible, aucun document s√©lectionn√©"));
 
 }
 
@@ -999,7 +999,7 @@ void SearchWindow::transformDocument(){
         int idDoc=row.data(0).toInt();
         ValidDocument vd(idDoc);
         if(vd.docType==Document::Facture){
-            QMessageBox::information(this, tr("Transformation impossible"), tr("Transformation impossible, vous avez sÈlectionnÈ une facture"));
+            QMessageBox::information(this, trUtf8("Transformation impossible"), trUtf8("Transformation impossible, vous avez s√©lectionn√© une facture"));
             return;
         }
         else{
@@ -1010,7 +1010,7 @@ void SearchWindow::transformDocument(){
         }
     }
     else
-        QMessageBox::information(this, tr("Transformation impossible"), tr("Transformation impossible, aucun devis sÈlectionnÈ"));
+        QMessageBox::information(this, trUtf8("Transformation impossible"), trUtf8("Transformation impossible, aucun devis s√©lectionn√©"));
 
 }
 
@@ -1027,5 +1027,5 @@ void SearchWindow::endTransformDocument(Document::PaymentEnum choice){
     vd.transform(choice);
     loadDocumentValidate();
     QStatusBar *statBar = parent->statusBar();
-    statBar->showMessage(tr("Devis tranformÈ en facture"), 4000);
+    statBar->showMessage(trUtf8("Devis tranform√© en facture"), 4000);
 }

@@ -26,7 +26,7 @@
 #include "searchwindow.h"
 #include "validdocument.h"
 /**
- * Class qui va géré l'interface de création/edition d'un document
+ * Class qui va gerer l'interface de creation/edition d'un document
  * @author David Ducatel
  */
 class NewDocumentWindow : public QWidget

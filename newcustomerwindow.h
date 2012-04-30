@@ -22,7 +22,7 @@
 #include "customer.h"
 
 /**
- * Class qui gere le widget permettant de créer/editer un nouveau client
+ * Class qui gere le widget permettant de creer/editer un nouveau client
  * @author David Ducatel
  */
 class NewCustomerWindow : public QWidget

@@ -15,6 +15,9 @@
 
 #include "edittemplatewindow.h"
 
+/**
+ * Constructeur de la fenetre d'edition du template
+ */
 EditTemplateWindow::EditTemplateWindow(QMainWindow *parent) :QWidget(parent){
     this->parent=parent;
     QVBoxLayout *layoutPrinc=new QVBoxLayout(this);
@@ -34,10 +37,10 @@ EditTemplateWindow::EditTemplateWindow(QMainWindow *parent) :QWidget(parent){
 
     QHBoxLayout *layoutBouton = new QHBoxLayout;
 
-    validate=new QPushButton(tr("Valider"));
+    validate=new QPushButton(trUtf8("Valider"));
     layoutBouton->addWidget(validate);
 
-    help=new QPushButton(tr("Voir les balises disponibles"));
+    help=new QPushButton(trUtf8("Voir les balises disponibles"));
     layoutBouton->addWidget(help);
 
     layoutPrinc->addLayout(layoutBouton);
@@ -80,10 +83,10 @@ void EditTemplateWindow::save(){
         file.flush();
         file.close();
         QStatusBar *statBar = parent->statusBar();
-        statBar->showMessage(tr("Template sauvegardÈ"), 4000);
+        statBar->showMessage(trUtf8("Template sauvegard√©"), 4000);
     }
     else
-        QMessageBox::critical(this,tr("Erreur d'Ècriture"),tr("Ecriture du template impossible"));
+        QMessageBox::critical(this,trUtf8("Erreur d'√©criture"),trUtf8("Ecriture du template impossible"));
 }
 
 void EditTemplateWindow::showBalise(){

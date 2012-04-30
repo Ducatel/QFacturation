@@ -43,22 +43,29 @@ class Document
         double getTotalPrice();
         bool addProduct(int idProduct,int quantity,QString reduction);
 
-
+        /**
+         * \enum DocTypeEnum
+         * Enum des types de documents possible
+         */
         enum DocTypeEnum{
             Facture=0,
             Devis=1
         };
 
+        /**
+         * \enum PaymentEnum
+         * Enum des moyens de paiement possible
+         */
         enum PaymentEnum{
             Cheque=0,
             Especes=1,
             Virement=2
         };
 
-        int idCustomer;
-        DocTypeEnum docType;
-        PaymentEnum payment;
-        double tva;
+        int m_idCustomer;
+        DocTypeEnum m_docType;
+        PaymentEnum m_payment;
+        double m_tva;
 
 
     private:

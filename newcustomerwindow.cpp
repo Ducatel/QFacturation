@@ -52,29 +52,29 @@ void NewCustomerWindow::createInterface(){
 
     name=new QLineEdit();
     name->setMinimumWidth(250);
-    layoutForm->addRow(tr("Nom du client: "),name);
+    layoutForm->addRow(trUtf8("Nom du client: "),name);
 
     adress=new QLineEdit();
-    layoutForm->addRow(tr("Adresse du client: "),adress);
+    layoutForm->addRow(trUtf8("Adresse du client: "),adress);
 
     adress2=new QLineEdit();
-    layoutForm->addRow(tr("Complement d'adresse: "),adress2);
+    layoutForm->addRow(trUtf8("Complement d'adresse: "),adress2);
 
     postalCode=new QSpinBox();
     postalCode->setMaximum(9999999);
-    layoutForm->addRow(tr("Code Postal: "),postalCode);
+    layoutForm->addRow(trUtf8("Code Postal: "),postalCode);
 
     city=new QLineEdit();
-    layoutForm->addRow(tr("Ville: "),city);
+    layoutForm->addRow(trUtf8("Ville: "),city);
 
     country=new QLineEdit();
-    layoutForm->addRow(tr("Pays: "),country);
+    layoutForm->addRow(trUtf8("Pays: "),country);
 
     email=new QLineEdit();
-    layoutForm->addRow(tr("Email: "),email);
+    layoutForm->addRow(trUtf8("Email: "),email);
 
     phone=new QLineEdit();
-    layoutForm->addRow(tr("Numero de tÈlÈphone: "),phone);
+    layoutForm->addRow(trUtf8("Numero de t√©l√©phone: "),phone);
 
     layoutPrinc->addLayout(layoutForm);
 
@@ -84,7 +84,7 @@ void NewCustomerWindow::createInterface(){
 
     QFormLayout *layoutBouton = new QFormLayout;
 
-    validate=new QPushButton(tr("Valider"));
+    validate=new QPushButton(trUtf8("Valider"));
     layoutBouton->addWidget(validate);
 
     layoutPrinc->addLayout(layoutBouton);
@@ -102,14 +102,14 @@ void NewCustomerWindow::createInterface(){
  */
 void NewCustomerWindow::initByBDD(){
     Customer c(idCustomer);
-    name->setText(c.name);
-    adress->setText(c.adress);
-    adress2->setText(c.adress2);
-    city->setText(c.city);
-    country->setText(c.country);
-    email->setText(c.email);
-    phone->setText(c.phone);
-    postalCode->setValue(c.postalCode);
+    name->setText(c.m_name);
+    adress->setText(c.m_adress);
+    adress2->setText(c.m_adress2);
+    city->setText(c.m_city);
+    country->setText(c.m_country);
+    email->setText(c.m_email);
+    phone->setText(c.m_phone);
+    postalCode->setValue(c.m_postalCode);
 }
 
 /**
@@ -121,32 +121,32 @@ void NewCustomerWindow::validateCustomer(){
     if(idCustomer==-1){
         //creation d'un nouveau client
         Customer c;
-        c.name=name->text();
-        c.adress=adress->text();
-        c.adress2=adress2->text();
-        c.city=city->text();
-        c.country=country->text();
-        c.email=email->text();
-        c.phone=phone->text();
-        c.postalCode=postalCode->value();
+        c.m_name=name->text();
+        c.m_adress=adress->text();
+        c.m_adress2=adress2->text();
+        c.m_city=city->text();
+        c.m_country=country->text();
+        c.m_email=email->text();
+        c.m_phone=phone->text();
+        c.m_postalCode=postalCode->value();
         c.save();
     }
     else{
         //Mise a jour d'un client
         Customer c(idCustomer);
-        c.name=name->text();
-        c.adress=adress->text();
-        c.adress2=adress2->text();
-        c.city=city->text();
-        c.country=country->text();
-        c.email=email->text();
-        c.phone=phone->text();
-        c.postalCode=postalCode->value();
+        c.m_name=name->text();
+        c.m_adress=adress->text();
+        c.m_adress2=adress2->text();
+        c.m_city=city->text();
+        c.m_country=country->text();
+        c.m_email=email->text();
+        c.m_phone=phone->text();
+        c.m_postalCode=postalCode->value();
         c.save();
     }
 
     QStatusBar *statBar = parent->statusBar();
-    statBar->showMessage(tr("Informations client sauvegardÈ"), 4000);
+    statBar->showMessage(trUtf8("Informations client sauvegard√©"), 4000);
     clean();
 
 }

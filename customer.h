@@ -16,10 +16,14 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
-#include<QtSql>
-#include<QString>
-#include<QDir>
-#include<QList>
+#include <QString>
+#include <QDir>
+#include <QList>
+#include <QVariant>
+
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlRecord>
 
 #define qDebug(msg) qDebug() << Q_FUNC_INFO << msg
 
@@ -35,14 +39,14 @@ class Customer
         Customer(int identifiant);
         static QList<Customer> getAllCustomer();
 
-        QString name;
-        QString adress;
-        QString adress2;
-        QString city;
-        QString country;
-        QString email;
-        QString phone;
-        int postalCode;
+        QString m_name;
+        QString m_adress;
+        QString m_adress2;
+        QString m_city;
+        QString m_country;
+        QString m_email;
+        QString m_phone;
+        int m_postalCode;
 
         int getId();
         bool save();

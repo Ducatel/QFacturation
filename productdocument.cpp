@@ -60,7 +60,7 @@ int ProductDocument::getId(){
 }
 
 /**
- * Methode qui sauvegarde une laison dans la base de données
+ * Methode qui sauvegarde une laison dans la base de donnÃ©es
  * @return true si l'enregistrement n'a pas poser de probleme, false sinon
  */
 bool ProductDocument::save(){
