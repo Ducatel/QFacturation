@@ -3,7 +3,7 @@
 
 # Installation des lib
 echo "Installation des librairies"
-sudo apt-get -y install libqt4-dev libqt4-sql-sqlite libsqlite3-dev
+sudo apt-get -y install g++ libqt4-dev libqt4-sql-sqlite libsqlite3-dev
 
 # Generation du makefile
 if test -f /usr/bin/qmake-qt4 ;
@@ -17,9 +17,9 @@ fi
 make
 
 # installation
-sudo cp QFacturation /usr/local/bin/QFacturation
-sudo cp qfacturation.png /usr/share/pixmaps/qfacturation.png
-sudo cp qfacturation.desktop /usr/share/applications/qfacturation.desktop
+sudo ln -s QFacturation /usr/local/bin/QFacturation
+sudo cp QFacturation.png /usr/share/pixmaps/QFacturation.png
+sudo cp QFacturation.desktop /usr/share/applications/QFacturation.desktop
 
 # Nettoyage de la compilation
 make clean

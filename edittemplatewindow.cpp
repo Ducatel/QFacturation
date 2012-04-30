@@ -63,6 +63,7 @@ EditTemplateWindow::EditTemplateWindow(QMainWindow *parent) :QWidget(parent){
 QString EditTemplateWindow::loadTemplate(){
     QString templateContent;
     QFile file(QDir::fromNativeSeparators(QDir::homePath()+"/.QFacturation/template.html"));
+
     if (file.open(QFile::ReadOnly))
         templateContent= QString(file.readAll());
     else
