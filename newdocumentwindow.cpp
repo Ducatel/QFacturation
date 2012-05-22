@@ -112,11 +112,13 @@ void NewDocumentWindow::createInterface(){
 
     QHBoxLayout *layoutBouton=new QHBoxLayout;
 
+    layoutBouton->addStretch();
     saveButton=new QPushButton(trUtf8("Enregistrer le document"),this);
     layoutBouton->addWidget(saveButton);
 
     validateButton=new QPushButton(trUtf8("Valider le document"),this);
     layoutBouton->addWidget(validateButton);
+    layoutBouton->addStretch();
 
     layoutPrinc->addLayout(layoutBouton);
 
@@ -223,6 +225,7 @@ QGroupBox* NewDocumentWindow::createAddProductInterface(){
     QHBoxLayout *layoutRadioButton = new QHBoxLayout;
     layoutRadioButton->addWidget(fixedValue);
     layoutRadioButton->addWidget(percentage);
+    layoutRadioButton->addStretch();
 
     groupTypeReduction->setLayout(layoutRadioButton);
 
@@ -237,6 +240,7 @@ QGroupBox* NewDocumentWindow::createAddProductInterface(){
     buttonRemoveProduct=new QPushButton(trUtf8("Supprimer le produit sélectionné"),this);
     layoutButtonProduct->addWidget(buttonRemoveProduct);
 
+    layoutButtonProduct->addStretch();
     layoutFormAddProduct->addRow(trUtf8("Actions: "),layoutButtonProduct);
 
     groupAddProduct->setLayout(layoutFormAddProduct);

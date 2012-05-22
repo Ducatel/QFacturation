@@ -86,12 +86,13 @@ ConfigWindow::ConfigWindow(QMainWindow *parent=0) : QDialog(parent){
     /** ************************************** **/
 
     QHBoxLayout *layoutBouton=new QHBoxLayout();
+    layoutBouton->addStretch();
     validate=new QPushButton(trUtf8("Valider"),this);
     layoutBouton->addWidget(validate);
 
     close=new QPushButton(trUtf8("Fermer"),this);
     layoutBouton->addWidget(close);
-
+    layoutBouton->addStretch();
     layoutPrin->addLayout(layoutBouton);
 
     setLayout(layoutPrin);

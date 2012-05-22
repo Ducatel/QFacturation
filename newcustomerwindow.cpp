@@ -82,11 +82,14 @@ void NewCustomerWindow::createInterface(){
     /**         Boutons       **/
     /** ********************* **/
 
-    QFormLayout *layoutBouton = new QFormLayout;
+    QHBoxLayout *layoutBouton = new QHBoxLayout;
 
     validate=new QPushButton(trUtf8("Valider"));
+    layoutBouton->addStretch();
     layoutBouton->addWidget(validate);
+    layoutBouton->addStretch();
 
+    layoutPrinc->addStretch();
     layoutPrinc->addLayout(layoutBouton);
     setLayout(layoutPrinc);
 
